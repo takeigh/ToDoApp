@@ -90,13 +90,6 @@ public class NewTask extends JLabel implements MouseListener {
             ContentDataPanel.lastBookListSave.add(bookItem);
             ContentDataPanel.lastStartedListSave.add(startedItem);
             ContentDataPanel.lastFinishedListSave.add(finishedItem);
-        } else if (title.equals("idea")) {
-            ListOfItems ideaItems = new ListOfItems(ListOfItems.ideaIcon, "idea", 18f, 80, 600, 900, true, true);
-            this.setVisible(false);
-            MainContent.ideaPanel.add(ideaItems);
-            MainContent.ideaPanel.add(this);
-            this.setVisible(true);
-            ItemsPanel.lastIdeaListSave.add(ideaItems);
         } else if (title.equals("wishlist")) {
             ListOfItems wishItems = new ListOfItems(ListOfItems.wishIcon, "wish", 18f, 80, 600, 900, true, true);
             this.setVisible(false);

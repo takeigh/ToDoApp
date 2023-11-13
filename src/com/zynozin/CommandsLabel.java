@@ -125,7 +125,7 @@ public class CommandsLabel extends JLabel implements MouseListener {
                 finishedWriter.write(finishedContent);
                 finishedWriter.newLine();
             }
-            for (ListOfItems ideaItems : ItemsPanel.lastIdeaListSave) {
+            for (ListOfItems ideaItems : ProjectPanel.lastIdeaListSave) {
                 String ideaContent = ideaItems.textField.getText();
                 ideaWriter.write(ideaContent);
                 ideaWriter.newLine();

@@ -131,9 +131,9 @@ public class ContentDataCommands extends JLabel implements MouseListener {
     }
 
     private void removeIdeaListElement(ListOfItems listOfItems) {
-        for (ListOfItems idea : ItemsPanel.lastIdeaListSave) {
+        for (ListOfItems idea : ProjectPanel.lastIdeaListSave) {
             if (idea.equals(listOfItems)) {
-                ItemsPanel.lastIdeaListSave.remove(idea);
+                ProjectPanel.lastIdeaListSave.remove(idea);
                 break;
             }
         }
