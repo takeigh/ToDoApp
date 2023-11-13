@@ -30,14 +30,7 @@ public class MyFrame extends JFrame {
         this.setMinimumSize(new Dimension(WIDTH, HEIGHT));
 
          */
-        ImageIcon saveIcon = new ImageIcon("images/books.png");
-        ImageIcon loadIcon = new ImageIcon("images/books.png");
-        CommandsLabel saveLabel = new CommandsLabel("save", saveIcon);
-        CommandsLabel loadLabel = new CommandsLabel("load", loadIcon);
 
-        // Add the Save and Load labels to the menuPanel or any suitable location
-        menuPanel.add(saveLabel, BorderLayout.EAST);
-        menuPanel.add(loadLabel, BorderLayout.SOUTH);
         this.addMouseListener(frameDragListener);
         this.addMouseMotionListener(frameDragListener);
         this.setLayout(new BorderLayout());

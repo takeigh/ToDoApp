@@ -37,7 +37,6 @@ public class NotesPanel extends JPanel {
         // Create the default note sheet
         createNoteSheet("Sheet 1");
         createNoteSheet("Sheet 2");
-        createNoteSheet("Sheet 3");
     }
 
     // Method to create a new note sheet
@@ -49,6 +48,24 @@ public class NotesPanel extends JPanel {
         // Set the first created note sheet as the current one
         if (noteSheets.size() == 1) {
             selectNoteSheet(sheetName);
+        }
+    }
+
+    public void writeSavedElements() throws IOException {
+        BufferedReader notes = new BufferedReader(new FileReader("files/notes/notes1.txt"));
+        String notesLine = notes.readLine();
+        try {
+            StringBuilder sb = new StringBuilder();
+            while (notesLine != null) {
+                sb.append(notesLine);
+                sb.append(System.lineSeparator());
+                notesLine = notes.readLine();
+            }
+            this.noteSheets.get(sb.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            notes.close();
         }
     }
 

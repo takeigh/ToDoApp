@@ -56,7 +56,7 @@ public class MainContent extends JPanel {
         this.setLayout(new BorderLayout());
         this.add(contentHeader, BorderLayout.NORTH);
         this.add(tasksContentScrollPane, BorderLayout.CENTER);
-        writeSavedElements();
+        notesPanel.writeSavedElements();
         this.add(contentFooter, BorderLayout.SOUTH);
         this.setOpaque(true);
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -69,23 +69,6 @@ public class MainContent extends JPanel {
         this.contentHeader.setVisible(true);
     }
 
-    private void writeSavedElements() throws IOException {
-        BufferedReader notes = new BufferedReader(new FileReader("files/notes.txt"));
-        String notesLine = notes.readLine();
-        try {
-            StringBuilder sb = new StringBuilder();
-            while (notesLine != null) {
-                sb.append(notesLine);
-                sb.append(System.lineSeparator());
-                notesLine = notes.readLine();
-            }
-            notesPanel.noteSheets.get(sb.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            notes.close();
-        }
-    }
     public ContentHeader getContentHeader() {
         return contentHeader;
     }
