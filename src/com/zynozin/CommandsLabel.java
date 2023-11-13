@@ -11,6 +11,9 @@ public class CommandsLabel extends JLabel implements MouseListener {
     private ImageIcon maximizeIcon = new ImageIcon("images/maximize.png");
     private ImageIcon minimizeIcon = new ImageIcon("images/minimize.png");
     private String title;
+
+    // Add these fields for the file paths
+    private final String notesFilePath = "files/notes.txt";
     private Font menuFont = Main.getFontforApp(18f, "fonts/Montserrat-Bold.ttf");
 
     public CommandsLabel(String text) {
@@ -31,6 +34,57 @@ public class CommandsLabel extends JLabel implements MouseListener {
         this.setHorizontalAlignment(SwingConstants.CENTER);
         this.setPreferredSize(new Dimension(55, 46));
 
+    }
+    public void saveNoteSheet() {
+        String selectedSheet = (String) MainContent.notesPanel.noteSheetSelector.getSelectedItem();
+        NotesPanel.NotesArea currentNotes = MainContent.notesPanel.noteSheets.get(selectedSheet);
+
+        if (currentNotes != null) {
+            try (BufferedWriter notesWriter = new BufferedWriter(new FileWriter(notesFilePath))) {
+                notesWriter.write(currentNotes.getText());
+                JOptionPane.showMessageDialog(this, "Note sheet saved successfully.");
+            } catch (IOException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error saving note sheet: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            // Handle the case where currentNotes is null
+            JOptionPane.showMessageDialog(this, "Selected note sheet is null. Cannot save.");
+        }
+        System.out.println("Current notes: " + currentNotes);
+        System.out.println("File path: " + notesFilePath);
+        System.out.println("File exists: " + new File(notesFilePath).exists());
+        System.out.println("File length: " + new File(notesFilePath).length());
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(notesFilePath));
+            String line;
+            System.out.println("File content:");
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadNoteSheets() {
+        try (BufferedReader notesReader = new BufferedReader(new FileReader(notesFilePath))) {
+            StringBuilder notesContentFromFileBuilder = new StringBuilder();
+            String line;
+            while ((line = notesReader.readLine()) != null) {
+                notesContentFromFileBuilder.append(line).append("\n");
+            }
+            String notesContentFromFile = notesContentFromFileBuilder.toString();
+
+            MainContent.notesPanel.noteSheets.values().forEach(notesArea -> notesArea.setText(notesContentFromFile));
+            MainContent.notesPanel.noteSheetSelector.setSelectedIndex(0);
+
+            JOptionPane.showMessageDialog(this, "Note sheets loaded successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void saveTasksElements() throws IOException {
@@ -135,8 +189,8 @@ public class CommandsLabel extends JLabel implements MouseListener {
                 wishWriter.write(wishContent);
                 wishWriter.newLine();
             }
-            String notesContent = MainContent.notesPanel.notesArea.getText();
-            notesWriter.write(notesContent);
+            //String notesContent = MainContent.notesPanel.notesArea.getText();
+            //notesWriter.write(notesContent);
             nextWriter.close();
             inProgressWriter.close();
             completedWriter.close();
@@ -178,6 +232,12 @@ public class CommandsLabel extends JLabel implements MouseListener {
             Main.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             Main.frame.dispose();
             System.exit(0);
+        }else if (title.equals("hide")) {
+            Main.frame.setExtendedState(JFrame.ICONIFIED);
+        } else if (title.equals("save")) {
+            saveNoteSheet();
+        } else if (title.equals("load")) {
+            loadNoteSheets();
         }
         if (title == "hide") {
             Main.frame.setExtendedState(JFrame.ICONIFIED);

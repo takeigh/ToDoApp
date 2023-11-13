@@ -35,8 +35,10 @@ public class MainContent extends JPanel {
     public static ModernScrollPane wishlistScrollPane;
     public static ModernScrollPane groceryScrollPane;
     public static ModernScrollPane bookScrollPane;
+    public static MainContent mainContent;
 
     public MainContent() throws IOException {
+        mainContent = this;
         contentFooter = new ContentFooter();
         tasksData = new ContentDataPanel("taskslist");
         groceryData = new ContentDataPanel("grocery list");
@@ -60,8 +62,6 @@ public class MainContent extends JPanel {
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setBackground(new Color(37, 37, 37));
     }
-
-
     public void setContentHeader(ContentHeader contentHeader) {
         this.contentHeader.setVisible(false);
         this.contentHeader = contentHeader;
@@ -79,15 +79,13 @@ public class MainContent extends JPanel {
                 sb.append(System.lineSeparator());
                 notesLine = notes.readLine();
             }
-            notesPanel.notesArea.setText(sb.toString());
+            notesPanel.noteSheets.get(sb.toString());
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             notes.close();
         }
-
     }
-
     public ContentHeader getContentHeader() {
         return contentHeader;
     }
