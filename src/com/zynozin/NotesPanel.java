@@ -14,8 +14,8 @@ public class NotesPanel extends JPanel {
     private final int WIDTH = 1120;
     private final int HEIGHT = 425;
     private ModernScrollPane modernScrollPane;
-    JComboBox<String> noteSheetSelector;
-    Map<String, NotesArea> noteSheets;  // Use NotesArea instead of JTextArea
+    public JComboBox<String> noteSheetSelector;
+    public Map<String, NotesArea> noteSheets;  // Use NotesArea instead of JTextArea
     public static List<ListOfItems> lastNotesSave = new ArrayList<>();
 
     public NotesPanel() {
@@ -43,9 +43,7 @@ public class NotesPanel extends JPanel {
         createNoteSheet("Sheet 6");
         createNoteSheet("Sheet 7");
 
-
         loadAllNoteSheets();
-
     }
 
     // Method to create a new note sheet
@@ -114,9 +112,10 @@ public class NotesPanel extends JPanel {
     }
 
     // Method to select a specific note sheet
-    public void selectNoteSheet(String sheetName) {
+    public String selectNoteSheet(String sheetName) {
         NotesArea selectedNotes = noteSheets.get(sheetName);
         modernScrollPane.setViewportView(selectedNotes);
+        return sheetName;
     }
     // New method to get the size of note sheets
     public int getNoteSheetsSize() {
@@ -129,8 +128,8 @@ public class NotesPanel extends JPanel {
     }
 
     // New method to get the currently selected note sheet
-    public String getSelectedNoteSheet() {
-        return (String) noteSheetSelector.getSelectedItem();
+    public String getSelectedNoteSheet(String sheetName) {
+        return selectNoteSheet(sheetName);
     }
 
     public void writeSavedElements() throws IOException {
