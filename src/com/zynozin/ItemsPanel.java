@@ -13,7 +13,7 @@ public class ItemsPanel extends JPanel {
     private NewTask newTask;
     public static List<ListOfItems> lastChecklistSave = new ArrayList<ListOfItems>();
     public static List<ListOfItems> lastIdeaListSave = new ArrayList<ListOfItems>();
-    public static List<ListOfItems> lastWishlistSave = new ArrayList<ListOfItems>();
+    public static List<ListOfItems> lastWishlistSave = new ArrayList<>();
     private ImageIcon checkedIcon = new ImageIcon("images/checked.png");
 
     public ItemsPanel(String type) throws IOException {
@@ -43,7 +43,6 @@ public class ItemsPanel extends JPanel {
                     lastChecklistSave.add(listOfItems);
                     checkLine = check.readLine();
                 }
-
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -84,9 +83,5 @@ public class ItemsPanel extends JPanel {
                 wish.close();
             }
         }
-
-
     }
-
-
 }
