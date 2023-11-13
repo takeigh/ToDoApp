@@ -37,10 +37,19 @@ public class NotesPanel extends JPanel {
         // Create the default note sheet
         createNoteSheet("Sheet 1");
         createNoteSheet("Sheet 2");
+        createNoteSheet("Sheet 3");
+        createNoteSheet("Sheet 4");
+        createNoteSheet("Sheet 5");
+        createNoteSheet("Sheet 6");
+        createNoteSheet("Sheet 7");
+
+
+        loadAllNoteSheets();
+
     }
 
     // Method to create a new note sheet
-    private void createNoteSheet(String sheetName) {
+    public void createNoteSheet(String sheetName) {
         NotesArea newNotesArea = new NotesArea();
         noteSheets.put(sheetName, newNotesArea);
         noteSheetSelector.addItem(sheetName);
@@ -51,34 +60,85 @@ public class NotesPanel extends JPanel {
         }
     }
 
-    public void writeSavedElements() throws IOException {
-        BufferedReader notes = new BufferedReader(new FileReader("files/notes/notes1.txt"));
-        String notesLine = notes.readLine();
+    // New method to save a specific note sheet to a file
+    public void saveNoteSheet(String sheetName) throws IOException {
+        PrintWriter writer = new PrintWriter("files/notes/" + sheetName + ".txt");
         try {
-            StringBuilder sb = new StringBuilder();
+            writer.write(noteSheets.get(sheetName).getText());
+        } finally {
+            writer.close();
+        }
+    }
+    // New method to load a specific note sheet from a file
+    public void loadNoteSheet(String sheetName) throws IOException {
+        BufferedReader notes = new BufferedReader(new FileReader("files/notes/" + sheetName + ".txt"));
+        StringBuilder sb = new StringBuilder();
+        try {
+            String notesLine = notes.readLine();
             while (notesLine != null) {
                 sb.append(notesLine);
                 sb.append(System.lineSeparator());
                 notesLine = notes.readLine();
             }
-            this.noteSheets.get(sb.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
         } finally {
             notes.close();
         }
+        noteSheets.get(sheetName).setText(sb.toString());
     }
 
+    // New method to save all note sheets
+    public void saveAllNoteSheets() {
+        for (String sheetName : noteSheets.keySet()) {
+            try {
+                saveNoteSheet(sheetName);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // New method to load all note sheets
+    public void loadAllNoteSheets() {
+        for (String sheetName : noteSheets.keySet()) {
+            try {
+                loadNoteSheet(sheetName);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     // Method to switch between note sheets
-    private void updateNoteSheet() {
+    public void updateNoteSheet() {
         String selectedSheet = (String) noteSheetSelector.getSelectedItem();
         selectNoteSheet(selectedSheet);
     }
 
     // Method to select a specific note sheet
-    private void selectNoteSheet(String sheetName) {
+    public void selectNoteSheet(String sheetName) {
         NotesArea selectedNotes = noteSheets.get(sheetName);
         modernScrollPane.setViewportView(selectedNotes);
+    }
+    // New method to get the size of note sheets
+    public int getNoteSheetsSize() {
+        return noteSheets.size();
+    }
+
+    // New method to check if a note sheet exists
+    public boolean doesNoteSheetExist(String sheetName) {
+        return noteSheets.containsKey(sheetName);
+    }
+
+    // New method to get the currently selected note sheet
+    public String getSelectedNoteSheet() {
+        return (String) noteSheetSelector.getSelectedItem();
+    }
+
+    public void writeSavedElements() throws IOException {
+        // Save all note sheets before reading from the file
+        saveAllNoteSheets();
+
+        // Load the content of all note sheets from the file
+        loadAllNoteSheets();
     }
     public class NotesArea extends JTextArea {
         private Font notesFont = Main.getFontforApp(18f, "fonts/Montserrat-Light.ttf");

@@ -39,7 +39,7 @@ public class CommandsLabel extends JLabel implements MouseListener {
         BufferedWriter nextWriter = new BufferedWriter(new FileWriter("files/nextUp.txt"));
         BufferedWriter inProgressWriter = new BufferedWriter(new FileWriter("files/inProgress.txt"));
         BufferedWriter completedWriter = new BufferedWriter(new FileWriter("files/completed.txt"));
-        BufferedWriter notesWriter = new BufferedWriter(new FileWriter("files/notes/notes1.txt"));
+        //BufferedWriter notesWriter = new BufferedWriter(new FileWriter("files/notes/notes1.txt"));
         BufferedWriter checkWriter = new BufferedWriter(new FileWriter("files/checklist.txt"));
         BufferedWriter vegetablesWriter = new BufferedWriter(new FileWriter("files/vegetables.txt"));
         BufferedWriter fruitsWriter = new BufferedWriter(new FileWriter("files/fruits.txt"));
@@ -135,12 +135,12 @@ public class CommandsLabel extends JLabel implements MouseListener {
                 wishWriter.write(wishContent);
                 wishWriter.newLine();
             }
-            String notesContent = MainContent.notesPanel.noteSheets.get("Sheet 1").getText();
-            notesWriter.write(notesContent);
+            //String notesContent = MainContent.notesPanel.noteSheets.get("Sheet 1").getText();
+            //notesWriter.write(notesContent);
             nextWriter.close();
             inProgressWriter.close();
             completedWriter.close();
-            notesWriter.close();
+            //notesWriter.close();
             checkWriter.close();
             checkIconWriter.close();
             ideaWriter.close();
@@ -171,6 +171,7 @@ public class CommandsLabel extends JLabel implements MouseListener {
         if (title == "close") {
             try {
                 saveTasksElements();
+                MainContent.notesPanel.saveAllNoteSheets();
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }

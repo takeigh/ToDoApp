@@ -38,6 +38,9 @@ public class MainContent extends JPanel {
     public static MainContent mainContent;
 
     public MainContent() throws IOException {
+        notesPanel = new NotesPanel();
+        notesPanel.loadAllNoteSheets();
+
         mainContent = this;
         contentFooter = new ContentFooter();
         tasksData = new ContentDataPanel("taskslist");
