@@ -11,8 +11,8 @@ public class ProjectPanel extends JPanel {
     private final int WIDTH = 1120;
     private final int HEIGHT = 10000;
     private NewProject newProject;
-    public static List<ListOfItems> lastIdeaListSave = new ArrayList<ListOfItems>();
-    private ImageIcon checkedIcon = new ImageIcon("images/checked.png");
+    public static List<ProjectEntry> lastIdeaListSave = new ArrayList<>();
+    static ProjectPanel panel;
 
     public ProjectPanel() throws IOException {
         newProject = new NewProject();
@@ -23,18 +23,44 @@ public class ProjectPanel extends JPanel {
         setLayout(new FlowLayout(FlowLayout.CENTER, 100, 20));
         add(newProject);
         setBorder(new EmptyBorder(50, 35, 0, 0));
+    }
 
+    public static ProjectPanel getProjectPanel() throws IOException {
+        if (panel == null) {
+            panel = new ProjectPanel();
+        }
+
+        return panel;
     }
 
     public void writeSavedElements() throws IOException {
         BufferedReader idea = new BufferedReader(new FileReader("files/ideas.txt"));
         String ideaLine = idea.readLine();
+        String[] entryString;
+
         try {
             while (ideaLine != null) {
-                ListOfItems listOfItems = new ListOfItems(ListOfItems.ideaIcon, "idea", 18f, 80, 600, 900, true, true);
-                listOfItems.textField.setText(ideaLine);
-                this.add(listOfItems);
-                lastIdeaListSave.add(listOfItems);
+                if (ideaLine.contains(",")) {
+                    entryString = ideaLine.split(",", 2);
+                } else {
+                    entryString = new String[2];
+                    entryString[0] = ideaLine;
+                    entryString[1] = "";
+                }
+
+                ProjectEntry entry = new ProjectEntry();
+                entry.textFields[0].setText(entryString[0]);
+                entry.textFields[1].setText((entryString[1]));
+
+                entry.setPreferredSize(new Dimension(900, 100));
+                entry.setBorder(new EmptyBorder(1,1,1,1));
+                entry.titleField.setPreferredSize(new Dimension(900, 30));
+                entry.titleField.setBorder(new EmptyBorder(5,5,5,5));
+                entry.descriptionField.setPreferredSize((new Dimension(900, 500)));
+                entry.descriptionField.setBorder(new EmptyBorder(5,5,10,5));
+
+                this.add(entry);
+                lastIdeaListSave.add(entry);
                 ideaLine = idea.readLine();
             }
 
@@ -42,6 +68,23 @@ public class ProjectPanel extends JPanel {
             e.printStackTrace();
         } finally {
             idea.close();
+        }
+    }
+
+    public void saveProjects() throws IOException {
+        BufferedWriter ideaWriter = new BufferedWriter(new FileWriter("files/ideas.txt",false));
+        try {
+            for (ProjectEntry entry : ProjectPanel.lastIdeaListSave) {
+                String projectTitle = entry.textFields[0].getText();
+                String projectDescription = entry.textFields[1].getText();
+                if (!projectTitle.isEmpty()) {
+                    ideaWriter.write(projectTitle + "," + projectDescription);
+                }
+                ideaWriter.newLine();
+            }
+        } catch (IOException e) {
+        } finally {
+            ideaWriter.close();
         }
     }
 }

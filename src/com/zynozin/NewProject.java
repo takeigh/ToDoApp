@@ -6,7 +6,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class NewProject extends JLabel implements MouseListener {
-    private Font newFont = Main.getFontforApp(18f, "fonts/Montserrat-Regular.ttf");
+    private final Font newFont = Main.getFontforApp(18f, "fonts/Montserrat-Regular.ttf");
     String title;
 
     NewProject() {
@@ -27,12 +27,12 @@ public class NewProject extends JLabel implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        ListOfItems ideaItems = new ListOfItems(ListOfItems.ideaIcon, "idea", 18f, 80, 600, 900, true, true);
+        ProjectEntry entry = new ProjectEntry();
         this.setVisible(false);
-        MainContent.ideaPanel.add(ideaItems);
+        MainContent.ideaPanel.add(entry);
         MainContent.ideaPanel.add(this);
         this.setVisible(true);
-        ProjectPanel.lastIdeaListSave.add(ideaItems);
+        ProjectPanel.lastIdeaListSave.add(entry);
     }
 
     @Override
