@@ -27,7 +27,7 @@ public class MainContent extends JPanel {
     private ContentDataPanel bookData;
     public static NotesPanel notesPanel;
     public static ItemsPanel checklistPanel;
-    public static ItemsPanel ideaPanel;
+    public static ProjectPanel ideaPanel;
     public static ItemsPanel wishlistPanel;
     public static ModernScrollPane tasksContentScrollPane;
     public static ModernScrollPane checklistScrollPane;
@@ -48,7 +48,7 @@ public class MainContent extends JPanel {
         bookData = new ContentDataPanel("reading journal");
         notesPanel = new NotesPanel();
         checklistPanel = new ItemsPanel("checklist");
-        ideaPanel = new ItemsPanel("idea");
+        ideaPanel = ProjectPanel.getProjectPanel();
         wishlistPanel = new ItemsPanel("wishlist");
         tasksContentScrollPane = new ModernScrollPane(tasksData);
         checklistScrollPane = new ModernScrollPane(checklistPanel);
@@ -65,6 +65,7 @@ public class MainContent extends JPanel {
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setBackground(new Color(37, 37, 37));
     }
+
     public void setContentHeader(ContentHeader contentHeader) {
         this.contentHeader.setVisible(false);
         this.contentHeader = contentHeader;
