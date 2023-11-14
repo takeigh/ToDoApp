@@ -12,8 +12,7 @@ public class ItemsPanel extends JPanel {
     private final int HEIGHT = 10000;
     private NewTask newTask;
     public static List<ListOfItems> lastChecklistSave = new ArrayList<ListOfItems>();
-    public static List<ListOfItems> lastIdeaListSave = new ArrayList<ListOfItems>();
-    public static List<ListOfItems> lastWishlistSave = new ArrayList<>();
+    public static List<ListOfItems> lastWishlistSave = new ArrayList<ListOfItems>();
     private ImageIcon checkedIcon = new ImageIcon("images/checked.png");
 
     public ItemsPanel(String type) throws IOException {
@@ -43,27 +42,11 @@ public class ItemsPanel extends JPanel {
                     lastChecklistSave.add(listOfItems);
                     checkLine = check.readLine();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                check.close();
-            }
-        } else if (type.equals("idea")) {
-            BufferedReader idea = new BufferedReader(new FileReader("files/ideas.txt"));
-            String ideaLine = idea.readLine();
-            try {
-                while (ideaLine != null) {
-                    ListOfItems listOfItems = new ListOfItems(ListOfItems.ideaIcon, "idea", 18f, 80, 600, 900, true, true);
-                    listOfItems.textField.setText(ideaLine);
-                    this.add(listOfItems);
-                    lastIdeaListSave.add(listOfItems);
-                    ideaLine = idea.readLine();
-                }
 
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
-                idea.close();
+                check.close();
             }
         } else if (type.equals("wishlist")) {
             BufferedReader wish = new BufferedReader(new FileReader("files/wishes.txt"));
@@ -83,5 +66,9 @@ public class ItemsPanel extends JPanel {
                 wish.close();
             }
         }
+
+
     }
+
+
 }

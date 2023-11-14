@@ -17,7 +17,6 @@ public class ListOfItems extends JLabel {
     private ContentDataCommands delete;
     public static ImageIcon trashIcon = new ImageIcon("images/delete.png");
     public static ImageIcon checkedIcon = new ImageIcon("images/checked.png");
-    public static ImageIcon ideaIcon = new ImageIcon("images/idea.png");
     public static ImageIcon wishIcon = new ImageIcon("images/wish.png");
     public static ImageIcon bookIcon = new ImageIcon("images/book.png");
 
