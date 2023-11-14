@@ -39,7 +39,7 @@ public class CommandsLabel extends JLabel implements MouseListener {
         BufferedWriter nextWriter = new BufferedWriter(new FileWriter("files/nextUp.txt"));
         BufferedWriter inProgressWriter = new BufferedWriter(new FileWriter("files/inProgress.txt"));
         BufferedWriter completedWriter = new BufferedWriter(new FileWriter("files/completed.txt"));
-        BufferedWriter notesWriter = new BufferedWriter(new FileWriter("files/notes.txt"));
+        //BufferedWriter notesWriter = new BufferedWriter(new FileWriter("files/notes/notes1.txt"));
         BufferedWriter checkWriter = new BufferedWriter(new FileWriter("files/checklist.txt"));
         BufferedWriter vegetablesWriter = new BufferedWriter(new FileWriter("files/vegetables.txt"));
         BufferedWriter fruitsWriter = new BufferedWriter(new FileWriter("files/fruits.txt"));
@@ -50,6 +50,7 @@ public class CommandsLabel extends JLabel implements MouseListener {
         BufferedWriter fruitsIconWriter = new BufferedWriter(new FileWriter("files/fruitsIcon.txt"));
         BufferedWriter drinksIconWriter = new BufferedWriter(new FileWriter("files/drinksIcon.txt"));
         BufferedWriter otherIconWriter = new BufferedWriter(new FileWriter("files/otherIcon.txt"));
+        BufferedWriter ideaWriter = new BufferedWriter(new FileWriter("files/ideas.txt"));
         BufferedWriter wishWriter = new BufferedWriter(new FileWriter("files/wishes.txt"));
         BufferedWriter bookWriter = new BufferedWriter(new FileWriter("files/books.txt"));
         BufferedWriter startedWriter = new BufferedWriter(new FileWriter("files/started.txt"));
@@ -124,19 +125,25 @@ public class CommandsLabel extends JLabel implements MouseListener {
                 finishedWriter.write(finishedContent);
                 finishedWriter.newLine();
             }
+            for (ListOfItems ideaItems : ItemsPanel.lastIdeaListSave) {
+                String ideaContent = ideaItems.textField.getText();
+                ideaWriter.write(ideaContent);
+                ideaWriter.newLine();
+            }
             for (ListOfItems wishItems : ItemsPanel.lastWishlistSave) {
                 String wishContent = wishItems.textField.getText();
                 wishWriter.write(wishContent);
                 wishWriter.newLine();
             }
-            String notesContent = MainContent.notesPanel.notesArea.getText();
-            notesWriter.write(notesContent);
+            //String notesContent = MainContent.notesPanel.noteSheets.get("Sheet 1").getText();
+            //notesWriter.write(notesContent);
             nextWriter.close();
             inProgressWriter.close();
             completedWriter.close();
-            notesWriter.close();
+            //notesWriter.close();
             checkWriter.close();
             checkIconWriter.close();
+            ideaWriter.close();
             wishWriter.close();
             vegetablesWriter.close();
             fruitsWriter.close();
@@ -150,7 +157,7 @@ public class CommandsLabel extends JLabel implements MouseListener {
             startedWriter.close();
             finishedWriter.close();
         } catch (IOException e) {
-            // Exception handling
+            // Cxception handling
         }
     }
 
@@ -164,10 +171,7 @@ public class CommandsLabel extends JLabel implements MouseListener {
         if (title == "close") {
             try {
                 saveTasksElements();
-
-                // Save specifically the projects
-                ProjectPanel projects = ProjectPanel.getProjectPanel();
-                projects.saveProjects();
+                MainContent.notesPanel.saveAllNoteSheets();
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }

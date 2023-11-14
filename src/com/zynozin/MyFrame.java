@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 public class MyFrame extends JFrame {
@@ -19,6 +21,7 @@ public class MyFrame extends JFrame {
         barPanel = new BarPanel();
         menuPanel = new MenuPanel();
         mainContent = new MainContent();
+
         /*
         ComponentResizer cr = new ComponentResizer();
         cr.registerComponent(this);
@@ -27,6 +30,7 @@ public class MyFrame extends JFrame {
         this.setMinimumSize(new Dimension(WIDTH, HEIGHT));
 
          */
+
         this.addMouseListener(frameDragListener);
         this.addMouseMotionListener(frameDragListener);
         this.setLayout(new BorderLayout());
@@ -42,7 +46,6 @@ public class MyFrame extends JFrame {
         this.pack();
         this.setLocationRelativeTo(null);
     }
-
     private class FrameDragListener extends MouseAdapter {
 
         private final JFrame frame;

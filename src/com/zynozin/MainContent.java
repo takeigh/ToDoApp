@@ -27,7 +27,7 @@ public class MainContent extends JPanel {
     private ContentDataPanel bookData;
     public static NotesPanel notesPanel;
     public static ItemsPanel checklistPanel;
-    public static ProjectPanel ideaPanel;
+    public static ItemsPanel ideaPanel;
     public static ItemsPanel wishlistPanel;
     public static ModernScrollPane tasksContentScrollPane;
     public static ModernScrollPane checklistScrollPane;
@@ -35,15 +35,20 @@ public class MainContent extends JPanel {
     public static ModernScrollPane wishlistScrollPane;
     public static ModernScrollPane groceryScrollPane;
     public static ModernScrollPane bookScrollPane;
+    public static MainContent mainContent;
 
     public MainContent() throws IOException {
+        notesPanel = new NotesPanel();
+        notesPanel.loadAllNoteSheets();
+
+        mainContent = this;
         contentFooter = new ContentFooter();
         tasksData = new ContentDataPanel("taskslist");
         groceryData = new ContentDataPanel("grocery list");
         bookData = new ContentDataPanel("reading journal");
         notesPanel = new NotesPanel();
         checklistPanel = new ItemsPanel("checklist");
-        ideaPanel = ProjectPanel.getProjectPanel();
+        ideaPanel = new ItemsPanel("idea");
         wishlistPanel = new ItemsPanel("wishlist");
         tasksContentScrollPane = new ModernScrollPane(tasksData);
         checklistScrollPane = new ModernScrollPane(checklistPanel);
@@ -54,37 +59,17 @@ public class MainContent extends JPanel {
         this.setLayout(new BorderLayout());
         this.add(contentHeader, BorderLayout.NORTH);
         this.add(tasksContentScrollPane, BorderLayout.CENTER);
-        writeSavedElements();
+        notesPanel.writeSavedElements();
         this.add(contentFooter, BorderLayout.SOUTH);
         this.setOpaque(true);
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setBackground(new Color(37, 37, 37));
     }
-
     public void setContentHeader(ContentHeader contentHeader) {
         this.contentHeader.setVisible(false);
         this.contentHeader = contentHeader;
         this.add(this.contentHeader, BorderLayout.NORTH);
         this.contentHeader.setVisible(true);
-    }
-
-    private void writeSavedElements() throws IOException {
-        BufferedReader notes = new BufferedReader(new FileReader("files/notes.txt"));
-        String notesLine = notes.readLine();
-        try {
-            StringBuilder sb = new StringBuilder();
-            while (notesLine != null) {
-                sb.append(notesLine);
-                sb.append(System.lineSeparator());
-                notesLine = notes.readLine();
-            }
-            notesPanel.notesArea.setText(sb.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            notes.close();
-        }
-
     }
 
     public ContentHeader getContentHeader() {
