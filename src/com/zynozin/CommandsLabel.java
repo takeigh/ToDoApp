@@ -50,7 +50,6 @@ public class CommandsLabel extends JLabel implements MouseListener {
         BufferedWriter fruitsIconWriter = new BufferedWriter(new FileWriter("files/fruitsIcon.txt"));
         BufferedWriter drinksIconWriter = new BufferedWriter(new FileWriter("files/drinksIcon.txt"));
         BufferedWriter otherIconWriter = new BufferedWriter(new FileWriter("files/otherIcon.txt"));
-        BufferedWriter ideaWriter = new BufferedWriter(new FileWriter("files/ideas.txt"));
         BufferedWriter wishWriter = new BufferedWriter(new FileWriter("files/wishes.txt"));
         BufferedWriter bookWriter = new BufferedWriter(new FileWriter("files/books.txt"));
         BufferedWriter startedWriter = new BufferedWriter(new FileWriter("files/started.txt"));
@@ -125,11 +124,6 @@ public class CommandsLabel extends JLabel implements MouseListener {
                 finishedWriter.write(finishedContent);
                 finishedWriter.newLine();
             }
-            for (ListOfItems ideaItems : ItemsPanel.lastIdeaListSave) {
-                String ideaContent = ideaItems.textField.getText();
-                ideaWriter.write(ideaContent);
-                ideaWriter.newLine();
-            }
             for (ListOfItems wishItems : ItemsPanel.lastWishlistSave) {
                 String wishContent = wishItems.textField.getText();
                 wishWriter.write(wishContent);
@@ -143,7 +137,6 @@ public class CommandsLabel extends JLabel implements MouseListener {
             //notesWriter.close();
             checkWriter.close();
             checkIconWriter.close();
-            ideaWriter.close();
             wishWriter.close();
             vegetablesWriter.close();
             fruitsWriter.close();
@@ -157,7 +150,7 @@ public class CommandsLabel extends JLabel implements MouseListener {
             startedWriter.close();
             finishedWriter.close();
         } catch (IOException e) {
-            // Cxception handling
+            // Exception handling
         }
     }
 
@@ -172,6 +165,8 @@ public class CommandsLabel extends JLabel implements MouseListener {
             try {
                 saveTasksElements();
                 MainContent.notesPanel.saveAllNoteSheets();
+                ProjectPanel projects = ProjectPanel.getProjectPanel();
+                projects.saveProjects();
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
