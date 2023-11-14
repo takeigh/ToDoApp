@@ -20,7 +20,6 @@ public class Main {
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(path)));
         } catch (IOException | FontFormatException e) {
-
         }
         return font;
     }
