@@ -130,6 +130,15 @@ public class ContentDataCommands extends JLabel implements MouseListener {
         }
     }
 
+    private void removeIdeaListElement(ListOfItems listOfItems) {
+        for (ListOfItems idea : ItemsPanel.lastIdeaListSave) {
+            if (idea.equals(listOfItems)) {
+                ItemsPanel.lastIdeaListSave.remove(idea);
+                break;
+            }
+        }
+    }
+
     private void removeWishListElement(ListOfItems listOfItems) {
         for (ListOfItems wish : ItemsPanel.lastWishlistSave) {
             if (wish.equals(listOfItems)) {
@@ -207,6 +216,9 @@ public class ContentDataCommands extends JLabel implements MouseListener {
         } else if (title.equals("checklist")) {
             listOfItems.setVisible(false);
             removeChecklistElement(listOfItems);
+        } else if (title.equals("idea")) {
+            listOfItems.setVisible(false);
+            removeIdeaListElement(listOfItems);
         } else if (title.equals("wish")) {
             listOfItems.setVisible(false);
             removeWishListElement(listOfItems);
