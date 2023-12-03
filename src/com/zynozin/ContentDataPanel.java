@@ -58,6 +58,7 @@ public class ContentDataPanel extends JPanel {
             this.add(nextCategory);
             this.add(inProgressCategory);
             this.add(completedCategory);
+            this.add(newTask);
         } else if (type.equals("grocery list")) {
             vegetablesCategory = new ContentCategory("Vegetables", 3, 174, 0);
             fruitsCategory = new ContentCategory("Fruits", 204, 0, 0);

@@ -4,10 +4,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class NewTask extends JLabel implements MouseListener {
     private Font newFont = Main.getFontforApp(18f, "fonts/Montserrat-Regular.ttf");
     String title;
+    private String dueDate = "";
 
     public NewTask(String title) {
         this.title = title;
@@ -26,11 +32,28 @@ public class NewTask extends JLabel implements MouseListener {
             this.setPreferredSize(new Dimension(900, 30));
         this.addMouseListener(this);
         setFont(newFont);
+
+        JButton dueDateButton = new JButton("Due Date");
+        dueDateButton.setPreferredSize(new Dimension(100, 30));
+        dueDateButton.addActionListener(e -> setDueDate());
+        this.add(dueDateButton);
+
+        this.addMouseListener(this);
+        setFont(newFont);
     }
 
+    private void setDueDate() {
+        String userInput = JOptionPane.showInputDialog(null, "Enter Due Date (YYYY-MM-DD):");
+        if (userInput != null && !userInput.isEmpty()) {
+            dueDate = userInput;
+            JOptionPane.showMessageDialog(null, "Due Date set to: " + dueDate);
+        }
+    }
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        // Handle the click event as needed
+        // You can access the dueDate variable here and use it as needed
+        System.out.println("Due Date: " + dueDate);
     }
 
     @Override
@@ -42,6 +65,29 @@ public class NewTask extends JLabel implements MouseListener {
             ContentDataPanel.nextCategory.add(this);
             this.setVisible(true);
             ContentDataPanel.lastTasksSave.add(contentDataLabel);
+            String taskDescription = JOptionPane.showInputDialog("Enter task description:");
+            if (taskDescription != null && !taskDescription.isEmpty()) {
+                contentDataLabel.contentDataArea.setText(taskDescription);
+
+                // Prompt the user for the due date
+                String dueDateStr = JOptionPane.showInputDialog("Enter due date (yyyy-MM-dd):");
+
+                try {
+                    // Parse the due date and set it if provided
+                    if (dueDateStr != null && !dueDateStr.isEmpty()) {
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        Date dueDate = dateFormat.parse(dueDateStr);
+                        contentDataLabel.setDueDate(dueDate);
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+                // Add the task to the next category
+                ContentDataPanel.nextCategory.add(contentDataLabel);
+                ContentDataPanel.lastTasksSave.add(contentDataLabel);
+            }
+
         } else if (title.equals("grocery list vegetables")) {
             ListOfItems vegetablesList = new ListOfItems("false", "grocery list vegetables");
             this.setVisible(false);

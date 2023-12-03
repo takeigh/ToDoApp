@@ -3,8 +3,12 @@ package com.zynozin;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
-public class ContentDataLabel extends JLabel {
+
+
+public class ContentDataLabel extends JLabel{
     public ContentDataArea contentDataArea;
     private JPanel mainCommands;
     private ImageIcon trashIcon = new ImageIcon("images/delete.png");
@@ -14,6 +18,9 @@ public class ContentDataLabel extends JLabel {
     public ContentDataCommands right;
     public ContentDataCommands left;
     public String currentCategory = "next category";
+    private Date dueDate; // Add this attribute
+
+
 
     public ContentDataLabel() {
         contentDataArea = new ContentDataArea();
@@ -34,7 +41,20 @@ public class ContentDataLabel extends JLabel {
         this.setBorder(new MatteBorder(0, 0, 1, 0, Color.DARK_GRAY));
         this.setOpaque(true);
         this.setPreferredSize(new Dimension(330, 68));
+    }
 
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
+        updateText(); // Call a method to update the label text with due date information
+    }
+
+    private void updateText() {
+        if (dueDate != null) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String formattedDate = dateFormat.format(dueDate);
+            // Update your label text with due date information as needed
+            contentDataArea.setText(contentDataArea.getText() + " - Due: " + formattedDate);
+        }
     }
 
     public void initIcons(ContentDataLabel contentDataLabel) {
@@ -55,5 +75,4 @@ public class ContentDataLabel extends JLabel {
             contentDataLabel.left.setVisible(true);
         }
     }
-
 }
