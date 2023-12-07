@@ -3,9 +3,8 @@ package com.zynozin;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
-import java.util.Date;
-import java.text.SimpleDateFormat;
-
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 public class ContentDataLabel extends JLabel{
@@ -18,7 +17,8 @@ public class ContentDataLabel extends JLabel{
     public ContentDataCommands right;
     public ContentDataCommands left;
     public String currentCategory = "next category";
-    private Date dueDate; // Add this attribute
+    private LocalDate dueDate; // Add this attribute
+    JLabel dueDateLabel;
 
 
 
@@ -38,22 +38,22 @@ public class ContentDataLabel extends JLabel{
         this.add(mainCommands, BorderLayout.EAST);
         this.add(left, BorderLayout.WEST);
         left.setVisible(false);
+        dueDateLabel = new JLabel();  // Initialize dueDateLabel
+        this.add(dueDateLabel, BorderLayout.SOUTH);
         this.setBorder(new MatteBorder(0, 0, 1, 0, Color.DARK_GRAY));
         this.setOpaque(true);
         this.setPreferredSize(new Dimension(330, 68));
     }
 
-    public void setDueDate(Date dueDate) {
+    public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
-        updateText(); // Call a method to update the label text with due date information
+        updateText();
     }
 
     private void updateText() {
         if (dueDate != null) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String formattedDate = dateFormat.format(dueDate);
-            // Update your label text with due date information as needed
-            contentDataArea.setText(contentDataArea.getText() + " - Due: " + formattedDate);
+            String formattedDate = dueDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            dueDateLabel.setText("Due: " + formattedDate);  // Set text in dueDateLabel
         }
     }
 
