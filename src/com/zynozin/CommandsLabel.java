@@ -55,17 +55,16 @@ public class CommandsLabel extends JLabel implements MouseListener {
         BufferedWriter startedWriter = new BufferedWriter(new FileWriter("files/started.txt"));
         BufferedWriter finishedWriter = new BufferedWriter(new FileWriter("files/finished.txt"));
         try {
-            int i = 0;
             for (ContentDataLabel tskLabel : ContentDataPanel.lastTasksSave) {
                 String lineContent = tskLabel.contentDataArea.getText();
                 if (tskLabel.currentCategory == "next category") {
-                    nextWriter.write(lineContent.replace("\n", " ").replace("\r", " "));
+                    nextWriter.write(lineContent.replace("\n", " ").replace("\r", " ") + "," + tskLabel.dueDateLabel.getText().substring(5));
                     nextWriter.newLine();
                 } else if (tskLabel.currentCategory == "in progress category") {
-                    inProgressWriter.write(lineContent.replace("\n", " ").replace("\r", " "));
+                    inProgressWriter.write(lineContent.replace("\n", " ").replace("\r", " ") + "," + tskLabel.dueDateLabel.getText().substring(5));
                     inProgressWriter.newLine();
                 } else if (tskLabel.currentCategory == "completed category") {
-                    completedWriter.write(lineContent.replace("\n", " ").replace("\r", " "));
+                    completedWriter.write(lineContent.replace("\n", " ").replace("\r", " ") + "," + tskLabel.dueDateLabel.getText().substring(5));
                     completedWriter.newLine();
                 }
             }

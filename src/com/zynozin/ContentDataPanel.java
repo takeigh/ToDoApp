@@ -7,6 +7,8 @@ import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,18 +95,49 @@ public class ContentDataPanel extends JPanel {
             String nextLine = next.readLine();
             String inProgressLine = inProgress.readLine();
             String completedLine = completed.readLine();
+
+            String[] taskParts = new String[2];
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            LocalDate date;
+
             try {
                 while (nextLine != null) {
+                    if (nextLine.contains(",")) {
+                        taskParts = nextLine.split(",");
+                    } else {
+                        taskParts[0] = nextLine;
+                        taskParts[1] = "";
+                    }
+
                     ContentDataLabel contentDataLabel = new ContentDataLabel();
-                    contentDataLabel.contentDataArea.setText(nextLine);
+                    contentDataLabel.contentDataArea.setText(taskParts[0]);
+                    try {
+                        date = LocalDate.parse(taskParts[1]);
+                        contentDataLabel.setDueDate(date);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     contentDataLabel.initIcons(contentDataLabel);
                     nextCategory.add(contentDataLabel);
                     lastTasksSave.add(contentDataLabel);
                     nextLine = next.readLine();
                 }
                 while (inProgressLine != null) {
+                    if (inProgressLine.contains(",")) {
+                        taskParts = inProgressLine.split(",");
+                    } else {
+                        taskParts[0] = inProgressLine;
+                        taskParts[1] = "";
+                    }
+
                     ContentDataLabel contentDataLabel = new ContentDataLabel();
                     contentDataLabel.contentDataArea.setText(inProgressLine);
+                    try {
+                        date = LocalDate.parse(taskParts[1]);
+                        contentDataLabel.setDueDate(date);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     contentDataLabel.currentCategory = "in progress category";
                     contentDataLabel.initIcons(contentDataLabel);
                     inProgressCategory.add(contentDataLabel);
@@ -112,8 +145,21 @@ public class ContentDataPanel extends JPanel {
                     inProgressLine = inProgress.readLine();
                 }
                 while (completedLine != null) {
+                    if (completedLine.contains(",")) {
+                        taskParts = completedLine.split(",");
+                    } else {
+                        taskParts[0] = completedLine;
+                        taskParts[1] = "";
+                    }
+
                     ContentDataLabel contentDataLabel = new ContentDataLabel();
                     contentDataLabel.contentDataArea.setText(completedLine);
+                    try {
+                        date = LocalDate.parse(taskParts[1]);
+                        contentDataLabel.setDueDate(date);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     contentDataLabel.currentCategory = "completed category";
                     contentDataLabel.initIcons(contentDataLabel);
                     completedCategory.add(contentDataLabel);

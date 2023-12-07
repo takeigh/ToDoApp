@@ -45,18 +45,6 @@ public class NewTask extends JLabel implements MouseListener {
         System.out.println("Due Date: " + dueDate);
     }
 
-    public static void addDueDate(ContentDataLabel contentDataLabel) {
-        try {
-            String input = JOptionPane.showInputDialog(null, "Enter Due Date (YYYY-MM-DD):");
-            LocalDate dueDate = LocalDate.parse(input);
-            contentDataLabel.setDueDate(dueDate);
-            saveDueDate(contentDataLabel, dueDate);
-        } catch (DateTimeParseException | NullPointerException ex) {
-            JOptionPane.showMessageDialog(null, "Invalid date format. Please use YYYY-MM-DD.");
-            addDueDate(contentDataLabel);  // Retry if invalid input
-        }
-    }
-
     @Override
     public void mousePressed(MouseEvent e) {
             if (title.equals("taskslist")) {
