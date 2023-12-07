@@ -19,7 +19,7 @@ pipeline {
         stage('Run') {
             steps {
                 // Run your Java program (replace 'java' with your actual run command)
-                sh 'javac -cp target com.zynozin.Main.java'
+                sh 'java -cp target com.zynozin.Main.java'
             }
         }
 
