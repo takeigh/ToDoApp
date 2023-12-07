@@ -2,13 +2,6 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                // Check out the source code from version control
-                checkout scm
-            }
-        }
-
         stage('Compile') {
             steps {
                 // Compile your Java code (replace 'javac' with your actual compile command)
