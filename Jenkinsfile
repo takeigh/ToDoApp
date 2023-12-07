@@ -22,11 +22,6 @@ pipeline {
                 sh 'java -cp target com.zynozin.Main'
             }
         }
-
-        stage('Test') {
-            steps {
-                // Run the tests
-                sh ''
     }
 
     post {
