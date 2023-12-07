@@ -15,6 +15,12 @@ pipeline {
                 sh 'java -cp target:lib/* src/com.zynozin.Main'
             }
         }
+
+        stage('Cleanup') {
+            steps {
+                sh 'rm -rf target'
+            }
+        }
     }
 
     post {
