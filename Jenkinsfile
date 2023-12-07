@@ -8,6 +8,13 @@ pipeline {
                 sh 'javac -cp lib/junit-4.13.1.jar -d target src/com/zynozin/*.java src/components/*.java src/tests/*.java'
             }
         }
+
+        stage('Run') {
+            steps {
+                // Command to run
+                sh 'java -cp lib/* com.zynozin.Main'
+            }
+        }
     }
 
     post {
