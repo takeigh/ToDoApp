@@ -44,5 +44,3 @@ pipeline {
             // You can add additional actions or notifications here
         }
     }
-}
-}
