@@ -12,6 +12,7 @@ pipeline {
         stage('Run') {
             steps {
                 // Command to run
+                // Doesn't work because our entire program requires a head and can't be run headless
                 sh 'java -Djava.awt.headless=true -cp out/production/ToDo com.zynozin.Main'
             }
         }
