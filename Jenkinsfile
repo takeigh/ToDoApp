@@ -12,7 +12,7 @@ pipeline {
         stage('Run') {
             steps {
                 // Command to run
-                sh 'java -cp out/production/ToDo com.zynozin.Main'
+                sh 'java -Djava.awt.headless=true -cp out/production/ToDo com.zynozin.Main'
             }
         }
     }
