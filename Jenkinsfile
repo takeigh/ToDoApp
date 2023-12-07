@@ -2,6 +2,20 @@ pipeline {
     agent any
 
     stages {
+        stage('Inspect Workspace') {
+            steps {
+                // Add a shell step to pause and inspect the workspace
+                script {
+                echo 'Inspect the workspace manually'
+                }
+            }
+            // Add a manual input for approval
+            input {
+                message 'Inspect the workspace and click "Proceed" to continue'
+                ok 'Proceed'
+            }
+        }
+
         stage('Compile') {
             steps {
                 // Command to compile the code since there is no gradle
