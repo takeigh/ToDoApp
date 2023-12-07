@@ -18,7 +18,7 @@ public class ContentDataLabel extends JLabel{
     public ContentDataCommands left;
     public String currentCategory = "next category";
     private LocalDate dueDate; // Add this attribute
-    JLabel dueDateLabel;
+    public JLabel dueDateLabel;
 
 
 
@@ -39,6 +39,7 @@ public class ContentDataLabel extends JLabel{
         this.add(left, BorderLayout.WEST);
         left.setVisible(false);
         dueDateLabel = new JLabel();  // Initialize dueDateLabel
+        dueDateLabel.setForeground(Color.WHITE);
         this.add(dueDateLabel, BorderLayout.SOUTH);
         this.setBorder(new MatteBorder(0, 0, 1, 0, Color.DARK_GRAY));
         this.setOpaque(true);
@@ -47,10 +48,7 @@ public class ContentDataLabel extends JLabel{
 
     public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
-        updateText();
-    }
 
-    private void updateText() {
         if (dueDate != null) {
             String formattedDate = dueDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             dueDateLabel.setText("Due: " + formattedDate);  // Set text in dueDateLabel

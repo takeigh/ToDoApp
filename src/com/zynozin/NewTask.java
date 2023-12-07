@@ -45,18 +45,6 @@ public class NewTask extends JLabel implements MouseListener {
         System.out.println("Due Date: " + dueDate);
     }
 
-    public static void addDueDate(ContentDataLabel contentDataLabel) {
-        try {
-            String input = JOptionPane.showInputDialog(null, "Enter Due Date (YYYY-MM-DD):");
-            LocalDate dueDate = LocalDate.parse(input);
-            contentDataLabel.setDueDate(dueDate);
-            saveDueDate(contentDataLabel, dueDate);
-        } catch (DateTimeParseException | NullPointerException ex) {
-            JOptionPane.showMessageDialog(null, "Invalid date format. Please use YYYY-MM-DD.");
-            addDueDate(contentDataLabel);  // Retry if invalid input
-        }
-    }
-
     @Override
     public void mousePressed(MouseEvent e) {
             if (title.equals("taskslist")) {
@@ -84,12 +72,16 @@ public class NewTask extends JLabel implements MouseListener {
 
                             if (!dueDate.before(new Date())) {
                                 ContentDataLabel contentDataLabel = new ContentDataLabel();
+                                this.setVisible(false);
                                 contentDataLabel.contentDataArea.setText(taskDescription);
                                 contentDataLabel.setDueDate(LocalDate.parse(dueDateStr));
 
                                 // Add the task to the next category
                                 ContentDataPanel.nextCategory.add(contentDataLabel);
                                 ContentDataPanel.lastTasksSave.add(contentDataLabel);
+
+                                ContentDataPanel.nextCategory.add(this);
+                                this.setVisible(true);
                             } else {
                                 JOptionPane.showMessageDialog(null, "Invalid due date. Please enter a future date.");
                             }
@@ -100,7 +92,6 @@ public class NewTask extends JLabel implements MouseListener {
                         JOptionPane.showMessageDialog(null, "Invalid input. Please enter both task description and a valid due date.");
                     }
                 }
-
         } else if (title.equals("grocery list vegetables")) {
             ListOfItems vegetablesList = new ListOfItems("false", "grocery list vegetables");
             this.setVisible(false);
