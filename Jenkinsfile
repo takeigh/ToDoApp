@@ -2,54 +2,21 @@ pipeline {
     agent any
 
     stages {
-        stage('Inspect Workspace') {
-            steps {
-                // Add a shell step to pause and inspect the workspace
-                script {
-                echo 'Inspect the workspace manually'
-                }
-            }
-            // Add a manual input for approval
-            input {
-                message 'Inspect the workspace and click "Proceed" to continue'
-                ok 'Proceed'
-            }
-        }
-
         stage('Compile') {
             steps {
                 // Command to compile the code since there is no gradle
-                sh 'javac -cp lib/junit-4.13.1.jar -d target src/**/*.java'
-            }
-        }
-
-        stage('Run') {
-            steps {
-                // Run the program
-                sh 'java -cp target:lib/* src/com.zynozin.Main'
-            }
-        }
-
-        stage('Cleanup') {
-            steps {
-                sh 'rm -rf target'
+                sh 'javac -cp lib/junit-4.13.1.jar -d target src/com/zynozin/*.java src/components/*.java'
             }
         }
     }
 
     post {
         success {
-            // Actions to perform when the build is successful
-            echo 'Build and Run successful!'
-
-            // You can add additional actions or notifications here
+            echo 'Compile successful!'
         }
 
         failure {
-            // Actions to perform when the build fails
-            echo 'Build or Run failed!'
-
-            // You can add additional actions or notifications here
+            echo 'Compile failed!'
         }
     }
 }
