@@ -12,16 +12,21 @@ pipeline {
         stage('Compile') {
             steps {
                 // Compile your Java code (replace 'javac' with your actual compile command)
-                sh 'javac -d target src/**/*.java'
+                sh 'javac -d target src/com.zynozin/*.java'
             }
         }
 
         stage('Run') {
             steps {
                 // Run your Java program (replace 'java' with your actual run command)
-                sh 'java -cp target com.zynozin.Main'
+                sh 'javac -cp target com.zynozin.Main.java'
             }
         }
+
+        stage('Test') {
+            steps {
+                // Run the tests
+                sh ''
     }
 
     post {
