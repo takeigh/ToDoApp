@@ -5,7 +5,7 @@ pipeline {
         stage('Compile') {
             steps {
                 // Command to compile the code since there is no gradle
-                sh 'javac -cp lib/junit-4.13.1.jar src/com.zynozin/* -d target src/**/*.java'
+                sh 'javac -cp lib/junit-4.13.1.jar -cp src/com.zynozin/* -d target src/**/*.java'
             }
         }
 
