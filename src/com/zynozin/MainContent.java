@@ -18,6 +18,7 @@ public class MainContent extends JPanel {
             new ContentHeader("images/journal.png", "Started or finished from reading a book? State it here so you can keep track of it.", "Reading Journal."),
             new ContentHeader("images/notes.png", "If you have anything you would like to write and save, just write it here!", "Notes."),
             new ContentHeader("images/wishlist.png", "You want to get something but you can't at the moment? Write it here so you remember it later.", "Wishlist."),
+            new ContentHeader("images/calendar.png", "A calendar to view your task due dates", "Calendar")
 
     };
     private ContentHeader contentHeader = contentHeaders[0];
@@ -37,9 +38,13 @@ public class MainContent extends JPanel {
     public static ModernScrollPane bookScrollPane;
     public static MainContent mainContent;
 
+    public static CalendarPanel calendarPanel;
+
     public MainContent() throws IOException {
         notesPanel = new NotesPanel();
         notesPanel.loadAllNoteSheets();
+
+        calendarPanel = new CalendarPanel();
 
         mainContent = this;
         contentFooter = new ContentFooter();

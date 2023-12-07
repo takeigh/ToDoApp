@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MenuCommands extends JPanel {
+    private MenuOption calendar = new MenuOption("Calendar");
     private MenuOption tasksList = new MenuOption("Tasks List");
     private MenuOption projectIdeas = new MenuOption("Project Ideas");
     private MenuOption groceryList = new MenuOption("Grocery List");
@@ -16,6 +17,7 @@ public class MenuCommands extends JPanel {
         this.setPreferredSize(new Dimension(178, 300));
         this.setOpaque(false);
         this.setLayout(new FlowLayout());
+        this.add(calendar);
         this.add(tasksList);
         this.add(projectIdeas);
         this.add(groceryList);

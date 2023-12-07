@@ -30,7 +30,7 @@ public class MenuOption extends JLabel implements MouseListener {
         MainContent.wishlistScrollPane.setVisible(false);
         MainContent.groceryScrollPane.setVisible(false);
         MainContent.bookScrollPane.setVisible(false);
-
+        MainContent.calendarPanel.setVisible(false);
     }
 
     @Override
@@ -89,6 +89,11 @@ public class MenuOption extends JLabel implements MouseListener {
             setEverythingNotVisible();
             MyFrame.mainContent.add(MainContent.wishlistScrollPane, BorderLayout.CENTER);
             MainContent.wishlistScrollPane.setVisible(true);
+        } else if (title.equals("Calendar")) {
+            MyFrame.mainContent.setContentHeader(MainContent.contentHeaders[7]);
+            setEverythingNotVisible();
+            MyFrame.mainContent.add(MainContent.calendarPanel, BorderLayout.CENTER);
+            MainContent.calendarPanel.setVisible(true);
         }
         this.setBackground(new Color(44, 44, 44));
 
