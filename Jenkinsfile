@@ -5,14 +5,14 @@ pipeline {
         stage('Compile') {
             steps {
                 // Command to compile the code since there is no gradle
-                sh 'javac -cp lib/junit-4.13.1.jar -cp src/com.zynozin/* -d target src/**/*.java'
+                sh 'javac -cp lib/junit-4.13.1.jar -d target src/**/*.java'
             }
         }
 
         stage('Run') {
             steps {
-                // Run your Java program (replace 'java' with your actual run command)
-                sh 'java -cp target:lib/* com.zynozin.Main'
+                // Run the program
+                sh 'java -cp target:lib/* src/com.zynozin.Main'
             }
         }
     }
