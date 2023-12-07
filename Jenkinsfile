@@ -12,7 +12,7 @@ pipeline {
         stage('Compile') {
             steps {
                 // Compile your Java code (replace 'javac' with your actual compile command)
-                sh 'javac -d target src/com.zynozin/*.java'
+                sh 'javac -d target src/**/*.java'
             }
         }
 
