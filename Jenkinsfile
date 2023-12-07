@@ -12,7 +12,7 @@ pipeline {
         stage('Run') {
             steps {
                 // Command to run
-                sh 'java -cp lib/junit-4.13.1.jar com.zynozin.Main'
+                sh 'java -cp out/production/ToDo com.zynozin.Main'
             }
         }
     }
