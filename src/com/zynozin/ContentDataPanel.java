@@ -131,7 +131,7 @@ public class ContentDataPanel extends JPanel {
                     }
 
                     ContentDataLabel contentDataLabel = new ContentDataLabel();
-                    contentDataLabel.contentDataArea.setText(inProgressLine);
+                    contentDataLabel.contentDataArea.setText(taskParts[0]);
                     try {
                         date = LocalDate.parse(taskParts[1]);
                         contentDataLabel.setDueDate(date);
@@ -153,7 +153,7 @@ public class ContentDataPanel extends JPanel {
                     }
 
                     ContentDataLabel contentDataLabel = new ContentDataLabel();
-                    contentDataLabel.contentDataArea.setText(completedLine);
+                    contentDataLabel.contentDataArea.setText(taskParts[0]);
                     try {
                         date = LocalDate.parse(taskParts[1]);
                         contentDataLabel.setDueDate(date);

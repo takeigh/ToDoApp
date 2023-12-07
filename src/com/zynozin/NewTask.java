@@ -72,12 +72,16 @@ public class NewTask extends JLabel implements MouseListener {
 
                             if (!dueDate.before(new Date())) {
                                 ContentDataLabel contentDataLabel = new ContentDataLabel();
+                                this.setVisible(false);
                                 contentDataLabel.contentDataArea.setText(taskDescription);
                                 contentDataLabel.setDueDate(LocalDate.parse(dueDateStr));
 
                                 // Add the task to the next category
                                 ContentDataPanel.nextCategory.add(contentDataLabel);
                                 ContentDataPanel.lastTasksSave.add(contentDataLabel);
+
+                                ContentDataPanel.nextCategory.add(this);
+                                this.setVisible(true);
                             } else {
                                 JOptionPane.showMessageDialog(null, "Invalid due date. Please enter a future date.");
                             }
@@ -88,7 +92,6 @@ public class NewTask extends JLabel implements MouseListener {
                         JOptionPane.showMessageDialog(null, "Invalid input. Please enter both task description and a valid due date.");
                     }
                 }
-
         } else if (title.equals("grocery list vegetables")) {
             ListOfItems vegetablesList = new ListOfItems("false", "grocery list vegetables");
             this.setVisible(false);
