@@ -5,9 +5,7 @@ pipeline {
         stage('Compile') {
             steps {
                 // Command to compile the code since there is no gradle
-                def classpathSeparator = isUnix() ? ':' : ';'
-                def classpath = "lib/hamcrest-core-1.3.jar${classpathSeparator}lib/junit-4.13.1.jar"
-                sh 'javac -cp ${classpath} -d target src/com.zyconin/*.java'
+                sh 'javac -cp lib/junit-4.13.1.jar -d target src/com.zyconin/*.java'
             }
         }
 
