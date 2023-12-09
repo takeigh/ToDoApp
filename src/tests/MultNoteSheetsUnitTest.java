@@ -36,7 +36,7 @@ public class MultNoteSheetsUnitTest {
         // Check if the note sheet is created
         assertEquals(10, notesPanel.getNoteSheetsSize());
         assertTrue(notesPanel.doesNoteSheetExist("TestSheet"));
-        //assertEquals("TestSheet", notesPanel.getSelectedNoteSheet());
+        assertEquals("TestSheet", notesPanel.getSelectedNoteSheet("TestSheet"));
 
         // Try creating another note sheet with the same name (should not be allowed)
         notesPanel.createNoteSheet("TestSheet");
