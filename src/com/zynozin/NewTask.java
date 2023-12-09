@@ -42,11 +42,12 @@ public class NewTask extends JLabel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        // Handle the click event as needed
-        // You can access the dueDate variable here and use it as needed
-        System.out.println("Due Date: " + dueDateField.getText());
+        if (isValidDueDate()) {
+            System.out.println("Due Date: " + dueDate);
+        } else {
+            System.out.println("Due Date is in the past: " + dueDate);
+        }
 
-        // Additionally, you can use taskField.getText() to get the task description
         System.out.println("Task Description: " + taskField.getText());
     }
 
@@ -180,10 +181,11 @@ public class NewTask extends JLabel implements MouseListener {
             return false;
         }
     }
+    // Added for testing
     public boolean isTaskDescriptionValid(String taskDescription) {
         return !taskDescription.isEmpty();
     }
-
+    // Added for testing
     public boolean isDueDateValid(String dueDateStr) {
         return isValidDateFormat(dueDateStr);
     }
@@ -196,5 +198,20 @@ public class NewTask extends JLabel implements MouseListener {
     public void setDueDateField(JTextField dueDateField) {
         this.dueDateField = dueDateField;
     }
+    // Added for testing
+    private boolean isValidDueDate() {
+        if (isDueDateValid(dueDate)) {
+            try {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date currentDate = new Date();
+                Date dueDate = dateFormat.parse(this.dueDate);
+                return !dueDate.before(currentDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
 
 }

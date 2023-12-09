@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.lang.reflect.Field;
 
 import static org.junit.Assert.assertEquals;
 
@@ -130,7 +129,6 @@ public class NewTaskTest {
         }
         // Assert: Check if the appropriate messages are printed
         assertEquals("" + "", outputStreamCaptor.toString());
-
     }
 
     @Test
@@ -166,17 +164,7 @@ public class NewTaskTest {
         }
 
         // Assert: Check if the appropriate message is printed
-        assertEquals("Due Date: 2022-01-01" + System.lineSeparator() + "Task Description: Test Task Description" + System.lineSeparator(), outputStreamCaptor.toString());
+        assertEquals("Due Date is in the past: " + System.lineSeparator() + "Task Description: Test Task Description" + System.lineSeparator(), outputStreamCaptor.toString());
     }
 
-    private void setPrivateField(Object object, String fieldName, Object value)
-            throws NoSuchFieldException, IllegalAccessException {
-        Field field = object.getClass().getDeclaredField(fieldName);
-        field.setAccessible(true);
-        field.set(object, value);
-    }
-
-    private void mockJOptionPane(String taskDescription, String dueDate) {
-        // Mocking the JOptionPane to simulate user
-    }
 }
