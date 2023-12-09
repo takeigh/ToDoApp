@@ -19,7 +19,7 @@ public class NewTask extends JLabel implements MouseListener {
     private JTextField dueDateField; // Added for testing
     private Font newFont = Main.getFontforApp(18f, "fonts/Montserrat-Regular.ttf");
     String title;
-    private String dueDate = "";
+    public String dueDate = "";
 
     public NewTask(String title) {
         this.title = title;
@@ -43,7 +43,7 @@ public class NewTask extends JLabel implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         if (isValidDueDate()) {
-            System.out.println("Due Date: " + dueDate);
+            System.out.println("Due Date: " + dueDateField.getText());
         } else {
             System.out.println("Due Date is in the past: " + dueDate);
         }
@@ -175,9 +175,18 @@ public class NewTask extends JLabel implements MouseListener {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             dateFormat.setLenient(false);
-            dateFormat.parse(dateStr);
-            return true;
-        } catch (ParseException e) {
+            Date currentDate = new Date();
+            Date taskDueDate = dateFormat.parse(dateStr);
+
+            // Check if the due date is on or after the current date
+            if (!taskDueDate.before(currentDate)) {
+                return true;
+            } else {
+                System.out.println("Due Date is in the past: " + dateStr);
+                return false;
+            }
+        } catch (ParseException | NullPointerException e) {
+            System.out.println("Invalid date format: " + dateStr);
             return false;
         }
     }
@@ -204,14 +213,14 @@ public class NewTask extends JLabel implements MouseListener {
             try {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 Date currentDate = new Date();
-                Date dueDate = dateFormat.parse(this.dueDate);
-                return !dueDate.before(currentDate);
+                Date taskDueDate = dateFormat.parse(dueDate);
+
+                // Check if the due date is on or after the current date
+                return !taskDueDate.before(currentDate);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
         return false;
     }
-
-
 }

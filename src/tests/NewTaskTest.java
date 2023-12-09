@@ -31,9 +31,10 @@ public class NewTaskTest {
         // Arrange
         NewTask newTask = new NewTask("taskslist");
         JTextField taskField = new JTextField("Test Task Description");
-        JTextField dueDateField = new JTextField("2023-12-31");
+        JTextField dueDateField = new JTextField("2025-12-31");
         newTask.setTaskField(taskField);
         newTask.setDueDateField(dueDateField);
+        newTask.dueDate = dueDateField.getText();
 
         // Act
         if (newTask.isTaskDescriptionValid(taskField.getText()) && newTask.isDueDateValid(dueDateField.getText())) {
@@ -41,7 +42,7 @@ public class NewTaskTest {
         }
 
         // Assert: Check if the due date is printed correctly
-        assertEquals("Due Date: 2023-12-31" + System.lineSeparator() + "Task Description: Test Task Description" + System.lineSeparator(), outputStreamCaptor.toString());
+        assertEquals("Due Date: 2025-12-31" + System.lineSeparator() + "Task Description: Test Task Description" + System.lineSeparator(), outputStreamCaptor.toString());
     }
 
     @Test
@@ -76,7 +77,7 @@ public class NewTaskTest {
             newTask.mouseClicked(new MouseEvent(newTask, 0, 0, 0, 0, 0, 0, false));
         }
         // Assert: Check if the due date is printed as empty
-        assertEquals("" + "", outputStreamCaptor.toString());
+        assertEquals("Invalid date format: " + System.lineSeparator() + "", outputStreamCaptor.toString());
     }
 
     @Test
@@ -164,7 +165,7 @@ public class NewTaskTest {
         }
 
         // Assert: Check if the appropriate message is printed
-        assertEquals("Due Date is in the past: " + System.lineSeparator() + "Task Description: Test Task Description" + System.lineSeparator(), outputStreamCaptor.toString());
+        assertEquals("Due Date is in the past: 2022-01-01" + System.lineSeparator() + "", outputStreamCaptor.toString());
     }
 
 }
