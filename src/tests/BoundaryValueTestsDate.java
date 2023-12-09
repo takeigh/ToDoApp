@@ -23,7 +23,13 @@ public class BoundaryValueTestsDate {
     @Test
     public void testMinimumDateValue() {
         NewTask newTask = new NewTask("taskslist");
-        assertTrue(newTask.isDueDateValid("2023-12-09"));
+        LocalDate currentDate = LocalDate.now();
+        String currentDateStr = currentDate.toString();
+        assertFalse(newTask.isDueDateValid(currentDateStr));
+
+        LocalDate futureDate = currentDate.plusDays(1);
+        String futureDateStr = futureDate.toString();
+        assertTrue(newTask.isDueDateValid(futureDateStr));
     }
 
     @Test
@@ -72,18 +78,6 @@ public class BoundaryValueTestsDate {
     public void testInvalidDueDateFormat() {
         NewTask newTask = new NewTask("taskslist");
         assertFalse(newTask.isDueDateValid("31-12-2023"));
-    }
-
-    @Test
-    public void testDueDateBeforeCurrentDate() {
-        NewTask newTask = new NewTask("taskslist");
-        assertFalse(newTask.isDueDateValid("2023-01-01"));
-    }
-
-    @Test
-    public void testDueDateAfterCurrentDate() {
-        NewTask newTask = new NewTask("taskslist");
-        assertTrue(newTask.isDueDateValid("2023-12-31"));
     }
 
     @Test
