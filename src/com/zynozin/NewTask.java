@@ -42,7 +42,7 @@ public class NewTask extends JLabel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (isValidDueDate()) {
+        if (isValidDateFormat(dueDate)) {
             System.out.println("Due Date: " + dueDateField.getText());
         } else {
             System.out.println("Due Date is in the past: " + dueDate);
@@ -208,19 +208,5 @@ public class NewTask extends JLabel implements MouseListener {
         this.dueDateField = dueDateField;
     }
     // Added for testing
-    private boolean isValidDueDate() {
-        if (isDueDateValid(dueDate)) {
-            try {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Date currentDate = new Date();
-                Date taskDueDate = dateFormat.parse(dueDate);
 
-                // Check if the due date is on or after the current date
-                return !taskDueDate.before(currentDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-        return false;
-    }
 }
