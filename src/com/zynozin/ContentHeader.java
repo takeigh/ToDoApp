@@ -25,5 +25,8 @@ public class ContentHeader extends JPanel {
     public Boolean getVisible() {
         return this.isVisible;
     }
+    public String getTitleText() {
+        return headerText.getTitleText();
+    }
 
 }

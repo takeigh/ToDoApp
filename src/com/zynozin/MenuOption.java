@@ -96,7 +96,6 @@ public class MenuOption extends JLabel implements MouseListener {
             MainContent.calendarPanel.setVisible(true);
         }
         this.setBackground(new Color(44, 44, 44));
-
     }
 
     @Override
@@ -114,7 +113,5 @@ public class MenuOption extends JLabel implements MouseListener {
     public void mouseExited(MouseEvent e) {
 
         this.setBackground(new Color(64, 64, 64));
-
-
     }
 }

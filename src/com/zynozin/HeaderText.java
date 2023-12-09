@@ -25,5 +25,8 @@ public class HeaderText extends JPanel {
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setBackground(new Color(37, 37, 37));
     }
+    public String getTitleText() {
+        return headerTitle.getTitleText();
+    }
 }
 
