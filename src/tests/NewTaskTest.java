@@ -1,9 +1,7 @@
 package tests;
 
 import com.zynozin.NewTask;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.*;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.io.ByteArrayOutputStream;
@@ -16,18 +14,18 @@ public class NewTaskTest {
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
-    @BeforeEach
+    @Before
     public void setUp() {
         System.setOut(new PrintStream(outputStreamCaptor));
     }
 
-    @AfterEach
+    @After
     public void tearDown() {
         System.setOut(originalOut);
     }
 
     @Test
-    void testMouseClickedWithValidDueDate() {
+    public void testMouseClickedWithValidDueDate() {
         // Arrange
         NewTask newTask = new NewTask("taskslist");
         JTextField taskField = new JTextField("Test Task Description");
@@ -46,7 +44,7 @@ public class NewTaskTest {
     }
 
     @Test
-    void testEmptyTaskDescription() {
+    public void testEmptyTaskDescription() {
         // Arrange
         NewTask newTask = new NewTask("taskslist");
         JTextField taskField = new JTextField("");
@@ -64,7 +62,7 @@ public class NewTaskTest {
     }
 
     @Test
-    void testEmptyDueDate() {
+    public void testEmptyDueDate() {
         // Arrange
         NewTask newTask = new NewTask("taskslist");
         JTextField taskField = new JTextField("Test Task Description");
@@ -81,7 +79,7 @@ public class NewTaskTest {
     }
 
     @Test
-    void testEmptyTaskDescriptionAndDueDate() {
+    public void testEmptyTaskDescriptionAndDueDate() {
         // Arrange
         NewTask newTask = new NewTask("taskslist");
         JTextField taskField = new JTextField("");  // Empty task description
@@ -99,7 +97,7 @@ public class NewTaskTest {
     }
 
     @Test
-    void testInvalidTaskDescription() {
+    public void testInvalidTaskDescription() {
         // Arrange
         NewTask newTask = new NewTask("taskslist");
         JTextField taskField = new JTextField(null);  // Invalid task description
@@ -116,7 +114,7 @@ public class NewTaskTest {
     }
 
     @Test
-    void testEmptyTaskDescriptionAndInvalidDueDate() {
+    public void testEmptyTaskDescriptionAndInvalidDueDate() {
         // Arrange
         NewTask newTask = new NewTask("taskslist");
         JTextField taskField = new JTextField("");  // Empty task description
@@ -133,7 +131,7 @@ public class NewTaskTest {
     }
 
     @Test
-    void testInvalidTaskDescriptionAndDueDate() {
+    public void testInvalidTaskDescriptionAndDueDate() {
         // Arrange
         NewTask newTask = new NewTask("taskslist");
         JTextField taskField = new JTextField(null);  // Invalid task description
@@ -151,7 +149,7 @@ public class NewTaskTest {
     }
 
     @Test
-    void testPastDueDate() {
+    public void testPastDueDate() {
         // Arrange
         NewTask newTask = new NewTask("taskslist");
         JTextField taskField = new JTextField("Test Task Description");

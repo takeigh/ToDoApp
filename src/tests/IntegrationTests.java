@@ -2,17 +2,12 @@ package tests;
 
 import com.zynozin.NewTask;
 import com.zynozin.NotesPanel;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.*;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 
 import static org.junit.Assert.*;
 
@@ -23,14 +18,14 @@ public class IntegrationTests {
     private NotesPanel notesPanel;
 
     @Before
-    public void setUp() {
+    void setUp() {
         newTask = new NewTask("taskslist");
         notesPanel = new NotesPanel();
         System.setOut(new PrintStream(outputStreamCaptor));
     }
 
-    @AfterEach
-    public void tearDown() {
+    @After
+    void tearDown() {
         System.setOut(originalOut);
     }
 
