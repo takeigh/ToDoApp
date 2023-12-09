@@ -18,14 +18,14 @@ public class IntegrationTests {
     private NotesPanel notesPanel;
 
     @Before
-    void setUp() {
+    public void setUp() {
         newTask = new NewTask("taskslist");
         notesPanel = new NotesPanel();
         System.setOut(new PrintStream(outputStreamCaptor));
     }
 
     @After
-    void tearDown() {
+    public void tearDown() {
         System.setOut(originalOut);
     }
 

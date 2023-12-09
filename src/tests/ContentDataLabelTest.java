@@ -2,7 +2,6 @@ package tests;
 
 import com.zynozin.ContentDataLabel;
 import org.junit.*;
-import java.lang.reflect.Field;
 import java.time.LocalDate;
 
 import static org.junit.Assert.assertEquals;
@@ -10,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 public class ContentDataLabelTest {
 
     @Test
-    public void testSetDueDate() throws NoSuchFieldException, IllegalAccessException {
+    public void testSetDueDate() {
         // Arrange
         ContentDataLabel contentDataLabel = new ContentDataLabel();
         LocalDate dueDate = LocalDate.now();
