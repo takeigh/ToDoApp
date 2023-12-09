@@ -15,6 +15,8 @@ import java.util.Date;
 import static com.zynozin.DueDateManager.saveDueDate;
 
 public class NewTask extends JLabel implements MouseListener {
+    private JTextField taskField; // Added for testing
+    private JTextField dueDateField; // Added for testing
     private Font newFont = Main.getFontforApp(18f, "fonts/Montserrat-Regular.ttf");
     String title;
     private String dueDate = "";
@@ -42,7 +44,10 @@ public class NewTask extends JLabel implements MouseListener {
     public void mouseClicked(MouseEvent e) {
         // Handle the click event as needed
         // You can access the dueDate variable here and use it as needed
-        System.out.println("Due Date: " + dueDate);
+        System.out.println("Due Date: " + dueDateField.getText());
+
+        // Additionally, you can use taskField.getText() to get the task description
+        System.out.println("Task Description: " + taskField.getText());
     }
 
     @Override
@@ -175,4 +180,21 @@ public class NewTask extends JLabel implements MouseListener {
             return false;
         }
     }
+    public boolean isTaskDescriptionValid(String taskDescription) {
+        return !taskDescription.isEmpty();
+    }
+
+    public boolean isDueDateValid(String dueDateStr) {
+        return isValidDateFormat(dueDateStr);
+    }
+    // Added for testing
+    public void setTaskField(JTextField taskField) {
+        this.taskField = taskField;
+    }
+
+    // Added for testing
+    public void setDueDateField(JTextField dueDateField) {
+        this.dueDateField = dueDateField;
+    }
+
 }
