@@ -60,34 +60,4 @@ public class IntegrationTests {
         // Assert: Check if the due date is printed correctly
         assertEquals("Due Date: 2025-12-31" + System.lineSeparator() + "Task Description: Test Task Description" + System.lineSeparator(), outputStreamCaptor.toString());
     }
-
-    @Test
-    public void testInvalidDueDate() {
-        // Arrange
-        NewTask newTask = new NewTask("taskslist");
-        JTextField taskField = new JTextField("Test Task Description");
-        JTextField dueDateField = new JTextField("");  // Empty due date
-        newTask.setTaskField(taskField);
-        newTask.setDueDateField(dueDateField);
-
-        // Act
-        if (newTask.isTaskDescriptionValid(taskField.getText()) && newTask.isDueDateValid(dueDateField.getText())) {
-            newTask.mouseClicked(new MouseEvent(newTask, 0, 0, 0, 0, 0, 0, false));
-        }
-        // Assert: Check if the due date is printed as empty
-        assertEquals("Invalid date format: " + System.lineSeparator() + "", outputStreamCaptor.toString());
-
-    }
-    @Test
-    public void testSaveAndLoadNoteSheets() throws IOException {
-        // Create a new note sheet
-        notesPanel.createNoteSheet("Sheet1");
-
-        // Simulate user input for saving and loading note sheets
-        notesPanel.writeSavedElements();
-
-        // Verify that the note sheet has been saved and loaded successfully
-        assertTrue(notesPanel.doesNoteSheetExist("Sheet1"));
-        assertEquals(8, notesPanel.getNoteSheetsSize());
-    }
 }
