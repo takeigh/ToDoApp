@@ -14,7 +14,7 @@ public class MenuCommands extends JPanel {
     private MenuOption wishList = new MenuOption("Wishlist");
 
     public MenuCommands() {
-        this.setPreferredSize(new Dimension(178, 300));
+        this.setPreferredSize(new Dimension(178, 500));
         this.setOpaque(false);
         this.setLayout(new FlowLayout());
         this.add(calendar);

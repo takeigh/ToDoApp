@@ -3,6 +3,9 @@ package com.zynozin;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Month;
 
@@ -61,6 +64,8 @@ public class CalendarPanel extends JPanel {
         setVisible(false);
         removeAll();
 
+        reloadFiles();
+
         monthLabel.setText(displayedMonth.name() + " " + displayedYear);
 
         headerPanel.removeAll();
@@ -76,5 +81,32 @@ public class CalendarPanel extends JPanel {
         add(calendarDisplay);
 
         setVisible(true);
+    }
+
+    public void reloadFiles() {
+        try {
+            BufferedWriter nextWriter = new BufferedWriter(new FileWriter("files/nextUp.txt"));
+            BufferedWriter inProgressWriter = new BufferedWriter(new FileWriter("files/inProgress.txt"));
+            BufferedWriter completedWriter = new BufferedWriter(new FileWriter("files/completed.txt"));
+
+            for (ContentDataLabel tskLabel : ContentDataPanel.lastTasksSave) {
+                String lineContent = tskLabel.contentDataArea.getText();
+                if (tskLabel.currentCategory == "next category") {
+                    nextWriter.write(lineContent.replace("\n", " ").replace("\r", " ") + "," + tskLabel.dueDateLabel.getText().substring(5));
+                    nextWriter.newLine();
+                } else if (tskLabel.currentCategory == "in progress category") {
+                    inProgressWriter.write(lineContent.replace("\n", " ").replace("\r", " ") + "," + tskLabel.dueDateLabel.getText().substring(5));
+                    inProgressWriter.newLine();
+                } else if (tskLabel.currentCategory == "completed category") {
+                    completedWriter.write(lineContent.replace("\n", " ").replace("\r", " ") + "," + tskLabel.dueDateLabel.getText().substring(5));
+                    completedWriter.newLine();
+                }
+            }
+            nextWriter.close();
+            inProgressWriter.close();
+            completedWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

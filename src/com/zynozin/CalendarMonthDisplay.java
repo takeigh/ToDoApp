@@ -206,7 +206,7 @@ public class CalendarMonthDisplay extends JPanel {
                     count++;
                 }
 
-                inProgressLine = next.readLine();
+                inProgressLine = inProgress.readLine();
             }
 
         } catch (Exception ignored){
