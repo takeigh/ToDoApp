@@ -87,5 +87,4 @@ public class BoundaryValueTestsDate {
         String currentDateStr = currentDate.toString();
         assertFalse(newTask.isDueDateValid(currentDateStr));
     }
-
 }

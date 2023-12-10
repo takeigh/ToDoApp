@@ -5,6 +5,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 
 public class MenuOption extends JLabel implements MouseListener {
     private Font menuOptionFont = Main.getFontforApp(14f, "fonts/Montserrat-Medium.ttf");
@@ -94,6 +95,12 @@ public class MenuOption extends JLabel implements MouseListener {
             setEverythingNotVisible();
             MyFrame.mainContent.add(MainContent.calendarPanel, BorderLayout.CENTER);
             MainContent.calendarPanel.setVisible(true);
+            try {
+                CommandsLabel.saveTasksElements();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            MainContent.calendarPanel.updateCalendar();
         }
         this.setBackground(new Color(44, 44, 44));
 

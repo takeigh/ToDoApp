@@ -1,91 +1,80 @@
 package com.zynozin;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.Month;
 
 public class CalendarPanel extends JPanel {
-    private Calendar currentMonth;
+    CalendarMonthDisplay calendarDisplay = new CalendarMonthDisplay();
+
+    CalendarMonthSwapper prevMonthButton = new CalendarMonthSwapper("Previous", this);
+    CalendarMonthSwapper nextMonthButton = new CalendarMonthSwapper("Next", this);
+
+    static Month displayedMonth = LocalDate.now().getMonth();
+    static int displayedYear = LocalDate.now().getYear();
+    JLabel monthLabel = new JLabel(displayedMonth.name() + " " + displayedYear);
+
+    JPanel headerPanel = new JPanel();
 
     public CalendarPanel() {
-        currentMonth = Calendar.getInstance();
-        setLayout(new BorderLayout());
-        updateCalendar();
+        panelLayout();
     }
 
-    private void updateCalendar() {
+    public void panelLayout() {
+        // Set the Calendar Layout
+        setBackground(new Color(37, 37, 37));
+        setOpaque(true);
+        setPreferredSize(new Dimension(1120, 10000));
+        setLayout(new FlowLayout(FlowLayout.CENTER, 100, 20));
+        setBorder(new EmptyBorder(0, 35, 0, 0));
+
+        headerLayout();
+
+        add(headerPanel);
+        add(calendarDisplay);
+    }
+
+    public void headerLayout() {
+        // Set the header layout
+        headerPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        headerPanel.setBackground(new Color(37, 37, 37));
+        headerPanel.setForeground(Color.LIGHT_GRAY);
+        headerPanel.setOpaque(true);
+        headerPanel.setPreferredSize(new Dimension(1120, 50));
+        headerPanel.setFont(Main.getFontforApp(18f, "fonts/Montserrat-Regular.ttf"));
+
+        monthLabel.setForeground(Color.LIGHT_GRAY);
+        monthLabel.setBackground(new Color(37,37,37));
+        monthLabel.setPreferredSize(new Dimension(600, 30));
+        monthLabel.setOpaque(true);
+        monthLabel.setFont(Main.getFontforApp(18f, "fonts/Montserrat-Regular.ttf"));
+        monthLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        headerPanel.add(prevMonthButton);
+        headerPanel.add(monthLabel);
+        headerPanel.add(nextMonthButton);
+    }
+
+    public void updateCalendar() {
+        setVisible(false);
         removeAll();
 
-        SimpleDateFormat monthYearFormat = new SimpleDateFormat("MMMM yyyy");
-        String monthYearString = monthYearFormat.format(currentMonth.getTime());
+        monthLabel.setText(displayedMonth.name() + " " + displayedYear);
 
-        JLabel monthYearLabel = new JLabel(monthYearString, SwingConstants.CENTER);
-        add(monthYearLabel, BorderLayout.NORTH);
+        headerPanel.removeAll();
+        headerPanel.add(prevMonthButton);
+        headerPanel.add(monthLabel);
+        headerPanel.add(nextMonthButton);
 
-        JPanel calendarGrid = new JPanel(new GridLayout(0, 7));
+        add(headerPanel);
 
-        // Add day names (Sun, Mon, Tue, etc.)
-        String[] dayNames = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
-        for (String day : dayNames) {
-            calendarGrid.add(new JLabel(day, SwingConstants.CENTER));
-        }
+        calendarDisplay.removeAll();
+        calendarDisplay.updateDisplay();
 
-        // Set the calendar to the first day of the month
-        currentMonth.set(Calendar.DAY_OF_MONTH, 1);
+        add(calendarDisplay);
 
-        // Add empty labels for days before the first day of the month
-        for (int i = 1; i < currentMonth.get(Calendar.DAY_OF_WEEK); i++) {
-            calendarGrid.add(new JLabel(""));
-        }
-
-        // Add labels for each day of the month
-        int lastDay = currentMonth.getActualMaximum(Calendar.DAY_OF_MONTH);
-        for (int i = 1; i <= lastDay; i++) {
-            JLabel dayLabel = new JLabel(String.valueOf(i), SwingConstants.CENTER);
-            calendarGrid.add(dayLabel);
-        }
-
-        add(calendarGrid, BorderLayout.CENTER);
-    }
-
-    public void showNextMonth() {
-        currentMonth.add(Calendar.MONTH, 1);
-        updateCalendar();
-        revalidate();
-        repaint();
-    }
-
-    public void showPreviousMonth() {
-        currentMonth.add(Calendar.MONTH, -1);
-        updateCalendar();
-        revalidate();
-        repaint();
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Calendar Panel Example");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-            CalendarPanel calendarPanel = new CalendarPanel();
-            frame.add(calendarPanel);
-
-            JButton nextMonthButton = new JButton("Next Month");
-            nextMonthButton.addActionListener(e -> calendarPanel.showNextMonth());
-
-            JButton prevMonthButton = new JButton("Previous Month");
-            prevMonthButton.addActionListener(e -> calendarPanel.showPreviousMonth());
-
-            JPanel buttonPanel = new JPanel();
-            buttonPanel.add(prevMonthButton);
-            buttonPanel.add(nextMonthButton);
-
-            frame.add(buttonPanel, BorderLayout.SOUTH);
-
-            frame.setSize(400, 300);
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-        });
+        setVisible(true);
     }
 }
