@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NewTask.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Test Gradle</a> &gt; <a href="index.source.html" class="el_package">com.zynozin</a> &gt; <span class="el_source">NewTask.java</span></div><h1>NewTask.java</h1><pre class="source lang-java linenums">package com.zynozin;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
+
+public class NewTask extends JLabel implements MouseListener {
+    private JTextField taskField; // Added for testing
+    private JTextField dueDateField; // Added for testing
+<span class="fc" id="L15">    private Font newFont = Main.getFontforApp(18f, &quot;fonts/Montserrat-Regular.ttf&quot;);</span>
+    String title;
+<span class="fc" id="L17">    public String dueDate = &quot;&quot;;</span>
+
+<span class="fc" id="L19">    public NewTask(String title) {</span>
+<span class="fc" id="L20">        this.title = title;</span>
+<span class="fc" id="L21">        setBackground(new Color(37, 37, 37));</span>
+<span class="fc" id="L22">        setOpaque(true);</span>
+<span class="fc" id="L23">        setText(&quot;+ New&quot;);</span>
+<span class="fc" id="L24">        setForeground(Color.LIGHT_GRAY);</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        if (title.equals(&quot;taskslist&quot;))</span>
+<span class="fc" id="L26">            this.setPreferredSize(new Dimension(320, 30));</span>
+<span class="fc bfc" id="L27" title="All 4 branches covered.">        else if (title.equals(&quot;grocery list vegetables&quot;) || title.equals(&quot;grocery list fruits&quot;) ||</span>
+<span class="fc bfc" id="L28" title="All 4 branches covered.">                title.equals(&quot;grocery list drinks&quot;) || title.equals(&quot;grocery list other&quot;))</span>
+<span class="fc" id="L29">            this.setPreferredSize(new Dimension(250, 30));</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">        else if (title.equals(&quot;reading journal&quot;))</span>
+<span class="fc" id="L31">            this.setPreferredSize(new Dimension(360, 30));</span>
+        else
+<span class="fc" id="L33">            this.setPreferredSize(new Dimension(900, 30));</span>
+<span class="fc" id="L34">        this.addMouseListener(this);</span>
+<span class="fc" id="L35">        setFont(newFont);</span>
+<span class="fc" id="L36">    }</span>
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">        if (isValidDateFormat(dueDate)) {</span>
+<span class="fc" id="L41">            System.out.println(&quot;Due Date: &quot; + dueDateField.getText());</span>
+        } else {
+<span class="nc" id="L43">            System.out.println(&quot;Due Date is in the past: &quot; + dueDate);</span>
+        }
+
+<span class="fc" id="L46">        System.out.println(&quot;Task Description: &quot; + taskField.getText());</span>
+<span class="fc" id="L47">    }</span>
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+<span class="nc bnc" id="L51" title="All 2 branches missed.">            if (title.equals(&quot;taskslist&quot;)) {</span>
+                // Prompt the user for the task description and due date
+<span class="nc" id="L53">                JPanel panel = new JPanel(new GridLayout(0, 1));</span>
+<span class="nc" id="L54">                JTextField taskField = new JTextField();</span>
+<span class="nc" id="L55">                JTextField dueDateField = new JTextField();</span>
+
+<span class="nc" id="L57">                panel.add(new JLabel(&quot;Enter task description:&quot;));</span>
+<span class="nc" id="L58">                panel.add(taskField);</span>
+<span class="nc" id="L59">                panel.add(new JLabel(&quot;Enter due date (yyyy-MM-dd):&quot;));</span>
+<span class="nc" id="L60">                panel.add(dueDateField);</span>
+
+<span class="nc" id="L62">                int result = JOptionPane.showConfirmDialog(null, panel, &quot;Create New Task&quot;,</span>
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+<span class="nc bnc" id="L65" title="All 2 branches missed.">                if (result == JOptionPane.OK_OPTION) {</span>
+<span class="nc" id="L66">                    String taskDescription = taskField.getText().trim();</span>
+<span class="nc" id="L67">                    String dueDateStr = dueDateField.getText().trim();</span>
+
+<span class="nc bnc" id="L69" title="All 4 branches missed.">                    if (!taskDescription.isEmpty() &amp;&amp; isValidDateFormat(dueDateStr)) {</span>
+                        try {
+<span class="nc" id="L71">                            SimpleDateFormat dateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);</span>
+<span class="nc" id="L72">                            Date dueDate = dateFormat.parse(dueDateStr);</span>
+
+<span class="nc bnc" id="L74" title="All 2 branches missed.">                            if (!dueDate.before(new Date())) {</span>
+<span class="nc" id="L75">                                ContentDataLabel contentDataLabel = new ContentDataLabel();</span>
+<span class="nc" id="L76">                                this.setVisible(false);</span>
+<span class="nc" id="L77">                                contentDataLabel.contentDataArea.setText(taskDescription);</span>
+<span class="nc" id="L78">                                contentDataLabel.setDueDate(LocalDate.parse(dueDateStr));</span>
+
+                                // Add the task to the next category
+<span class="nc" id="L81">                                ContentDataPanel.nextCategory.add(contentDataLabel);</span>
+<span class="nc" id="L82">                                ContentDataPanel.lastTasksSave.add(contentDataLabel);</span>
+
+<span class="nc" id="L84">                                ContentDataPanel.nextCategory.add(this);</span>
+<span class="nc" id="L85">                                this.setVisible(true);</span>
+<span class="nc" id="L86">                            } else {</span>
+<span class="nc" id="L87">                                JOptionPane.showMessageDialog(null, &quot;Invalid due date. Please enter a future date.&quot;);</span>
+                            }
+<span class="nc" id="L89">                        } catch (Exception ex) {</span>
+<span class="nc" id="L90">                            ex.printStackTrace();</span>
+<span class="nc" id="L91">                        }</span>
+                    } else {
+<span class="nc" id="L93">                        JOptionPane.showMessageDialog(null, &quot;Invalid input. Please enter both task description and a valid due date.&quot;);</span>
+                    }
+                }
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        } else if (title.equals(&quot;grocery list vegetables&quot;)) {</span>
+<span class="nc" id="L97">            ListOfItems vegetablesList = new ListOfItems(&quot;false&quot;, &quot;grocery list vegetables&quot;);</span>
+<span class="nc" id="L98">            this.setVisible(false);</span>
+<span class="nc" id="L99">            ContentDataPanel.vegetablesCategory.add(vegetablesList);</span>
+<span class="nc" id="L100">            ContentDataPanel.vegetablesCategory.add(this);</span>
+<span class="nc" id="L101">            this.setVisible(true);</span>
+<span class="nc" id="L102">            ContentDataPanel.lastVegetablesListSave.add(vegetablesList);</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        } else if (title.equals(&quot;grocery list fruits&quot;)) {</span>
+<span class="nc" id="L104">            ListOfItems fruitsList = new ListOfItems(&quot;false&quot;, &quot;grocery list fruits&quot;);</span>
+<span class="nc" id="L105">            this.setVisible(false);</span>
+<span class="nc" id="L106">            ContentDataPanel.fruitsCategory.add(fruitsList);</span>
+<span class="nc" id="L107">            ContentDataPanel.fruitsCategory.add(this);</span>
+<span class="nc" id="L108">            this.setVisible(true);</span>
+<span class="nc" id="L109">            ContentDataPanel.lastFruitsListSave.add(fruitsList);</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">        } else if (title.equals(&quot;grocery list drinks&quot;)) {</span>
+<span class="nc" id="L111">            ListOfItems drinksList = new ListOfItems(&quot;false&quot;, &quot;grocery list drinks&quot;);</span>
+<span class="nc" id="L112">            this.setVisible(false);</span>
+<span class="nc" id="L113">            ContentDataPanel.drinksCategory.add(drinksList);</span>
+<span class="nc" id="L114">            ContentDataPanel.drinksCategory.add(this);</span>
+<span class="nc" id="L115">            this.setVisible(true);</span>
+<span class="nc" id="L116">            ContentDataPanel.lastDrinksListSave.add(drinksList);</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        } else if (title.equals(&quot;grocery list other&quot;)) {</span>
+<span class="nc" id="L118">            ListOfItems otherList = new ListOfItems(&quot;false&quot;, &quot;grocery list other&quot;);</span>
+<span class="nc" id="L119">            this.setVisible(false);</span>
+<span class="nc" id="L120">            ContentDataPanel.otherCategory.add(otherList);</span>
+<span class="nc" id="L121">            ContentDataPanel.otherCategory.add(this);</span>
+<span class="nc" id="L122">            this.setVisible(true);</span>
+<span class="nc" id="L123">            ContentDataPanel.lastOtherListSave.add(otherList);</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">        } else if (title.equals(&quot;checklist&quot;)) {</span>
+<span class="nc" id="L125">            ListOfItems checklistItems = new ListOfItems(&quot;false&quot;, &quot;checklist&quot;);</span>
+<span class="nc" id="L126">            this.setVisible(false);</span>
+<span class="nc" id="L127">            MainContent.checklistPanel.add(checklistItems);</span>
+<span class="nc" id="L128">            MainContent.checklistPanel.add(this);</span>
+<span class="nc" id="L129">            this.setVisible(true);</span>
+<span class="nc" id="L130">            ItemsPanel.lastChecklistSave.add(checklistItems);</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">        } else if (title.equals(&quot;reading journal&quot;)) {</span>
+<span class="nc" id="L132">            ListOfItems bookItem = new ListOfItems(ListOfItems.bookIcon, &quot;book&quot;, 14f, 35, 330, 360, true, true);</span>
+<span class="nc" id="L133">            ListOfItems startedItem = new ListOfItems(ListOfItems.bookIcon, &quot;started&quot;, 14f, 35, 330, 360, false, true);</span>
+<span class="nc" id="L134">            ListOfItems finishedItem = new ListOfItems(ListOfItems.bookIcon, &quot;finished&quot;, 14f, 35, 330, 360, false, true);</span>
+<span class="nc" id="L135">            this.setVisible(false);</span>
+<span class="nc" id="L136">            ContentDataPanel.bookNameCategory.add(bookItem);</span>
+<span class="nc" id="L137">            ContentDataPanel.startedCategory.add(startedItem);</span>
+<span class="nc" id="L138">            ContentDataPanel.finishedCategory.add(finishedItem);</span>
+<span class="nc" id="L139">            ContentDataPanel.bookNameCategory.add(this);</span>
+<span class="nc" id="L140">            this.setVisible(true);</span>
+<span class="nc" id="L141">            ContentDataPanel.lastBookListSave.add(bookItem);</span>
+<span class="nc" id="L142">            ContentDataPanel.lastStartedListSave.add(startedItem);</span>
+<span class="nc" id="L143">            ContentDataPanel.lastFinishedListSave.add(finishedItem);</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">        } else if (title.equals(&quot;wishlist&quot;)) {</span>
+<span class="nc" id="L145">            ListOfItems wishItems = new ListOfItems(ListOfItems.wishIcon, &quot;wish&quot;, 18f, 80, 600, 900, true, true);</span>
+<span class="nc" id="L146">            this.setVisible(false);</span>
+<span class="nc" id="L147">            MainContent.wishlistPanel.add(wishItems);</span>
+<span class="nc" id="L148">            MainContent.wishlistPanel.add(this);</span>
+<span class="nc" id="L149">            this.setVisible(true);</span>
+<span class="nc" id="L150">            ItemsPanel.lastWishlistSave.add(wishItems);</span>
+        }
+<span class="nc" id="L152">    }</span>
+
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+<span class="nc" id="L158">    }</span>
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+<span class="nc" id="L162">        this.setBackground(Color.DARK_GRAY);</span>
+<span class="nc" id="L163">    }</span>
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+<span class="nc" id="L167">        this.setBackground(new Color(37, 37, 37));</span>
+<span class="nc" id="L168">    }</span>
+    private boolean isValidDateFormat(String dateStr) {
+        try {
+<span class="fc" id="L171">            SimpleDateFormat dateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);</span>
+<span class="fc" id="L172">            dateFormat.setLenient(false);</span>
+<span class="fc" id="L173">            Date currentDate = new Date();</span>
+<span class="fc" id="L174">            Date taskDueDate = dateFormat.parse(dateStr);</span>
+
+            // Check if the due date is on or after the current date
+<span class="fc bfc" id="L177" title="All 2 branches covered.">            if (!taskDueDate.before(currentDate)) {</span>
+<span class="fc" id="L178">                return true;</span>
+            } else {
+<span class="fc" id="L180">                System.out.println(&quot;Due Date is in the past: &quot; + dateStr);</span>
+<span class="fc" id="L181">                return false;</span>
+            }
+<span class="fc" id="L183">        } catch (ParseException | NullPointerException e) {</span>
+<span class="fc" id="L184">            System.out.println(&quot;Invalid date format: &quot; + dateStr);</span>
+<span class="fc" id="L185">            return false;</span>
+        }
+    }
+    // Added for testing
+    public boolean isTaskDescriptionValid(String taskDescription) {
+<span class="fc bfc" id="L190" title="All 2 branches covered.">        return !taskDescription.isEmpty();</span>
+    }
+    // Added for testing
+    public boolean isDueDateValid(String dueDateStr) {
+<span class="fc" id="L194">        return isValidDateFormat(dueDateStr);</span>
+    }
+    // Added for testing
+    public void setTaskField(JTextField taskField) {
+<span class="fc" id="L198">        this.taskField = taskField;</span>
+<span class="fc" id="L199">    }</span>
+
+    // Added for testing
+    public void setDueDateField(JTextField dueDateField) {
+<span class="fc" id="L203">        this.dueDateField = dueDateField;</span>
+<span class="fc" id="L204">    }</span>
+    // Added for testing
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

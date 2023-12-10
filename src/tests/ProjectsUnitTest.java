@@ -2,14 +2,15 @@ package tests;
 
 import com.zynozin.ProjectEntry;
 import com.zynozin.ProjectPanel;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 
 import java.io.*;
 
 public class ProjectsUnitTest {
+
     // Test the singleton aspect of the Project Panel
     @Test
-    public void TestCreateProjectPanel() throws IOException {
+    public void testCreateProjectPanel() throws IOException {
         // First instantiation
         ProjectPanel panel = ProjectPanel.getProjectPanel();
 
@@ -17,12 +18,12 @@ public class ProjectsUnitTest {
         ProjectPanel panel2 = ProjectPanel.getProjectPanel();
 
         // Assert
-        Assert.assertEquals(panel, panel2);
+        Assertions.assertEquals(panel, panel2);
     }
 
     // Test reading from the file
     @Test
-    public void TestFileReading() throws IOException {
+    public void testFileReading() throws IOException {
         // Set up
         ProjectEntry entry = new ProjectEntry();
         entry.titleField.setText("Title");
@@ -41,16 +42,16 @@ public class ProjectsUnitTest {
         String output = "Title,Description";
 
         // Actual Output
-       panel.writeSavedElements();
-       String realOut = ProjectPanel.lastIdeaListSave.get(0).titleField.getText() + "," + ProjectPanel.lastIdeaListSave.get(0).descriptionField.getText();
+        panel.writeSavedElements();
+        String realOut = ProjectPanel.lastIdeaListSave.get(0).titleField.getText() + "," + ProjectPanel.lastIdeaListSave.get(0).descriptionField.getText();
 
         // Assert
-        Assert.assertEquals(output, realOut);
+        Assertions.assertEquals(output, realOut);
     }
 
-    //Test writing to the file
+    // Test writing to the file
     @Test
-    public void TestFileWriting() throws IOException {
+    public void testFileWriting() throws IOException {
         // Set up control
         ProjectEntry entry = new ProjectEntry();
         entry.titleField.setText("Title");
@@ -71,7 +72,7 @@ public class ProjectsUnitTest {
         String realOut = reader.readLine();
 
         // Assert
-        Assert.assertEquals(output, realOut);
+        Assertions.assertEquals(output, realOut);
 
         reader.close();
     }

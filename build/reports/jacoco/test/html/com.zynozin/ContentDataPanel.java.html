@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ContentDataPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Test Gradle</a> &gt; <a href="index.source.html" class="el_package">com.zynozin</a> &gt; <span class="el_source">ContentDataPanel.java</span></div><h1>ContentDataPanel.java</h1><pre class="source lang-java linenums">package com.zynozin;
+
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ContentDataPanel extends JPanel {
+    public static ContentCategory nextCategory;
+    public static ContentCategory inProgressCategory;
+    public static ContentCategory completedCategory;
+    public static ContentCategory vegetablesCategory;
+    public static ContentCategory fruitsCategory;
+    public static ContentCategory drinksCategory;
+    public static ContentCategory otherCategory;
+    public static ContentCategory bookNameCategory;
+    public static ContentCategory startedCategory;
+    public static ContentCategory finishedCategory;
+    public static NewTask newTask;
+    public static NewTask newVegetable;
+    public static NewTask newFruit;
+    public static NewTask newDrink;
+    public static NewTask newOther;
+    public static NewTask newBook;
+<span class="fc" id="L32">    public static List&lt;ContentDataLabel&gt; lastTasksSave = new ArrayList&lt;ContentDataLabel&gt;();</span>
+<span class="fc" id="L33">    public static List&lt;ListOfItems&gt; lastVegetablesListSave = new ArrayList&lt;ListOfItems&gt;();</span>
+<span class="fc" id="L34">    public static List&lt;ListOfItems&gt; lastFruitsListSave = new ArrayList&lt;ListOfItems&gt;();</span>
+<span class="fc" id="L35">    public static List&lt;ListOfItems&gt; lastDrinksListSave = new ArrayList&lt;ListOfItems&gt;();</span>
+<span class="fc" id="L36">    public static List&lt;ListOfItems&gt; lastOtherListSave = new ArrayList&lt;ListOfItems&gt;();</span>
+<span class="fc" id="L37">    public static List&lt;ListOfItems&gt; lastBookListSave = new ArrayList&lt;ListOfItems&gt;();</span>
+<span class="fc" id="L38">    public static List&lt;ListOfItems&gt; lastStartedListSave = new ArrayList&lt;ListOfItems&gt;();</span>
+<span class="fc" id="L39">    public static List&lt;ListOfItems&gt; lastFinishedListSave = new ArrayList&lt;ListOfItems&gt;();</span>
+
+
+<span class="fc" id="L42">    public ContentDataPanel(String type) throws IOException {</span>
+<span class="fc" id="L43">        this.setLayout(new GridLayout());</span>
+<span class="fc" id="L44">        addProperPanels(type);</span>
+<span class="fc" id="L45">        writeSavedElements(type);</span>
+<span class="fc" id="L46">        int HEIGHT = 1000;</span>
+<span class="fc" id="L47">        int WIDTH = 1120;</span>
+<span class="fc" id="L48">        this.setPreferredSize(new Dimension(WIDTH, HEIGHT));</span>
+<span class="fc" id="L49">        this.setOpaque(true);</span>
+<span class="fc" id="L50">        this.setBorder(new EmptyBorder(40, 0, 0, 0));</span>
+<span class="fc" id="L51">        this.setBackground(new Color(37, 37, 37));</span>
+<span class="fc" id="L52">    }</span>
+
+    public void addProperPanels(String type) {
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        if (type.equals(&quot;taskslist&quot;)) {</span>
+<span class="fc" id="L56">            nextCategory = new ContentCategory(&quot;Next Up&quot;, 204, 0, 0);</span>
+<span class="fc" id="L57">            inProgressCategory = new ContentCategory(&quot;In Progress&quot;, 212, 179, 0);</span>
+<span class="fc" id="L58">            completedCategory = new ContentCategory(&quot;Completed&quot;, 3, 174, 0);</span>
+<span class="fc" id="L59">            newTask = new NewTask(type);</span>
+<span class="fc" id="L60">            this.add(nextCategory);</span>
+<span class="fc" id="L61">            this.add(inProgressCategory);</span>
+<span class="fc" id="L62">            this.add(completedCategory);</span>
+<span class="fc" id="L63">            this.add(newTask);</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        } else if (type.equals(&quot;grocery list&quot;)) {</span>
+<span class="fc" id="L65">            vegetablesCategory = new ContentCategory(&quot;Vegetables&quot;, 3, 174, 0);</span>
+<span class="fc" id="L66">            fruitsCategory = new ContentCategory(&quot;Fruits&quot;, 204, 0, 0);</span>
+<span class="fc" id="L67">            drinksCategory = new ContentCategory(&quot;Drinks&quot;, 63, 197, 255);</span>
+<span class="fc" id="L68">            otherCategory = new ContentCategory(&quot;Other&quot;, 255, 132, 18);</span>
+<span class="fc" id="L69">            newVegetable = new NewTask(&quot;grocery list vegetables&quot;);</span>
+<span class="fc" id="L70">            newFruit = new NewTask(&quot;grocery list fruits&quot;);</span>
+<span class="fc" id="L71">            newDrink = new NewTask(&quot;grocery list drinks&quot;);</span>
+<span class="fc" id="L72">            newOther = new NewTask(&quot;grocery list other&quot;);</span>
+<span class="fc" id="L73">            this.add(vegetablesCategory);</span>
+<span class="fc" id="L74">            this.add(fruitsCategory);</span>
+<span class="fc" id="L75">            this.add(drinksCategory);</span>
+<span class="fc" id="L76">            this.add(otherCategory);</span>
+
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">        } else if (type.equals(&quot;reading journal&quot;)) {</span>
+<span class="fc" id="L79">            bookNameCategory = new ContentCategory(&quot;Book Name&quot;, true);</span>
+<span class="fc" id="L80">            startedCategory = new ContentCategory(&quot;Started&quot;, true);</span>
+<span class="fc" id="L81">            finishedCategory = new ContentCategory(&quot;Finished&quot;, true);</span>
+<span class="fc" id="L82">            newBook = new NewTask(&quot;reading journal&quot;);</span>
+<span class="fc" id="L83">            this.add(bookNameCategory);</span>
+<span class="fc" id="L84">            this.add(startedCategory);</span>
+<span class="fc" id="L85">            this.add(finishedCategory);</span>
+<span class="fc" id="L86">            bookNameCategory.add(newBook);</span>
+        }
+<span class="fc" id="L88">    }</span>
+
+    public void writeSavedElements(String type) throws IOException {
+<span class="fc bfc" id="L91" title="All 2 branches covered.">        if (type.equals(&quot;taskslist&quot;)) {</span>
+<span class="fc" id="L92">            BufferedReader next = new BufferedReader(new FileReader(&quot;files/nextUp.txt&quot;));</span>
+<span class="fc" id="L93">            BufferedReader inProgress = new BufferedReader(new FileReader(&quot;files/inProgress.txt&quot;));</span>
+<span class="fc" id="L94">            BufferedReader completed = new BufferedReader(new FileReader(&quot;files/completed.txt&quot;));</span>
+<span class="fc" id="L95">            String nextLine = next.readLine();</span>
+<span class="fc" id="L96">            String inProgressLine = inProgress.readLine();</span>
+<span class="fc" id="L97">            String completedLine = completed.readLine();</span>
+
+<span class="fc" id="L99">            String[] taskParts = new String[2];</span>
+<span class="fc" id="L100">            SimpleDateFormat dateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);</span>
+            LocalDate date;
+
+            try {
+<span class="pc bpc" id="L104" title="1 of 2 branches missed.">                while (nextLine != null) {</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">                    if (nextLine.contains(&quot;,&quot;)) {</span>
+<span class="nc" id="L106">                        taskParts = nextLine.split(&quot;,&quot;);</span>
+                    } else {
+<span class="nc" id="L108">                        taskParts[0] = nextLine;</span>
+<span class="nc" id="L109">                        taskParts[1] = &quot;&quot;;</span>
+                    }
+
+<span class="nc" id="L112">                    ContentDataLabel contentDataLabel = new ContentDataLabel();</span>
+<span class="nc" id="L113">                    contentDataLabel.contentDataArea.setText(taskParts[0]);</span>
+                    try {
+<span class="nc" id="L115">                        date = LocalDate.parse(taskParts[1]);</span>
+<span class="nc" id="L116">                        contentDataLabel.setDueDate(date);</span>
+<span class="nc" id="L117">                    } catch (Exception e) {</span>
+<span class="nc" id="L118">                        e.printStackTrace();</span>
+<span class="nc" id="L119">                    }</span>
+<span class="nc" id="L120">                    contentDataLabel.initIcons(contentDataLabel);</span>
+<span class="nc" id="L121">                    nextCategory.add(contentDataLabel);</span>
+<span class="nc" id="L122">                    lastTasksSave.add(contentDataLabel);</span>
+<span class="nc" id="L123">                    nextLine = next.readLine();</span>
+<span class="nc" id="L124">                }</span>
+<span class="pc bpc" id="L125" title="1 of 2 branches missed.">                while (inProgressLine != null) {</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">                    if (inProgressLine.contains(&quot;,&quot;)) {</span>
+<span class="nc" id="L127">                        taskParts = inProgressLine.split(&quot;,&quot;);</span>
+                    } else {
+<span class="nc" id="L129">                        taskParts[0] = inProgressLine;</span>
+<span class="nc" id="L130">                        taskParts[1] = &quot;&quot;;</span>
+                    }
+
+<span class="nc" id="L133">                    ContentDataLabel contentDataLabel = new ContentDataLabel();</span>
+<span class="nc" id="L134">                    contentDataLabel.contentDataArea.setText(taskParts[0]);</span>
+                    try {
+<span class="nc" id="L136">                        date = LocalDate.parse(taskParts[1]);</span>
+<span class="nc" id="L137">                        contentDataLabel.setDueDate(date);</span>
+<span class="nc" id="L138">                    } catch (Exception e) {</span>
+<span class="nc" id="L139">                        e.printStackTrace();</span>
+<span class="nc" id="L140">                    }</span>
+<span class="nc" id="L141">                    contentDataLabel.currentCategory = &quot;in progress category&quot;;</span>
+<span class="nc" id="L142">                    contentDataLabel.initIcons(contentDataLabel);</span>
+<span class="nc" id="L143">                    inProgressCategory.add(contentDataLabel);</span>
+<span class="nc" id="L144">                    lastTasksSave.add(contentDataLabel);</span>
+<span class="nc" id="L145">                    inProgressLine = inProgress.readLine();</span>
+<span class="nc" id="L146">                }</span>
+<span class="pc bpc" id="L147" title="1 of 2 branches missed.">                while (completedLine != null) {</span>
+<span class="nc bnc" id="L148" title="All 2 branches missed.">                    if (completedLine.contains(&quot;,&quot;)) {</span>
+<span class="nc" id="L149">                        taskParts = completedLine.split(&quot;,&quot;);</span>
+                    } else {
+<span class="nc" id="L151">                        taskParts[0] = completedLine;</span>
+<span class="nc" id="L152">                        taskParts[1] = &quot;&quot;;</span>
+                    }
+
+<span class="nc" id="L155">                    ContentDataLabel contentDataLabel = new ContentDataLabel();</span>
+<span class="nc" id="L156">                    contentDataLabel.contentDataArea.setText(taskParts[0]);</span>
+                    try {
+<span class="nc" id="L158">                        date = LocalDate.parse(taskParts[1]);</span>
+<span class="nc" id="L159">                        contentDataLabel.setDueDate(date);</span>
+<span class="nc" id="L160">                    } catch (Exception e) {</span>
+<span class="nc" id="L161">                        e.printStackTrace();</span>
+<span class="nc" id="L162">                    }</span>
+<span class="nc" id="L163">                    contentDataLabel.currentCategory = &quot;completed category&quot;;</span>
+<span class="nc" id="L164">                    contentDataLabel.initIcons(contentDataLabel);</span>
+<span class="nc" id="L165">                    completedCategory.add(contentDataLabel);</span>
+<span class="nc" id="L166">                    lastTasksSave.add(contentDataLabel);</span>
+<span class="nc" id="L167">                    completedLine = completed.readLine();</span>
+<span class="nc" id="L168">                }</span>
+<span class="fc" id="L169">                nextCategory.add(newTask);</span>
+<span class="nc" id="L170">            } catch (IOException e) {</span>
+<span class="nc" id="L171">                e.printStackTrace();</span>
+            } finally {
+<span class="fc" id="L173">                next.close();</span>
+            }
+<span class="fc bfc" id="L175" title="All 2 branches covered.">        } else if (type.equals(&quot;grocery list&quot;)) {</span>
+<span class="fc" id="L176">            BufferedReader vegetables = new BufferedReader(new FileReader(&quot;files/vegetables.txt&quot;));</span>
+<span class="fc" id="L177">            BufferedReader vegetablesIcon = new BufferedReader(new FileReader(&quot;files/vegetablesIcon.txt&quot;));</span>
+<span class="fc" id="L178">            BufferedReader fruits = new BufferedReader(new FileReader(&quot;files/fruits.txt&quot;));</span>
+<span class="fc" id="L179">            BufferedReader fruitsIcon = new BufferedReader(new FileReader(&quot;files/fruitsIcon.txt&quot;));</span>
+<span class="fc" id="L180">            BufferedReader drinks = new BufferedReader(new FileReader(&quot;files/drinks.txt&quot;));</span>
+<span class="fc" id="L181">            BufferedReader drinksIcon = new BufferedReader(new FileReader(&quot;files/drinksIcon.txt&quot;));</span>
+<span class="fc" id="L182">            BufferedReader other = new BufferedReader(new FileReader(&quot;files/other.txt&quot;));</span>
+<span class="fc" id="L183">            BufferedReader otherIcon = new BufferedReader(new FileReader(&quot;files/otherIcon.txt&quot;));</span>
+<span class="fc" id="L184">            String vegetablesLine = vegetables.readLine();</span>
+            String vegetablesLineIcon;
+<span class="fc" id="L186">            String fruitsLine = fruits.readLine();</span>
+            String fruitsLineIcon;
+<span class="fc" id="L188">            String drinksLine = drinks.readLine();</span>
+            String drinksLineIcon;
+<span class="fc" id="L190">            String otherLine = other.readLine();</span>
+            String otherLineIcon;
+            try {
+<span class="fc bfc" id="L193" title="All 2 branches covered.">                while (vegetablesLine != null) {</span>
+<span class="fc" id="L194">                    vegetablesLineIcon = vegetablesIcon.readLine();</span>
+<span class="fc" id="L195">                    ListOfItems listOfItems = new ListOfItems(vegetablesLineIcon, &quot;grocery list vegetables&quot;);</span>
+<span class="fc" id="L196">                    listOfItems.textField.setText(vegetablesLine);</span>
+<span class="fc" id="L197">                    vegetablesCategory.add(listOfItems);</span>
+<span class="fc" id="L198">                    lastVegetablesListSave.add(listOfItems);</span>
+<span class="fc" id="L199">                    vegetablesLine = vegetables.readLine();</span>
+<span class="fc" id="L200">                }</span>
+<span class="pc bpc" id="L201" title="1 of 2 branches missed.">                while (fruitsLine != null) {</span>
+<span class="nc" id="L202">                    fruitsLineIcon = fruitsIcon.readLine();</span>
+<span class="nc" id="L203">                    ListOfItems listOfItems = new ListOfItems(fruitsLineIcon, &quot;grocery list fruits&quot;);</span>
+<span class="nc" id="L204">                    listOfItems.textField.setText(fruitsLine);</span>
+<span class="nc" id="L205">                    fruitsCategory.add(listOfItems);</span>
+<span class="nc" id="L206">                    lastFruitsListSave.add(listOfItems);</span>
+<span class="nc" id="L207">                    fruitsLine = fruits.readLine();</span>
+<span class="nc" id="L208">                }</span>
+<span class="pc bpc" id="L209" title="1 of 2 branches missed.">                while (drinksLine != null) {</span>
+<span class="nc" id="L210">                    drinksLineIcon = drinksIcon.readLine();</span>
+<span class="nc" id="L211">                    ListOfItems listOfItems = new ListOfItems(drinksLineIcon, &quot;grocery list drinks&quot;);</span>
+<span class="nc" id="L212">                    listOfItems.textField.setText(drinksLine);</span>
+<span class="nc" id="L213">                    drinksCategory.add(listOfItems);</span>
+<span class="nc" id="L214">                    lastDrinksListSave.add(listOfItems);</span>
+<span class="nc" id="L215">                    drinksLine = drinks.readLine();</span>
+<span class="nc" id="L216">                }</span>
+<span class="pc bpc" id="L217" title="1 of 2 branches missed.">                while (otherLine != null) {</span>
+<span class="nc" id="L218">                    otherLineIcon = otherIcon.readLine();</span>
+<span class="nc" id="L219">                    ListOfItems listOfItems = new ListOfItems(otherLineIcon, &quot;grocery list other&quot;);</span>
+<span class="nc" id="L220">                    listOfItems.textField.setText(otherLine);</span>
+<span class="nc" id="L221">                    otherCategory.add(listOfItems);</span>
+<span class="nc" id="L222">                    lastOtherListSave.add(listOfItems);</span>
+<span class="nc" id="L223">                    otherLine = other.readLine();</span>
+<span class="nc" id="L224">                }</span>
+<span class="fc" id="L225">                vegetablesCategory.add(newVegetable);</span>
+<span class="fc" id="L226">                fruitsCategory.add(newFruit);</span>
+<span class="fc" id="L227">                drinksCategory.add(newDrink);</span>
+<span class="fc" id="L228">                otherCategory.add(newOther);</span>
+<span class="nc" id="L229">            } catch (IOException e) {</span>
+<span class="nc" id="L230">                e.printStackTrace();</span>
+            } finally {
+<span class="fc" id="L232">                vegetables.close();</span>
+<span class="fc" id="L233">                vegetablesIcon.close();</span>
+<span class="fc" id="L234">                fruits.close();</span>
+<span class="fc" id="L235">                fruitsIcon.close();</span>
+<span class="fc" id="L236">                drinks.close();</span>
+<span class="fc" id="L237">                drinksIcon.close();</span>
+<span class="fc" id="L238">                other.close();</span>
+<span class="fc" id="L239">                otherIcon.close();</span>
+            }
+<span class="pc bpc" id="L241" title="1 of 2 branches missed.">        } else if (type.equals(&quot;reading journal&quot;)) {</span>
+<span class="fc" id="L242">            BufferedReader book = new BufferedReader(new FileReader(&quot;files/books.txt&quot;));</span>
+<span class="fc" id="L243">            BufferedReader started = new BufferedReader(new FileReader(&quot;files/started.txt&quot;));</span>
+<span class="fc" id="L244">            BufferedReader finished = new BufferedReader(new FileReader(&quot;files/finished.txt&quot;));</span>
+<span class="fc" id="L245">            String bookLine = book.readLine();</span>
+<span class="fc" id="L246">            String startedLine = started.readLine();</span>
+<span class="fc" id="L247">            String finishedLine = finished.readLine();</span>
+            try {
+<span class="pc bpc" id="L249" title="1 of 2 branches missed.">                while (bookLine != null) {</span>
+<span class="nc" id="L250">                    ListOfItems bookItem = new ListOfItems(ListOfItems.bookIcon, &quot;book&quot;, 14f, 35, 330, 360, true, true);</span>
+<span class="nc" id="L251">                    bookItem.textField.setText(bookLine);</span>
+<span class="nc" id="L252">                    bookNameCategory.add(bookItem);</span>
+<span class="nc" id="L253">                    lastBookListSave.add(bookItem);</span>
+<span class="nc" id="L254">                    bookLine = book.readLine();</span>
+<span class="nc" id="L255">                }</span>
+<span class="pc bpc" id="L256" title="1 of 2 branches missed.">                while (startedLine != null) {</span>
+<span class="nc" id="L257">                    ListOfItems startedItem = new ListOfItems(ListOfItems.bookIcon, &quot;started&quot;, 14f, 35, 330, 360, false, true);</span>
+<span class="nc" id="L258">                    startedItem.textField.setText(bookLine);</span>
+<span class="nc" id="L259">                    startedCategory.add(startedItem);</span>
+<span class="nc" id="L260">                    lastStartedListSave.add(startedItem);</span>
+<span class="nc" id="L261">                    startedLine = started.readLine();</span>
+<span class="nc" id="L262">                }</span>
+<span class="pc bpc" id="L263" title="1 of 2 branches missed.">                while (finishedLine != null) {</span>
+<span class="nc" id="L264">                    ListOfItems finishedItem = new ListOfItems(ListOfItems.bookIcon, &quot;finished&quot;, 14f, 35, 330, 360, false, true);</span>
+<span class="nc" id="L265">                    finishedItem.textField.setText(finishedLine);</span>
+<span class="nc" id="L266">                    finishedCategory.add(finishedItem);</span>
+<span class="nc" id="L267">                    lastFinishedListSave.add(finishedItem);</span>
+<span class="nc" id="L268">                    finishedLine = finished.readLine();</span>
+<span class="nc" id="L269">                }</span>
+<span class="fc" id="L270">                bookNameCategory.add(newBook);</span>
+<span class="nc" id="L271">            } catch (IOException e) {</span>
+<span class="nc" id="L272">                e.printStackTrace();</span>
+            } finally {
+<span class="fc" id="L274">                book.close();</span>
+<span class="fc" id="L275">                started.close();</span>
+<span class="fc" id="L276">                finished.close();</span>
+            }
+        }
+
+<span class="fc" id="L280">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

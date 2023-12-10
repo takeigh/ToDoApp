@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MenuCommands.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Test Gradle</a> &gt; <a href="index.source.html" class="el_package">com.zynozin</a> &gt; <span class="el_source">MenuCommands.java</span></div><h1>MenuCommands.java</h1><pre class="source lang-java linenums">package com.zynozin;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class MenuCommands extends JPanel {
+<span class="fc" id="L7">    private MenuOption calendar = new MenuOption(&quot;Calendar&quot;);</span>
+<span class="fc" id="L8">    private MenuOption tasksList = new MenuOption(&quot;Tasks List&quot;);</span>
+<span class="fc" id="L9">    private MenuOption projectIdeas = new MenuOption(&quot;Project Ideas&quot;);</span>
+<span class="fc" id="L10">    private MenuOption groceryList = new MenuOption(&quot;Grocery List&quot;);</span>
+<span class="fc" id="L11">    private MenuOption checkList = new MenuOption(&quot;Checklist&quot;);</span>
+<span class="fc" id="L12">    private MenuOption readingJournal = new MenuOption(&quot;Reading Journal&quot;);</span>
+<span class="fc" id="L13">    private MenuOption notes = new MenuOption(&quot;Notes&quot;);</span>
+<span class="fc" id="L14">    private MenuOption wishList = new MenuOption(&quot;Wishlist&quot;);</span>
+
+<span class="fc" id="L16">    public MenuCommands() {</span>
+<span class="fc" id="L17">        this.setPreferredSize(new Dimension(178, 500));</span>
+<span class="fc" id="L18">        this.setOpaque(false);</span>
+<span class="fc" id="L19">        this.setLayout(new FlowLayout());</span>
+<span class="fc" id="L20">        this.add(calendar);</span>
+<span class="fc" id="L21">        this.add(tasksList);</span>
+<span class="fc" id="L22">        this.add(projectIdeas);</span>
+<span class="fc" id="L23">        this.add(groceryList);</span>
+<span class="fc" id="L24">        this.add(checkList);</span>
+<span class="fc" id="L25">        this.add(readingJournal);</span>
+<span class="fc" id="L26">        this.add(notes);</span>
+<span class="fc" id="L27">        this.add(wishList);</span>
+<span class="fc" id="L28">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

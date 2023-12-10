@@ -1,4 +1,5 @@
 package tests;
+import org.junit.jupiter.api.Test;
 
 import com.zynozin.ContentDataLabel;
 import org.junit.*;

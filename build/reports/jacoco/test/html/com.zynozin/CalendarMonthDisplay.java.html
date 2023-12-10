@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CalendarMonthDisplay.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Test Gradle</a> &gt; <a href="index.source.html" class="el_package">com.zynozin</a> &gt; <span class="el_source">CalendarMonthDisplay.java</span></div><h1>CalendarMonthDisplay.java</h1><pre class="source lang-java linenums">package com.zynozin;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import java.awt.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.time.LocalDate;
+import java.time.Month;
+
+public class CalendarMonthDisplay extends JPanel {
+    static Month displayedMonth;
+    static int displayedYear;
+<span class="fc" id="L15">    static final String[] daysOfWeek = {&quot;Sun&quot;, &quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;, &quot;Sat&quot;};</span>
+
+<span class="fc" id="L17">    public CalendarMonthDisplay() {</span>
+<span class="fc" id="L18">        setBackground(new Color(37, 37, 37));</span>
+<span class="fc" id="L19">        setLayout(new FlowLayout());</span>
+<span class="fc" id="L20">        setOpaque(false);</span>
+
+<span class="fc" id="L22">        setPreferredSize(new Dimension(1120, 500));</span>
+
+<span class="fc" id="L24">        displayedMonth = CalendarPanel.displayedMonth;</span>
+<span class="fc" id="L25">        displayedYear = CalendarPanel.displayedYear;</span>
+
+<span class="fc" id="L27">        setDayHeader();</span>
+<span class="fc" id="L28">        setDayNumbers();</span>
+<span class="fc" id="L29">    }</span>
+
+    public void setDayHeader() {
+<span class="fc" id="L32">        JPanel headers = new JPanel(new FlowLayout());</span>
+
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        for (int i = 0; i &lt; 7; i++) {</span>
+<span class="fc" id="L35">            JLabel dayLabel = new JLabel(daysOfWeek[i]);</span>
+<span class="fc" id="L36">            dayLabel.setBackground(Color.LIGHT_GRAY);</span>
+<span class="fc" id="L37">            dayLabel.setForeground(Color.BLACK);</span>
+<span class="fc" id="L38">            dayLabel.setFont(Main.getFontforApp(18f, &quot;fonts/Montserrat-Regular.ttf&quot;));</span>
+<span class="fc" id="L39">            dayLabel.setPreferredSize(new Dimension(142,20));</span>
+<span class="fc" id="L40">            dayLabel.setHorizontalAlignment(SwingConstants.CENTER);</span>
+<span class="fc" id="L41">            dayLabel.setOpaque(true);</span>
+<span class="fc" id="L42">            headers.add(dayLabel);</span>
+        }
+
+<span class="fc" id="L45">        add(headers);</span>
+<span class="fc" id="L46">    }</span>
+
+    public void setDayNumbers() {
+<span class="fc" id="L49">        JPanel dates = new JPanel(new FlowLayout(FlowLayout.LEFT,0,0));</span>
+<span class="fc" id="L50">        dates.setVisible(false);</span>
+<span class="fc" id="L51">        dates.removeAll();</span>
+<span class="fc" id="L52">        dates.setVisible(true);</span>
+
+<span class="fc" id="L54">        dates.setPreferredSize(new Dimension(1034,500));</span>
+
+<span class="fc" id="L56">        int d = monthStart();</span>
+<span class="fc" id="L57">        int monthDay = 1;</span>
+<span class="fc" id="L58">        int numWeeks = (int) Math.ceil((double)(displayedMonth.length(LocalDate.of(displayedYear, 1, 1).isLeapYear()) + d) / 7);</span>
+
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        for (int i = 1; i &lt;= numWeeks; i++) {</span>
+<span class="fc" id="L61">            JPanel week = new JPanel(new FlowLayout());</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">            if (i == 1) {</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">                for (int j = 0; j &lt; 7; j++) {</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">                    if (j &lt; d) {</span>
+<span class="fc" id="L65">                        JLabel emptyEntry = createEmptyEntry();</span>
+<span class="fc" id="L66">                        week.add(emptyEntry);</span>
+<span class="fc" id="L67">                    } else {</span>
+<span class="fc" id="L68">                        JPanel dateEntry = createDayEntry(monthDay++);</span>
+<span class="fc" id="L69">                        week.add(dateEntry);</span>
+                    }
+                }
+            } else {
+<span class="fc bfc" id="L73" title="All 2 branches covered.">                for(int j = 0; j &lt; 7; j++) {</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">                    if (monthDay &lt;= displayedMonth.length(LocalDate.of(displayedYear, 1, 1).isLeapYear())) {</span>
+<span class="fc" id="L75">                        JPanel dateEntry = createDayEntry(monthDay++);</span>
+<span class="fc" id="L76">                        week.add(dateEntry);</span>
+<span class="fc" id="L77">                    } else {</span>
+<span class="fc" id="L78">                        JLabel emptyEntry = createEmptyEntry();</span>
+<span class="fc" id="L79">                        week.add(emptyEntry);</span>
+                    }
+                }
+            }
+
+<span class="fc" id="L84">            dates.add(week);</span>
+        }
+
+<span class="fc" id="L87">        add(dates);</span>
+<span class="fc" id="L88">    }</span>
+
+    public int monthStart() {
+<span class="fc" id="L91">        String monthStartDay = LocalDate.of(displayedYear, displayedMonth, 1).getDayOfWeek().toString();</span>
+<span class="fc" id="L92">        int d = 0;</span>
+<span class="pc bpc" id="L93" title="5 of 8 branches missed.">        switch (monthStartDay) {</span>
+            case &quot;SUNDAY&quot;:
+<span class="nc" id="L95">                break;</span>
+            case &quot;MONDAY&quot;:
+<span class="fc" id="L97">                d = 1;</span>
+<span class="fc" id="L98">                break;</span>
+            case &quot;TUESDAY&quot;:
+<span class="nc" id="L100">                d = 2;</span>
+<span class="nc" id="L101">                break;</span>
+            case &quot;WEDNESDAY&quot;:
+<span class="fc" id="L103">                d = 3;</span>
+<span class="fc" id="L104">                break;</span>
+            case &quot;THURSDAY&quot;:
+<span class="nc" id="L106">                d = 4;</span>
+<span class="nc" id="L107">                break;</span>
+            case &quot;FRIDAY&quot;:
+<span class="fc" id="L109">                d = 5;</span>
+<span class="fc" id="L110">                break;</span>
+            case &quot;SATURDAY&quot;:
+<span class="nc" id="L112">                d = 6;</span>
+                break;
+        }
+
+<span class="fc" id="L116">        return d;</span>
+    }
+
+    private JLabel createEmptyEntry() {
+<span class="fc" id="L120">        JLabel emptyEntry = new JLabel();</span>
+<span class="fc" id="L121">        emptyEntry.setBorder(new LineBorder(new Color(37, 37, 37)));</span>
+<span class="fc" id="L122">        emptyEntry.setPreferredSize(new Dimension(142,45));</span>
+<span class="fc" id="L123">        emptyEntry.setOpaque(true);</span>
+<span class="fc" id="L124">        return emptyEntry;</span>
+    }
+
+    private JPanel createDayEntry(int dayNumber) {
+<span class="fc" id="L128">        JPanel dayEntry = new JPanel();</span>
+<span class="fc" id="L129">        dayEntry.setVisible(false);</span>
+<span class="fc" id="L130">        dayEntry.removeAll();</span>
+<span class="fc" id="L131">        dayEntry.setVisible(true);</span>
+
+<span class="fc" id="L133">        dayEntry.setBorder(new LineBorder(new Color(37, 37, 37)));</span>
+<span class="fc" id="L134">        dayEntry.setPreferredSize(new Dimension(142, 45));</span>
+<span class="fc" id="L135">        dayEntry.setOpaque(true);</span>
+<span class="fc" id="L136">        dayEntry.setLayout(new FlowLayout());</span>
+
+<span class="fc" id="L138">        JLabel dayNumberLabel = new JLabel(Integer.toString(dayNumber));</span>
+<span class="fc" id="L139">        dayNumberLabel.setOpaque(false);</span>
+<span class="fc" id="L140">        dayNumberLabel.setHorizontalAlignment(SwingConstants.RIGHT);</span>
+<span class="fc" id="L141">        dayNumberLabel.setVerticalAlignment(SwingConstants.TOP);</span>
+<span class="fc" id="L142">        dayNumberLabel.setForeground(Color.BLACK);</span>
+<span class="fc" id="L143">        dayNumberLabel.setPreferredSize(new Dimension(142, 15));</span>
+<span class="fc" id="L144">        dayNumberLabel.setBorder(new EmptyBorder(0,0,0,8));</span>
+
+<span class="fc" id="L146">        int taskNum = countTasks(dayNumber);</span>
+
+<span class="fc" id="L148">        JLabel taskCount = new JLabel(&quot;Tasks Due: &quot; + taskNum);</span>
+<span class="fc" id="L149">        taskCount.setOpaque(false);</span>
+<span class="fc" id="L150">        taskCount.setHorizontalAlignment(SwingConstants.LEFT);</span>
+<span class="fc" id="L151">        taskCount.setVerticalAlignment(SwingConstants.BOTTOM);</span>
+<span class="fc" id="L152">        taskCount.setForeground(Color.BLACK);</span>
+<span class="fc" id="L153">        taskCount.setPreferredSize(new Dimension(142, 20));</span>
+<span class="fc" id="L154">        taskCount.setBorder(new EmptyBorder(0,8,0,0));</span>
+
+<span class="fc" id="L156">        dayEntry.add(dayNumberLabel);</span>
+<span class="pc bpc" id="L157" title="1 of 2 branches missed.">        if (taskNum != 0) {</span>
+<span class="nc" id="L158">            dayEntry.add(taskCount);</span>
+        }
+<span class="fc" id="L160">        return dayEntry;</span>
+    }
+
+    public void updateDisplay() {
+<span class="fc" id="L164">        displayedMonth = CalendarPanel.displayedMonth;</span>
+<span class="fc" id="L165">        displayedYear = CalendarPanel.displayedYear;</span>
+
+<span class="fc" id="L167">        this.setVisible(false);</span>
+<span class="fc" id="L168">        removeAll();</span>
+
+<span class="fc" id="L170">        setDayHeader();</span>
+<span class="fc" id="L171">        setDayNumbers();</span>
+<span class="fc" id="L172">        this.setVisible(true);</span>
+<span class="fc" id="L173">    }</span>
+
+    public int countTasks(int dayNumber) {
+<span class="fc" id="L176">        int count = 0;</span>
+        try {
+<span class="fc" id="L178">            BufferedReader next = new BufferedReader(new FileReader(&quot;files/nextUp.txt&quot;));</span>
+<span class="fc" id="L179">            BufferedReader inProgress = new BufferedReader(new FileReader(&quot;files/inProgress.txt&quot;));</span>
+
+<span class="fc" id="L181">            String nextLine = next.readLine();</span>
+<span class="fc" id="L182">            String inProgressLine = inProgress.readLine();</span>
+
+<span class="fc" id="L184">            int currentMonth = displayedMonth.getValue();</span>
+
+<span class="pc bpc" id="L186" title="1 of 2 branches missed.">            while (nextLine != null) {</span>
+<span class="nc" id="L187">                nextLine = nextLine.substring(nextLine.indexOf(',') + 1);</span>
+<span class="nc" id="L188">                int year = Integer.parseInt(nextLine.substring(0, 4));</span>
+<span class="nc" id="L189">                int month = Integer.parseInt(nextLine.substring(5, 7));</span>
+<span class="nc" id="L190">                int day = Integer.parseInt(nextLine.substring(8, 10));</span>
+
+<span class="nc bnc" id="L192" title="All 6 branches missed.">                if (year == displayedYear &amp;&amp; month == currentMonth &amp;&amp; day == dayNumber) {</span>
+<span class="nc" id="L193">                    count++;</span>
+                }
+
+<span class="nc" id="L196">                nextLine = next.readLine();</span>
+<span class="nc" id="L197">            }</span>
+
+<span class="pc bpc" id="L199" title="1 of 2 branches missed.">            while (inProgressLine != null) {</span>
+<span class="nc" id="L200">                inProgressLine = inProgressLine.substring(inProgressLine.indexOf(',') + 1);</span>
+<span class="nc" id="L201">                int year = Integer.parseInt(inProgressLine.substring(0, 4));</span>
+<span class="nc" id="L202">                int month = Integer.parseInt(inProgressLine.substring(5, 7));</span>
+<span class="nc" id="L203">                int day = Integer.parseInt(inProgressLine.substring(8, 10));</span>
+
+<span class="nc bnc" id="L205" title="All 6 branches missed.">                if (year == displayedYear &amp;&amp; month == currentMonth &amp;&amp; day == dayNumber) {</span>
+<span class="nc" id="L206">                    count++;</span>
+                }
+
+<span class="nc" id="L209">                inProgressLine = inProgress.readLine();</span>
+<span class="nc" id="L210">            }</span>
+
+<span class="nc" id="L212">        } catch (Exception ignored){</span>
+
+<span class="fc" id="L214">        }</span>
+
+<span class="fc" id="L216">        return count;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

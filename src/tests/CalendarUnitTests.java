@@ -1,24 +1,24 @@
 package tests;
 
 import com.zynozin.*;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.time.*;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CalendarUnitTests {
 
-    @Before
+    @BeforeEach
     public void setUp() {
         CalendarPanel.displayedMonth = LocalDate.now().getMonth();
         CalendarPanel.displayedYear = LocalDate.now().getYear();
     }
 
     @Test
-    public void CheckInitialHeaderTest() {
+    public void checkInitialHeaderTest() {
         CalendarPanel calendarPanel = new CalendarPanel();
 
         Component[] components = calendarPanel.headerPanel.getComponents();
@@ -38,7 +38,7 @@ public class CalendarUnitTests {
     }
 
     @Test
-    public void CheckNextHeaderTest() {
+    public void checkNextHeaderTest() {
         CalendarPanel calendarPanel = new CalendarPanel();
 
         calendarPanel.nextMonthButton.nextMonth();
@@ -60,7 +60,7 @@ public class CalendarUnitTests {
     }
 
     @Test
-    public void CheckPrevHeaderTest() {
+    public void checkPrevHeaderTest() {
         CalendarPanel calendarPanel = new CalendarPanel();
 
         calendarPanel.prevMonthButton.prevMonth();
@@ -82,31 +82,31 @@ public class CalendarUnitTests {
     }
 
     @Test
-    public void CheckWeekDaysTest() {
+    public void checkWeekDaysTest() {
         CalendarPanel calendarPanel = new CalendarPanel();
 
         final String[] daysOfWeek = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
-        JPanel days = (JPanel)calendarPanel.calendarDisplay.getComponent(0);
+        JPanel days = (JPanel) calendarPanel.calendarDisplay.getComponent(0);
         Component[] components = days.getComponents();
 
         for (int i = 0; i < 7; i++) {
-            JLabel label = (JLabel)components[i];
+            JLabel label = (JLabel) components[i];
 
             assertEquals(label.getText(), daysOfWeek[i]);
         }
     }
 
     @Test
-    public void CheckCorrectStartDayTest() {
+    public void checkCorrectStartDayTest() {
         CalendarPanel calendarPanel = new CalendarPanel();
 
-        JPanel dayEntries = (JPanel)calendarPanel.calendarDisplay.getComponent(1);
+        JPanel dayEntries = (JPanel) calendarPanel.calendarDisplay.getComponent(1);
         Component[] weeks = dayEntries.getComponents();
 
         int emptyEntries = 0;
 
-        JPanel week1 = (JPanel)weeks[0];
+        JPanel week1 = (JPanel) weeks[0];
         Component[] week1Days = week1.getComponents();
 
         for (Component c : week1Days) {
@@ -121,17 +121,17 @@ public class CalendarUnitTests {
     }
 
     @Test
-    public void CheckCorrectNumberDaysTest() {
+    public void checkCorrectNumberDaysTest() {
         CalendarPanel calendarPanel = new CalendarPanel();
 
-        JPanel dayEntries = (JPanel)calendarPanel.calendarDisplay.getComponent(1);
+        JPanel dayEntries = (JPanel) calendarPanel.calendarDisplay.getComponent(1);
         Component[] weeks = dayEntries.getComponents();
 
         int actualNumDays = LocalDate.now().getMonth().length(LocalDate.now().isLeapYear());
         int numDays = 0;
 
         for (Component co : weeks) {
-            JPanel week = (JPanel)co;
+            JPanel week = (JPanel) co;
             Component[] days = week.getComponents();
 
             for (Component c : days) {
@@ -145,28 +145,28 @@ public class CalendarUnitTests {
     }
 
     @Test
-    public void CheckCorrectTaskCountTest() {
+    public void checkCorrectTaskCountTest() {
         CalendarPanel calendarPanel = new CalendarPanel();
 
-        JPanel dayEntries = (JPanel)calendarPanel.calendarDisplay.getComponent(1);
+        JPanel dayEntries = (JPanel) calendarPanel.calendarDisplay.getComponent(1);
         Component[] weeks = dayEntries.getComponents();
 
         int taskPerDay = 0;
         int actualTaskPerDay = 0;
 
         for (Component co : weeks) {
-            JPanel week = (JPanel)co;
+            JPanel week = (JPanel) co;
             Component[] days = week.getComponents();
 
             for (Component c : days) {
                 if (c instanceof JPanel) {
-                    JPanel dayEntry = (JPanel)c;
+                    JPanel dayEntry = (JPanel) c;
 
                     Component[] dayParts = dayEntry.getComponents();
 
                     if (dayParts.length == 2) {
-                        JLabel dayNum = (JLabel)dayParts[0];
-                        JLabel taskCount = (JLabel)dayParts[1];
+                        JLabel dayNum = (JLabel) dayParts[0];
+                        JLabel taskCount = (JLabel) dayParts[1];
 
                         taskPerDay = Integer.parseInt(taskCount.getText());
                         actualTaskPerDay = calendarPanel.calendarDisplay.countTasks(Integer.parseInt(dayNum.getText()));

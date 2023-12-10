@@ -1,25 +1,26 @@
 package tests;
 
 import com.zynozin.NewTask;
-import org.junit.*;
+import org.junit.jupiter.api.*;
+
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class NewTaskTest {
 
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         System.setOut(new PrintStream(outputStreamCaptor));
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         System.setOut(originalOut);
     }
@@ -165,5 +166,4 @@ public class NewTaskTest {
         // Assert: Check if the appropriate message is printed
         assertEquals("Due Date is in the past: 2022-01-01" + System.lineSeparator() + "", outputStreamCaptor.toString());
     }
-
 }

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ListOfItems.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Test Gradle</a> &gt; <a href="index.source.html" class="el_package">com.zynozin</a> &gt; <span class="el_source">ListOfItems.java</span></div><h1>ListOfItems.java</h1><pre class="source lang-java linenums">package com.zynozin;
+
+import components.DocumentSizeFilter;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
+import javax.swing.text.DefaultStyledDocument;
+import java.awt.*;
+
+public class ListOfItems extends JLabel {
+    public JTextField textField;
+    public CheckBox checklistBox;
+    public CheckBox ideaBox;
+<span class="pc" id="L15">    private Font projectsFont = Main.getFontforApp(18f, &quot;fonts/Montserrat-Light.ttf&quot;);</span>
+<span class="pc" id="L16">    private final DefaultStyledDocument doc = new DefaultStyledDocument();</span>
+    private ContentDataCommands delete;
+<span class="fc" id="L18">    public static ImageIcon trashIcon = new ImageIcon(&quot;images/delete.png&quot;);</span>
+<span class="fc" id="L19">    public static ImageIcon checkedIcon = new ImageIcon(&quot;images/checked.png&quot;);</span>
+<span class="fc" id="L20">    public static ImageIcon wishIcon = new ImageIcon(&quot;images/wish.png&quot;);</span>
+<span class="fc" id="L21">    public static ImageIcon bookIcon = new ImageIcon(&quot;images/book.png&quot;);</span>
+
+<span class="nc" id="L23">    public ListOfItems(ImageIcon imageIcon, String deleteTitle, float size, int maxChars, int textWidth, int listWidth, Boolean hasIcon, Boolean hasDelete) {</span>
+<span class="nc" id="L24">        textField = new JTextField();</span>
+<span class="nc" id="L25">        projectsFont = Main.getFontforApp(size, &quot;fonts/Montserrat-Light.ttf&quot;);</span>
+<span class="nc" id="L26">        ideaBox = new CheckBox(imageIcon);</span>
+<span class="nc" id="L27">        textField.setOpaque(false);</span>
+<span class="nc" id="L28">        textField.setBackground(new Color(37, 37, 37));</span>
+<span class="nc" id="L29">        textField.setPreferredSize(new Dimension(textWidth, 10));</span>
+<span class="nc" id="L30">        textField.setBorder(new EmptyBorder(0, 5, 0, 5));</span>
+<span class="nc" id="L31">        textField.setForeground(Color.WHITE);</span>
+<span class="nc" id="L32">        textField.setFont(projectsFont);</span>
+<span class="nc" id="L33">        textField.setCaretColor(Color.WHITE);</span>
+<span class="nc" id="L34">        doc.setDocumentFilter(new DocumentSizeFilter(maxChars));</span>
+<span class="nc" id="L35">        textField.setDocument(doc);</span>
+<span class="nc" id="L36">        delete = new ContentDataCommands(trashIcon, deleteTitle, this);</span>
+<span class="nc" id="L37">        setOpaque(false);</span>
+<span class="nc" id="L38">        setBackground(new Color(37, 37, 37));</span>
+<span class="nc" id="L39">        setBorder(new MatteBorder(0, 0, 1, 0, Color.DARK_GRAY));</span>
+<span class="nc" id="L40">        setOpaque(true);</span>
+<span class="nc" id="L41">        setPreferredSize(new Dimension(listWidth, 30));</span>
+<span class="nc" id="L42">        setLayout(new BorderLayout());</span>
+<span class="nc" id="L43">        add(textField, BorderLayout.CENTER);</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        if (hasIcon.equals(true))</span>
+<span class="nc" id="L45">            add(ideaBox, BorderLayout.WEST);</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        if (hasDelete.equals(true))</span>
+<span class="nc" id="L47">            add(delete, BorderLayout.EAST);</span>
+
+<span class="nc" id="L49">    }</span>
+
+
+<span class="fc" id="L52">    public ListOfItems(String state, String title) {</span>
+<span class="fc" id="L53">        projectsFont = Main.getFontforApp(18f, &quot;fonts/Montserrat-Light.ttf&quot;);</span>
+<span class="fc" id="L54">        textField = new JTextField();</span>
+<span class="fc" id="L55">        checklistBox = new CheckBox(this);</span>
+<span class="fc" id="L56">        textField.setOpaque(false);</span>
+<span class="fc" id="L57">        textField.setBackground(new Color(37, 37, 37));</span>
+<span class="fc" id="L58">        textField.setPreferredSize(new Dimension(600, 10));</span>
+<span class="fc" id="L59">        textField.setBorder(new EmptyBorder(0, 5, 0, 5));</span>
+<span class="fc" id="L60">        textField.setForeground(Color.WHITE);</span>
+<span class="fc" id="L61">        textField.setFont(projectsFont);</span>
+<span class="fc" id="L62">        textField.setCaretColor(Color.WHITE);</span>
+<span class="fc" id="L63">        doc.setDocumentFilter(new DocumentSizeFilter(80));</span>
+<span class="fc" id="L64">        textField.setDocument(doc);</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        if (state.equals(&quot;true&quot;)) {</span>
+<span class="fc" id="L66">            checklistBox.setIcon(checkedIcon);</span>
+<span class="fc" id="L67">            this.textField.setForeground(Color.DARK_GRAY);</span>
+<span class="fc" id="L68">            this.textField.setEditable(false);</span>
+<span class="fc" id="L69">            checklistBox.isChecked = true;</span>
+        } else {
+<span class="fc" id="L71">            checklistBox.isChecked = false;</span>
+        }
+<span class="fc" id="L73">        delete = new ContentDataCommands(trashIcon, title, this);</span>
+<span class="fc" id="L74">        setOpaque(false);</span>
+<span class="fc" id="L75">        setBackground(new Color(37, 37, 37));</span>
+<span class="fc" id="L76">        setBorder(new MatteBorder(0, 0, 1, 0, Color.DARK_GRAY));</span>
+<span class="fc" id="L77">        setOpaque(true);</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        if (title.equals(&quot;checklist&quot;))</span>
+<span class="fc" id="L79">            setPreferredSize(new Dimension(900, 25));</span>
+        else
+<span class="fc" id="L81">            setPreferredSize(new Dimension(250, 25));</span>
+<span class="fc" id="L82">        setLayout(new BorderLayout());</span>
+<span class="fc" id="L83">        add(textField, BorderLayout.CENTER);</span>
+<span class="fc" id="L84">        add(checklistBox, BorderLayout.WEST);</span>
+<span class="fc" id="L85">        add(delete, BorderLayout.EAST);</span>
+<span class="fc" id="L86">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

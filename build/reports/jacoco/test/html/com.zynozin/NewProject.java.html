@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NewProject.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Test Gradle</a> &gt; <a href="index.source.html" class="el_package">com.zynozin</a> &gt; <span class="el_source">NewProject.java</span></div><h1>NewProject.java</h1><pre class="source lang-java linenums">package com.zynozin;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+public class NewProject extends JLabel implements MouseListener {
+<span class="fc" id="L10">    private final Font newFont = Main.getFontforApp(18f, &quot;fonts/Montserrat-Regular.ttf&quot;);</span>
+    String title;
+
+<span class="fc" id="L13">    NewProject() {</span>
+<span class="fc" id="L14">        this.title = &quot;Project Idea&quot;;</span>
+<span class="fc" id="L15">        setBackground(new Color(37, 37, 37));</span>
+<span class="fc" id="L16">        setOpaque(true);</span>
+<span class="fc" id="L17">        setText(&quot;+ New&quot;);</span>
+<span class="fc" id="L18">        setForeground(Color.LIGHT_GRAY);</span>
+<span class="fc" id="L19">        this.setPreferredSize(new Dimension(900, 30));</span>
+<span class="fc" id="L20">        this.addMouseListener(this);</span>
+<span class="fc" id="L21">        setFont(newFont);</span>
+<span class="fc" id="L22">    }</span>
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+<span class="nc" id="L27">    }</span>
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+<span class="nc" id="L31">        ProjectEntry entry = new ProjectEntry();</span>
+<span class="nc" id="L32">        entry.setPreferredSize(new Dimension(900, 100));</span>
+<span class="nc" id="L33">        entry.setBorder(new EmptyBorder(1, 1, 1, 1));</span>
+<span class="nc" id="L34">        entry.titleField.setPreferredSize(new Dimension(900, 30));</span>
+<span class="nc" id="L35">        entry.titleField.setBorder(new EmptyBorder(5, 5, 5, 5));</span>
+<span class="nc" id="L36">        entry.descriptionField.setPreferredSize((new Dimension(900, 500)));</span>
+<span class="nc" id="L37">        entry.descriptionField.setBorder(new EmptyBorder(5, 5, 10, 5));</span>
+
+<span class="nc" id="L39">        this.setVisible(false);</span>
+<span class="nc" id="L40">        MainContent.ideaPanel.add(entry);</span>
+<span class="nc" id="L41">        MainContent.ideaPanel.add(this);</span>
+<span class="nc" id="L42">        this.setVisible(true);</span>
+<span class="nc" id="L43">        ProjectPanel.lastIdeaListSave.add(entry);</span>
+<span class="nc" id="L44">    }</span>
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+<span class="nc" id="L49">    }</span>
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+<span class="nc" id="L53">        this.setBackground(Color.DARK_GRAY);</span>
+<span class="nc" id="L54">    }</span>
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+<span class="nc" id="L58">        this.setBackground(new Color(37, 37, 37));</span>
+<span class="nc" id="L59">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

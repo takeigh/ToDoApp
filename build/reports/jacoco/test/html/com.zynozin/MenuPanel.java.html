@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MenuPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Test Gradle</a> &gt; <a href="index.source.html" class="el_package">com.zynozin</a> &gt; <span class="el_source">MenuPanel.java</span></div><h1>MenuPanel.java</h1><pre class="source lang-java linenums">package com.zynozin;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class MenuPanel extends JPanel {
+<span class="fc" id="L7">    private JLabel signature = new JLabel();</span>
+<span class="fc" id="L8">    private Font signatureFont = Main.getFontforApp(11f, &quot;fonts/Montserrat-ThinItalic.ttf&quot;);</span>
+    private MenuCommands menuCommands;
+
+<span class="fc" id="L11">    public MenuPanel() {</span>
+<span class="fc" id="L12">        menuCommands = new MenuCommands();</span>
+<span class="fc" id="L13">        signature.setText(&quot;Created by Zyno&quot;);</span>
+<span class="fc" id="L14">        signature.setFont(signatureFont);</span>
+<span class="fc" id="L15">        signature.setForeground(Color.white);</span>
+<span class="fc" id="L16">        this.setLayout(new BorderLayout());</span>
+<span class="fc" id="L17">        this.add(menuCommands, BorderLayout.NORTH);</span>
+<span class="fc" id="L18">        this.add(signature, BorderLayout.SOUTH);</span>
+<span class="fc" id="L19">        this.setOpaque(true);</span>
+<span class="fc" id="L20">        this.setPreferredSize(new Dimension(178, MyFrame.HEIGHT));</span>
+<span class="fc" id="L21">        this.setBackground(new Color(64, 64, 64));</span>
+<span class="fc" id="L22">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

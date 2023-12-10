@@ -1,8 +1,8 @@
 package tests;
+import org.junit.jupiter.api.Test;
 import static org.junit.Assert.*;
 
 import com.zynozin.NewTask;
-import org.junit.Test;
 
 import java.time.LocalDate;
 

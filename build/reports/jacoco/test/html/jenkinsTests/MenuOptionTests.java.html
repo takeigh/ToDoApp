@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MenuOptionTests.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Test Gradle</a> &gt; <a href="index.source.html" class="el_package">jenkinsTests</a> &gt; <span class="el_source">MenuOptionTests.java</span></div><h1>MenuOptionTests.java</h1><pre class="source lang-java linenums">package jenkinsTests;
+
+import com.zynozin.*;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.awt.event.MouseEvent;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import static org.junit.Assert.*;
+
+
+<span class="nc" id="L15">public class MenuOptionTests {</span>
+
+    @Before
+    public void setUp() throws IOException {
+        // Initialize necessary components before each test
+<span class="nc" id="L20">        MyFrame mainFrame = new MyFrame();</span>
+<span class="nc" id="L21">        MainContent.tasksContentScrollPane = new ModernScrollPane(new ContentDataPanel(&quot;taskslist&quot;));</span>
+<span class="nc" id="L22">        MainContent.mainContent = new MainContent();</span>
+<span class="nc" id="L23">    }</span>
+    private boolean isOnlyPanelVisible(String panelName) {
+<span class="nc bnc" id="L25" title="All 8 branches missed.">        switch (panelName) {</span>
+            case &quot;Tasks List&quot;:
+<span class="nc" id="L27">                return MainContent.tasksContentScrollPane.isVisible();</span>
+            case &quot;Notes&quot;:
+<span class="nc" id="L29">                return MainContent.notesPanel.isVisible();</span>
+            case &quot;Project Ideas&quot;:
+<span class="nc bnc" id="L31" title="All 4 branches missed.">                return MainContent.ideaScrollPane.isVisible() &amp;&amp; MainContent.ideaPanel.isVisible();</span>
+            case &quot;Reading Journal&quot;:
+<span class="nc" id="L33">                return MainContent.bookScrollPane.isVisible();</span>
+            case &quot;Calendar&quot;:
+<span class="nc" id="L35">                return MainContent.calendarPanel.isVisible();</span>
+            case &quot;Grocery List&quot;:
+<span class="nc" id="L37">                return MainContent.groceryScrollPane.isVisible();</span>
+            case &quot;Wishlist&quot;:
+<span class="nc bnc" id="L39" title="All 4 branches missed.">                return MainContent.wishlistScrollPane.isVisible() &amp;&amp; MainContent.wishlistPanel.isVisible();</span>
+            default:
+<span class="nc" id="L41">                return false;</span>
+        }
+    }
+    @Test
+    public void testTaskListClick() {
+        // Create a MenuOption instance
+<span class="nc" id="L47">        MenuOption menuOption = new MenuOption(&quot;Tasks List&quot;);</span>
+
+        // Verify the initial state
+<span class="nc" id="L50">        assertTrue(MainContent.tasksContentScrollPane.isVisible());</span>
+
+        // Simulate a mouse click event
+<span class="nc" id="L53">        MouseEvent clickEvent = new MouseEvent(menuOption, MouseEvent.MOUSE_PRESSED, System.currentTimeMillis(),</span>
+                0, 0, 0, 0, false);
+<span class="nc" id="L55">        menuOption.mousePressed(clickEvent);</span>
+
+        // Assert the overall logic
+<span class="nc" id="L58">        assertEquals(&quot;Tasks List.&quot;, MainContent.mainContent.getContentHeader().getTitleText());</span>
+<span class="nc" id="L59">        assertTrue(isOnlyPanelVisible(&quot;Tasks List&quot;));</span>
+<span class="nc" id="L60">        assertFalse(isOnlyPanelVisible(&quot;Notes&quot;));</span>
+<span class="nc" id="L61">        assertFalse(isOnlyPanelVisible(&quot;Project Ideas&quot;));</span>
+<span class="nc" id="L62">        assertFalse(isOnlyPanelVisible(&quot;Reading Journal&quot;));</span>
+<span class="nc" id="L63">        assertFalse(isOnlyPanelVisible(&quot;Calendar&quot;));</span>
+<span class="nc" id="L64">        assertFalse(isOnlyPanelVisible(&quot;Grocery List&quot;));</span>
+<span class="nc" id="L65">        assertFalse(isOnlyPanelVisible(&quot;wishlist&quot;));</span>
+
+<span class="nc" id="L67">    }</span>
+    @Test
+    public void testNotesPanelClick() {
+<span class="nc" id="L70">        MenuOption menuOption = new MenuOption(&quot;Notes&quot;);</span>
+
+        // Verify the initial state
+<span class="nc" id="L73">        assertTrue(MainContent.notesPanel.isVisible());</span>
+
+<span class="nc" id="L75">        MouseEvent clickEvent = new MouseEvent(menuOption, MouseEvent.MOUSE_PRESSED, System.currentTimeMillis(),</span>
+                0, 0, 0, 0, false);
+<span class="nc" id="L77">        menuOption.mousePressed(clickEvent);</span>
+
+<span class="nc" id="L79">        assertFalse(isOnlyPanelVisible(&quot;Tasks List&quot;));</span>
+<span class="nc" id="L80">        assertTrue(isOnlyPanelVisible(&quot;Notes&quot;));</span>
+<span class="nc" id="L81">        assertFalse(isOnlyPanelVisible(&quot;Project Ideas&quot;));</span>
+<span class="nc" id="L82">        assertFalse(isOnlyPanelVisible(&quot;Reading Journal&quot;));</span>
+<span class="nc" id="L83">        assertFalse(isOnlyPanelVisible(&quot;Calendar&quot;));</span>
+<span class="nc" id="L84">        assertFalse(isOnlyPanelVisible(&quot;Grocery List&quot;));</span>
+<span class="nc" id="L85">        assertFalse(isOnlyPanelVisible(&quot;wishlist&quot;));</span>
+
+<span class="nc" id="L87">    }</span>
+    @Test
+    public void testProjectIdeasClick() {
+<span class="nc" id="L90">        MenuOption menuOption = new MenuOption(&quot;Project Ideas&quot;);</span>
+
+        // Verify the initial state
+<span class="nc" id="L93">        assertTrue(MainContent.ideaPanel.isVisible());</span>
+<span class="nc" id="L94">        assertTrue(MainContent.ideaScrollPane.isVisible());</span>
+
+<span class="nc" id="L96">        MouseEvent clickEvent = new MouseEvent(menuOption, MouseEvent.MOUSE_PRESSED, System.currentTimeMillis(),</span>
+                0, 0, 0, 0, false);
+<span class="nc" id="L98">        menuOption.mousePressed(clickEvent);</span>
+
+<span class="nc" id="L100">        assertFalse(isOnlyPanelVisible(&quot;Tasks List&quot;));</span>
+<span class="nc" id="L101">        assertFalse(isOnlyPanelVisible(&quot;Notes&quot;));</span>
+<span class="nc" id="L102">        assertTrue(isOnlyPanelVisible(&quot;Project Ideas&quot;));</span>
+<span class="nc" id="L103">        assertFalse(isOnlyPanelVisible(&quot;Reading Journal&quot;));</span>
+<span class="nc" id="L104">        assertFalse(isOnlyPanelVisible(&quot;Calendar&quot;));</span>
+<span class="nc" id="L105">        assertFalse(isOnlyPanelVisible(&quot;Grocery List&quot;));</span>
+<span class="nc" id="L106">        assertFalse(isOnlyPanelVisible(&quot;wishlist&quot;));</span>
+
+<span class="nc" id="L108">    }</span>
+    @Test
+    public void testReadingJournalClick() {
+<span class="nc" id="L111">        MenuOption menuOption = new MenuOption(&quot;Reading Journal&quot;);</span>
+
+        // Verify the initial state
+<span class="nc" id="L114">        assertTrue(MainContent.bookScrollPane.isVisible());</span>
+
+<span class="nc" id="L116">        MouseEvent clickEvent = new MouseEvent(menuOption, MouseEvent.MOUSE_PRESSED, System.currentTimeMillis(),</span>
+                0, 0, 0, 0, false);
+<span class="nc" id="L118">        menuOption.mousePressed(clickEvent);</span>
+
+<span class="nc" id="L120">        assertFalse(isOnlyPanelVisible(&quot;Tasks List&quot;));</span>
+<span class="nc" id="L121">        assertFalse(isOnlyPanelVisible(&quot;Notes&quot;));</span>
+<span class="nc" id="L122">        assertFalse(isOnlyPanelVisible(&quot;Project Ideas&quot;));</span>
+<span class="nc" id="L123">        assertTrue(isOnlyPanelVisible(&quot;Reading Journal&quot;));</span>
+<span class="nc" id="L124">        assertFalse(isOnlyPanelVisible(&quot;Calendar&quot;));</span>
+<span class="nc" id="L125">        assertFalse(isOnlyPanelVisible(&quot;Grocery List&quot;));</span>
+<span class="nc" id="L126">        assertFalse(isOnlyPanelVisible(&quot;wishlist&quot;));</span>
+
+<span class="nc" id="L128">    }</span>
+    @Test
+    public void testCalendarClick() {
+<span class="nc" id="L131">        MenuOption menuOption = new MenuOption(&quot;Calendar&quot;);</span>
+
+        // Verify the initial state
+<span class="nc" id="L134">        assertTrue(MainContent.calendarPanel.isVisible());</span>
+
+<span class="nc" id="L136">        MouseEvent clickEvent = new MouseEvent(menuOption, MouseEvent.MOUSE_PRESSED, System.currentTimeMillis(),</span>
+                0, 0, 0, 0, false);
+<span class="nc" id="L138">        menuOption.mousePressed(clickEvent);</span>
+
+<span class="nc" id="L140">        assertFalse(isOnlyPanelVisible(&quot;Tasks List&quot;));</span>
+<span class="nc" id="L141">        assertFalse(isOnlyPanelVisible(&quot;Notes&quot;));</span>
+<span class="nc" id="L142">        assertFalse(isOnlyPanelVisible(&quot;Project Ideas&quot;));</span>
+<span class="nc" id="L143">        assertFalse(isOnlyPanelVisible(&quot;Reading Journal&quot;));</span>
+<span class="nc" id="L144">        assertTrue(isOnlyPanelVisible(&quot;Calendar&quot;));</span>
+<span class="nc" id="L145">        assertFalse(isOnlyPanelVisible(&quot;Grocery List&quot;));</span>
+<span class="nc" id="L146">        assertFalse(isOnlyPanelVisible(&quot;wishlist&quot;));</span>
+<span class="nc" id="L147">        clearFiles();</span>
+<span class="nc" id="L148">    }</span>
+    @Test
+    public void testGroceryListClick() {
+<span class="nc" id="L151">        MenuOption menuOption = new MenuOption(&quot;Grocery List&quot;);</span>
+
+        // Verify the initial state
+<span class="nc" id="L154">        assertTrue(MainContent.groceryScrollPane.isVisible());</span>
+
+<span class="nc" id="L156">        MouseEvent clickEvent = new MouseEvent(menuOption, MouseEvent.MOUSE_PRESSED, System.currentTimeMillis(),</span>
+                0, 0, 0, 0, false);
+<span class="nc" id="L158">        menuOption.mousePressed(clickEvent);</span>
+
+<span class="nc" id="L160">        assertFalse(isOnlyPanelVisible(&quot;Tasks List&quot;));</span>
+<span class="nc" id="L161">        assertFalse(isOnlyPanelVisible(&quot;Notes&quot;));</span>
+<span class="nc" id="L162">        assertFalse(isOnlyPanelVisible(&quot;Project Ideas&quot;));</span>
+<span class="nc" id="L163">        assertFalse(isOnlyPanelVisible(&quot;Reading Journal&quot;));</span>
+<span class="nc" id="L164">        assertFalse(isOnlyPanelVisible(&quot;Calendar&quot;));</span>
+<span class="nc" id="L165">        assertTrue(isOnlyPanelVisible(&quot;Grocery List&quot;));</span>
+<span class="nc" id="L166">        assertFalse(isOnlyPanelVisible(&quot;wishlist&quot;));</span>
+
+<span class="nc" id="L168">    }</span>
+    @Test
+    public void testWishlistClick() {
+<span class="nc" id="L171">        MenuOption menuOption = new MenuOption(&quot;Wishlist&quot;);</span>
+
+        // Verify the initial state
+<span class="nc" id="L174">        assertTrue(MainContent.wishlistScrollPane.isVisible());</span>
+<span class="nc" id="L175">        assertTrue(MainContent.wishlistPanel.isVisible());</span>
+
+<span class="nc" id="L177">        MouseEvent clickEvent = new MouseEvent(menuOption, MouseEvent.MOUSE_PRESSED, System.currentTimeMillis(),</span>
+                0, 0, 0, 0, false);
+<span class="nc" id="L179">        menuOption.mousePressed(clickEvent);</span>
+
+<span class="nc" id="L181">        assertFalse(isOnlyPanelVisible(&quot;Tasks List&quot;));</span>
+<span class="nc" id="L182">        assertFalse(isOnlyPanelVisible(&quot;Notes&quot;));</span>
+<span class="nc" id="L183">        assertFalse(isOnlyPanelVisible(&quot;Project Ideas&quot;));</span>
+<span class="nc" id="L184">        assertFalse(isOnlyPanelVisible(&quot;Reading Journal&quot;));</span>
+<span class="nc" id="L185">        assertFalse(isOnlyPanelVisible(&quot;Calendar&quot;));</span>
+<span class="nc" id="L186">        assertFalse(isOnlyPanelVisible(&quot;Grocery List&quot;));</span>
+<span class="nc" id="L187">        assertTrue(isOnlyPanelVisible(&quot;Wishlist&quot;));</span>
+<span class="nc" id="L188">    }</span>
+    private void clearFiles() {
+        try {
+<span class="nc" id="L191">            BufferedWriter nextWriter = new BufferedWriter(new FileWriter(&quot;files/nextUp.txt&quot;));</span>
+<span class="nc" id="L192">            BufferedWriter inProgressWriter = new BufferedWriter(new FileWriter(&quot;files/inProgress.txt&quot;));</span>
+<span class="nc" id="L193">            BufferedWriter completedWriter = new BufferedWriter(new FileWriter(&quot;files/completed.txt&quot;));</span>
+
+<span class="nc" id="L195">            nextWriter.close();</span>
+<span class="nc" id="L196">            inProgressWriter.close();</span>
+<span class="nc" id="L197">            completedWriter.close();</span>
+<span class="nc" id="L198">        } catch (IOException e) {</span>
+<span class="nc" id="L199">            e.printStackTrace();</span>
+<span class="nc" id="L200">        }</span>
+<span class="nc" id="L201">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

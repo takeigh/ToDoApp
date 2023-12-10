@@ -8,13 +8,13 @@ public class Quotes extends JPanel {
     public static final int WIDTH = 790;
 
     public static QuotesLabel[] quotesLabel = {
-            new QuotesLabel("“ The secret of getting ahead is getting started.”"),
-            new QuotesLabel("“ Everything you can imagine is real.”"),
-            new QuotesLabel("“ The secret of your future is hidden in your daily routine.”"),
-            new QuotesLabel("“ Nothing will work unless you do.”"),
-            new QuotesLabel("“ A reader lives a thousand lives before he dies. The man who never reads lives only one.”"),
-            new QuotesLabel("“ Write it. Shoot it. Publish it. Crochet it, sauté it, whatever. MAKE.”"),
-            new QuotesLabel("“ Some people want it to happen, some wish it would happen, others make it happen.”")
+            new QuotesLabel(" The secret of getting ahead is getting started."),
+            new QuotesLabel(" Everything you can imagine is real."),
+            new QuotesLabel(" The secret of your future is hidden in your daily routine."),
+            new QuotesLabel(" Nothing will work unless you do."),
+            new QuotesLabel(" A reader lives a thousand lives before he dies. The man who never reads lives only one."),
+            new QuotesLabel(" Write it. Shoot it. Publish it. Crochet it, sauté it, whatever. MAKE."),
+            new QuotesLabel(" Some people want it to happen, some wish it would happen, others make it happen.")
 
 
     };
