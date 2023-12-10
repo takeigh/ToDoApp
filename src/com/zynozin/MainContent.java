@@ -19,11 +19,11 @@ public class MainContent extends JPanel {
             new ContentHeader("images/calendar.png", "A calendar to view how many tasks are due each day", "Calendar")
 
     };
-    private ContentHeader contentHeader = contentHeaders[0];
-    private ContentFooter contentFooter;
-    private ContentDataPanel tasksData;
-    private ContentDataPanel groceryData;
-    private ContentDataPanel bookData;
+    public ContentHeader contentHeader = contentHeaders[0];
+    public ContentFooter contentFooter;
+    public ContentDataPanel tasksData;
+    public ContentDataPanel groceryData;
+    public ContentDataPanel bookData;
     public static NotesPanel notesPanel;
     public static ItemsPanel checklistPanel;
     public static ProjectPanel ideaPanel;

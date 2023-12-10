@@ -5,8 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.awt.event.MouseEvent;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 
 import static org.junit.Assert.*;
@@ -18,9 +16,8 @@ public class MenuOptionTests {
     public void setUp() throws IOException {
         // Initialize necessary components before each test
         MyFrame mainFrame = new MyFrame();
-        MainContent.tasksContentScrollPane = new ModernScrollPane(new ContentDataPanel("taskslist"));
-        MainContent.mainContent = new MainContent();
     }
+
     private boolean isOnlyPanelVisible(String panelName) {
         switch (panelName) {
             case "Tasks List":
@@ -64,6 +61,7 @@ public class MenuOptionTests {
         assertFalse(isOnlyPanelVisible("Grocery List"));
         assertFalse(isOnlyPanelVisible("wishlist"));
 
+        ContentDataPanel.lastTasksSave.clear();
     }
     @Test
     public void testNotesPanelClick() {
@@ -84,6 +82,7 @@ public class MenuOptionTests {
         assertFalse(isOnlyPanelVisible("Grocery List"));
         assertFalse(isOnlyPanelVisible("wishlist"));
 
+        ContentDataPanel.lastTasksSave.clear();
     }
     @Test
     public void testProjectIdeasClick() {
@@ -105,6 +104,7 @@ public class MenuOptionTests {
         assertFalse(isOnlyPanelVisible("Grocery List"));
         assertFalse(isOnlyPanelVisible("wishlist"));
 
+        ContentDataPanel.lastTasksSave.clear();
     }
     @Test
     public void testReadingJournalClick() {
@@ -125,6 +125,7 @@ public class MenuOptionTests {
         assertFalse(isOnlyPanelVisible("Grocery List"));
         assertFalse(isOnlyPanelVisible("wishlist"));
 
+        ContentDataPanel.lastTasksSave.clear();
     }
     @Test
     public void testCalendarClick() {
@@ -144,7 +145,8 @@ public class MenuOptionTests {
         assertTrue(isOnlyPanelVisible("Calendar"));
         assertFalse(isOnlyPanelVisible("Grocery List"));
         assertFalse(isOnlyPanelVisible("wishlist"));
-        clearFiles();
+
+        ContentDataPanel.lastTasksSave.clear();
     }
     @Test
     public void testGroceryListClick() {
@@ -165,6 +167,7 @@ public class MenuOptionTests {
         assertTrue(isOnlyPanelVisible("Grocery List"));
         assertFalse(isOnlyPanelVisible("wishlist"));
 
+        ContentDataPanel.lastTasksSave.clear();
     }
     @Test
     public void testWishlistClick() {
@@ -186,18 +189,4 @@ public class MenuOptionTests {
         assertFalse(isOnlyPanelVisible("Grocery List"));
         assertTrue(isOnlyPanelVisible("Wishlist"));
     }
-    private void clearFiles() {
-        try {
-            BufferedWriter nextWriter = new BufferedWriter(new FileWriter("files/nextUp.txt"));
-            BufferedWriter inProgressWriter = new BufferedWriter(new FileWriter("files/inProgress.txt"));
-            BufferedWriter completedWriter = new BufferedWriter(new FileWriter("files/completed.txt"));
-
-            nextWriter.close();
-            inProgressWriter.close();
-            completedWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 }
