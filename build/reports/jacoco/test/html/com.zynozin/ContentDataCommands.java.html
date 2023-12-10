@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ContentDataCommands.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Test Gradle</a> &gt; <a href="index.source.html" class="el_package">com.zynozin</a> &gt; <span class="el_source">ContentDataCommands.java</span></div><h1>ContentDataCommands.java</h1><pre class="source lang-java linenums">package com.zynozin;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+public class ContentDataCommands extends JLabel implements MouseListener {
+    private String title;
+    private ContentDataLabel contentDataLabel;
+    private ListOfItems listOfItems;
+<span class="fc" id="L12">    public Boolean isInNext = true;</span>
+<span class="fc" id="L13">    public Boolean isInProgress = false;</span>
+<span class="fc" id="L14">    public Boolean isInCompleted = false;</span>
+
+<span class="fc" id="L16">    public ContentDataCommands(ImageIcon icon, String title, ListOfItems listOfItems) {</span>
+<span class="fc" id="L17">        this.title = title;</span>
+<span class="fc" id="L18">        this.listOfItems = listOfItems;</span>
+<span class="fc" id="L19">        setIcon(icon);</span>
+<span class="fc" id="L20">        addMouseListener(this);</span>
+<span class="fc" id="L21">        setPreferredSize(new Dimension(30, 65));</span>
+<span class="fc" id="L22">        setHorizontalAlignment(SwingConstants.CENTER);</span>
+
+<span class="fc" id="L24">    }</span>
+
+    public void initPlace(String currentCategroy) {
+<span class="nc bnc" id="L27" title="All 2 branches missed.">        if (currentCategroy.equals(&quot;next category&quot;)) {</span>
+<span class="nc" id="L28">            this.isInNext = true;</span>
+<span class="nc" id="L29">            this.isInProgress = false;</span>
+<span class="nc" id="L30">            this.isInCompleted = false;</span>
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        } else if (currentCategroy.equals(&quot;in progress category&quot;)) {</span>
+<span class="nc" id="L32">            this.isInNext = false;</span>
+<span class="nc" id="L33">            this.isInProgress = true;</span>
+<span class="nc" id="L34">            this.isInCompleted = false;</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        } else if (currentCategroy.equals(&quot;completed category&quot;)) {</span>
+<span class="nc" id="L36">            this.isInNext = false;</span>
+<span class="nc" id="L37">            this.isInProgress = false;</span>
+<span class="nc" id="L38">            this.isInCompleted = true;</span>
+        }
+<span class="nc" id="L40">    }</span>
+
+<span class="fc" id="L42">    public ContentDataCommands(ImageIcon icon, String title, ContentDataLabel contentDataLabel) {</span>
+<span class="fc" id="L43">        this.title = title;</span>
+<span class="fc" id="L44">        this.contentDataLabel = contentDataLabel;</span>
+<span class="fc" id="L45">        setIcon(icon);</span>
+<span class="fc" id="L46">        addMouseListener(this);</span>
+<span class="fc" id="L47">        setPreferredSize(new Dimension(30, 65));</span>
+<span class="fc" id="L48">        setHorizontalAlignment(SwingConstants.CENTER);</span>
+
+<span class="fc" id="L50">    }</span>
+
+    private void removeTasksElement(ContentDataLabel contentDataLabel) {
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        for (ContentDataLabel temp : ContentDataPanel.lastTasksSave) {</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">            if (temp.equals(contentDataLabel)) {</span>
+<span class="nc" id="L55">                ContentDataPanel.lastTasksSave.remove(temp);</span>
+<span class="nc" id="L56">                break;</span>
+            }
+<span class="nc" id="L58">        }</span>
+<span class="nc" id="L59">    }</span>
+
+    private void removeVegetablesListElement(ListOfItems listOfItems) {
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        for (ListOfItems vegetable : ContentDataPanel.lastVegetablesListSave) {</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">            if (vegetable.equals(listOfItems)) {</span>
+<span class="nc" id="L64">                ContentDataPanel.lastVegetablesListSave.remove(vegetable);</span>
+<span class="nc" id="L65">                break;</span>
+            }
+<span class="nc" id="L67">        }</span>
+<span class="nc" id="L68">    }</span>
+
+    private void removeFruitsListElement(ListOfItems listOfItems) {
+<span class="nc bnc" id="L71" title="All 2 branches missed.">        for (ListOfItems fruit : ContentDataPanel.lastFruitsListSave) {</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">            if (fruit.equals(listOfItems)) {</span>
+<span class="nc" id="L73">                ContentDataPanel.lastFruitsListSave.remove(fruit);</span>
+<span class="nc" id="L74">                break;</span>
+            }
+<span class="nc" id="L76">        }</span>
+<span class="nc" id="L77">    }</span>
+
+    private void removeDrinksListElement(ListOfItems listOfItems) {
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        for (ListOfItems drink : ContentDataPanel.lastDrinksListSave) {</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">            if (drink.equals(listOfItems)) {</span>
+<span class="nc" id="L82">                ContentDataPanel.lastDrinksListSave.remove(drink);</span>
+<span class="nc" id="L83">                break;</span>
+            }
+<span class="nc" id="L85">        }</span>
+<span class="nc" id="L86">    }</span>
+
+    private void removeOtherListElement(ListOfItems listOfItems) {
+<span class="nc bnc" id="L89" title="All 2 branches missed.">        for (ListOfItems other : ContentDataPanel.lastOtherListSave) {</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">            if (other.equals(listOfItems)) {</span>
+<span class="nc" id="L91">                ContentDataPanel.lastOtherListSave.remove(other);</span>
+<span class="nc" id="L92">                break;</span>
+            }
+<span class="nc" id="L94">        }</span>
+<span class="nc" id="L95">    }</span>
+
+    private void removeChecklistElement(ListOfItems listOfItems) {
+<span class="nc bnc" id="L98" title="All 2 branches missed.">        for (ListOfItems check : ItemsPanel.lastChecklistSave) {</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">            if (check.equals(listOfItems)) {</span>
+<span class="nc" id="L100">                ItemsPanel.lastChecklistSave.remove(check);</span>
+<span class="nc" id="L101">                break;</span>
+            }
+<span class="nc" id="L103">        }</span>
+<span class="nc" id="L104">    }</span>
+
+    private void removeBooklistElement(ListOfItems listOfItems) {
+<span class="nc bnc" id="L107" title="All 2 branches missed.">        for (ListOfItems book : ContentDataPanel.lastBookListSave) {</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">            if (book.equals(listOfItems)) {</span>
+<span class="nc" id="L109">                ContentDataPanel.lastBookListSave.remove(book);</span>
+<span class="nc" id="L110">                break;</span>
+            }
+<span class="nc" id="L112">        }</span>
+<span class="nc" id="L113">    }</span>
+
+    private void removeStartedListElement(ListOfItems listOfItems) {
+<span class="nc bnc" id="L116" title="All 2 branches missed.">        for (ListOfItems started : ContentDataPanel.lastStartedListSave) {</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">            if (started.equals(listOfItems)) {</span>
+<span class="nc" id="L118">                ContentDataPanel.lastStartedListSave.remove(started);</span>
+<span class="nc" id="L119">                break;</span>
+            }
+<span class="nc" id="L121">        }</span>
+<span class="nc" id="L122">    }</span>
+
+    private void removeFinishedListElement(ListOfItems listOfItems) {
+<span class="nc bnc" id="L125" title="All 2 branches missed.">        for (ListOfItems finished : ContentDataPanel.lastFinishedListSave) {</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">            if (finished.equals(listOfItems)) {</span>
+<span class="nc" id="L127">                ContentDataPanel.lastFinishedListSave.remove(finished);</span>
+<span class="nc" id="L128">                break;</span>
+            }
+<span class="nc" id="L130">        }</span>
+<span class="nc" id="L131">    }</span>
+
+    private void removeWishListElement(ListOfItems listOfItems) {
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        for (ListOfItems wish : ItemsPanel.lastWishlistSave) {</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">            if (wish.equals(listOfItems)) {</span>
+<span class="nc" id="L136">                ItemsPanel.lastWishlistSave.remove(wish);</span>
+<span class="nc" id="L137">                break;</span>
+            }
+<span class="nc" id="L139">        }</span>
+<span class="nc" id="L140">    }</span>
+
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+<span class="nc" id="L146">    }</span>
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+<span class="nc bnc" id="L150" title="All 2 branches missed.">        if (title.equals(&quot;delete task&quot;)) {</span>
+<span class="nc" id="L151">            contentDataLabel.setVisible(false);</span>
+<span class="nc" id="L152">            removeTasksElement(contentDataLabel);</span>
+<span class="nc bnc" id="L153" title="All 4 branches missed.">        } else if (title.equals(&quot;right&quot;) &amp;&amp; isInNext.equals(true)) {</span>
+<span class="nc" id="L154">            contentDataLabel.setVisible(false);</span>
+<span class="nc" id="L155">            ContentDataPanel.inProgressCategory.add(contentDataLabel);</span>
+<span class="nc" id="L156">            contentDataLabel.currentCategory = &quot;in progress category&quot;;</span>
+<span class="nc" id="L157">            contentDataLabel.setVisible(true);</span>
+<span class="nc" id="L158">            contentDataLabel.left.setVisible(true);</span>
+<span class="nc" id="L159">            contentDataLabel.left.isInNext = false;</span>
+<span class="nc" id="L160">            contentDataLabel.right.isInNext = false;</span>
+<span class="nc" id="L161">            contentDataLabel.left.isInProgress = true;</span>
+<span class="nc" id="L162">            contentDataLabel.right.isInProgress = true;</span>
+<span class="nc" id="L163">            contentDataLabel.left.isInCompleted = false;</span>
+<span class="nc" id="L164">            contentDataLabel.right.isInCompleted = false;</span>
+<span class="nc bnc" id="L165" title="All 4 branches missed.">        } else if (title.equals(&quot;right&quot;) &amp;&amp; isInProgress.equals(true)) {</span>
+<span class="nc" id="L166">            contentDataLabel.setVisible(false);</span>
+<span class="nc" id="L167">            ContentDataPanel.completedCategory.add(contentDataLabel);</span>
+<span class="nc" id="L168">            contentDataLabel.currentCategory = &quot;completed category&quot;;</span>
+<span class="nc" id="L169">            contentDataLabel.setVisible(true);</span>
+<span class="nc" id="L170">            contentDataLabel.right.setVisible(false);</span>
+<span class="nc" id="L171">            contentDataLabel.left.isInNext = false;</span>
+<span class="nc" id="L172">            contentDataLabel.right.isInNext = false;</span>
+<span class="nc" id="L173">            contentDataLabel.left.isInProgress = false;</span>
+<span class="nc" id="L174">            contentDataLabel.right.isInProgress = false;</span>
+<span class="nc" id="L175">            contentDataLabel.left.isInCompleted = true;</span>
+<span class="nc" id="L176">            contentDataLabel.right.isInCompleted = true;</span>
+
+<span class="nc bnc" id="L178" title="All 4 branches missed.">        } else if (title.equals(&quot;left&quot;) &amp;&amp; isInProgress.equals(true)) {</span>
+<span class="nc" id="L179">            contentDataLabel.setVisible(false);</span>
+<span class="nc" id="L180">            ContentDataPanel.newTask.setVisible(false);</span>
+<span class="nc" id="L181">            ContentDataPanel.nextCategory.add(contentDataLabel);</span>
+<span class="nc" id="L182">            contentDataLabel.currentCategory = &quot;next category&quot;;</span>
+<span class="nc" id="L183">            ContentDataPanel.nextCategory.add(ContentDataPanel.newTask);</span>
+<span class="nc" id="L184">            contentDataLabel.setVisible(true);</span>
+<span class="nc" id="L185">            ContentDataPanel.newTask.setVisible(true);</span>
+<span class="nc" id="L186">            contentDataLabel.left.setVisible(false);</span>
+<span class="nc" id="L187">            contentDataLabel.left.isInNext = true;</span>
+<span class="nc" id="L188">            contentDataLabel.right.isInNext = true;</span>
+<span class="nc" id="L189">            contentDataLabel.left.isInProgress = false;</span>
+<span class="nc" id="L190">            contentDataLabel.right.isInProgress = false;</span>
+<span class="nc" id="L191">            contentDataLabel.left.isInCompleted = false;</span>
+<span class="nc" id="L192">            contentDataLabel.right.isInCompleted = false;</span>
+
+<span class="nc bnc" id="L194" title="All 4 branches missed.">        } else if (title.equals(&quot;left&quot;) &amp;&amp; isInCompleted.equals(true)) {</span>
+<span class="nc" id="L195">            contentDataLabel.setVisible(false);</span>
+<span class="nc" id="L196">            ContentDataPanel.inProgressCategory.add(contentDataLabel);</span>
+<span class="nc" id="L197">            contentDataLabel.currentCategory = &quot;in progress category&quot;;</span>
+<span class="nc" id="L198">            contentDataLabel.setVisible(true);</span>
+<span class="nc" id="L199">            contentDataLabel.right.setVisible(true);</span>
+<span class="nc" id="L200">            contentDataLabel.left.isInNext = false;</span>
+<span class="nc" id="L201">            contentDataLabel.right.isInNext = false;</span>
+<span class="nc" id="L202">            contentDataLabel.left.isInProgress = true;</span>
+<span class="nc" id="L203">            contentDataLabel.right.isInProgress = true;</span>
+<span class="nc" id="L204">            contentDataLabel.left.isInCompleted = false;</span>
+<span class="nc" id="L205">            contentDataLabel.right.isInCompleted = false;</span>
+
+<span class="nc bnc" id="L207" title="All 2 branches missed.">        } else if (title.equals(&quot;checklist&quot;)) {</span>
+<span class="nc" id="L208">            listOfItems.setVisible(false);</span>
+<span class="nc" id="L209">            removeChecklistElement(listOfItems);</span>
+<span class="nc bnc" id="L210" title="All 2 branches missed.">        } else if (title.equals(&quot;wish&quot;)) {</span>
+<span class="nc" id="L211">            listOfItems.setVisible(false);</span>
+<span class="nc" id="L212">            removeWishListElement(listOfItems);</span>
+<span class="nc bnc" id="L213" title="All 2 branches missed.">        } else if (title.equals(&quot;grocery list vegetables&quot;)) {</span>
+<span class="nc" id="L214">            listOfItems.setVisible(false);</span>
+<span class="nc" id="L215">            removeVegetablesListElement(listOfItems);</span>
+<span class="nc bnc" id="L216" title="All 2 branches missed.">        } else if (title.equals(&quot;grocery list fruits&quot;)) {</span>
+<span class="nc" id="L217">            listOfItems.setVisible(false);</span>
+<span class="nc" id="L218">            removeFruitsListElement(listOfItems);</span>
+<span class="nc bnc" id="L219" title="All 2 branches missed.">        } else if (title.equals(&quot;grocery list drinks&quot;)) {</span>
+<span class="nc" id="L220">            listOfItems.setVisible(false);</span>
+<span class="nc" id="L221">            removeDrinksListElement(listOfItems);</span>
+<span class="nc bnc" id="L222" title="All 2 branches missed.">        } else if (title.equals(&quot;grocery list other&quot;)) {</span>
+<span class="nc" id="L223">            listOfItems.setVisible(false);</span>
+<span class="nc" id="L224">            removeOtherListElement(listOfItems);</span>
+<span class="nc bnc" id="L225" title="All 2 branches missed.">        } else if (title.equals(&quot;book&quot;)) {</span>
+<span class="nc" id="L226">            listOfItems.setVisible(false);</span>
+<span class="nc" id="L227">            removeBooklistElement(listOfItems);</span>
+<span class="nc bnc" id="L228" title="All 2 branches missed.">        } else if (title.equals(&quot;started&quot;)) {</span>
+<span class="nc" id="L229">            listOfItems.setVisible(false);</span>
+<span class="nc" id="L230">            removeStartedListElement(listOfItems);</span>
+<span class="nc bnc" id="L231" title="All 2 branches missed.">        } else if (title.equals(&quot;finished&quot;)) {</span>
+<span class="nc" id="L232">            listOfItems.setVisible(false);</span>
+<span class="nc" id="L233">            removeFinishedListElement(listOfItems);</span>
+        }
+<span class="nc" id="L235">    }</span>
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+<span class="nc" id="L239">    }</span>
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+<span class="nc" id="L244">        setOpaque(true);</span>
+<span class="nc" id="L245">        setBackground(new Color(121, 121, 121));</span>
+
+
+<span class="nc" id="L248">    }</span>
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+<span class="nc" id="L253">        setBackground(new Color(37, 37, 37));</span>
+<span class="nc" id="L254">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IntegrationTests.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Test Gradle</a> &gt; <a href="index.source.html" class="el_package">jenkinsTests</a> &gt; <span class="el_source">IntegrationTests.java</span></div><h1>IntegrationTests.java</h1><pre class="source lang-java linenums">package jenkinsTests;
+
+import com.zynozin.NewTask;
+import com.zynozin.NotesPanel;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import javax.swing.*;
+import java.awt.event.MouseEvent;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+import static org.junit.Assert.assertEquals;
+
+<span class="nc" id="L16">public class IntegrationTests {</span>
+<span class="nc" id="L17">    private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();</span>
+<span class="nc" id="L18">    private final PrintStream originalOut = System.out;</span>
+    private NewTask newTask;
+    private NotesPanel notesPanel;
+
+    @Before
+    public void setUp() {
+<span class="nc" id="L24">        newTask = new NewTask(&quot;taskslist&quot;);</span>
+<span class="nc" id="L25">        notesPanel = new NotesPanel();</span>
+<span class="nc" id="L26">        System.setOut(new PrintStream(outputStreamCaptor));</span>
+<span class="nc" id="L27">    }</span>
+
+    @After
+    public void tearDown() {
+<span class="nc" id="L31">        System.setOut(originalOut);</span>
+<span class="nc" id="L32">    }</span>
+
+    @Test
+    public void testTaskCreationAndNoteSheetUpdate() throws NoSuchFieldException, IllegalAccessException {
+        // Verify that a new task has been added to the notes panel
+<span class="nc" id="L37">        assertEquals(7, notesPanel.getNoteSheetsSize());</span>
+
+<span class="nc" id="L39">        notesPanel.createNoteSheet(&quot;taskslist&quot;);</span>
+
+        // Verify that the note sheet associated with the new task is selected
+<span class="nc" id="L42">        assertEquals(&quot;taskslist&quot;, notesPanel.getSelectedNoteSheet(&quot;taskslist&quot;));</span>
+        //Verify add number of NoteSheets
+<span class="nc" id="L44">        assertEquals(8, notesPanel.getNoteSheetsSize());</span>
+
+        // Arrange
+<span class="nc" id="L47">        NewTask newTask = new NewTask(&quot;taskslist&quot;);</span>
+<span class="nc" id="L48">        JTextField taskField = new JTextField(&quot;Test Task Description&quot;);</span>
+<span class="nc" id="L49">        JTextField dueDateField = new JTextField(&quot;2025-12-31&quot;);</span>
+<span class="nc" id="L50">        newTask.setTaskField(taskField);</span>
+<span class="nc" id="L51">        newTask.setDueDateField(dueDateField);</span>
+<span class="nc" id="L52">        newTask.dueDate = dueDateField.getText();</span>
+        // Act
+<span class="nc bnc" id="L54" title="All 4 branches missed.">        if (newTask.isTaskDescriptionValid(taskField.getText()) &amp;&amp; newTask.isDueDateValid(dueDateField.getText())) {</span>
+<span class="nc" id="L55">            newTask.mouseClicked(new MouseEvent(newTask, 0, 0, 0, 0, 0, 0, false));</span>
+        }
+        // Assert: Check if the due date is printed correctly
+<span class="nc" id="L58">        assertEquals(&quot;Due Date: 2025-12-31&quot; + System.lineSeparator() + &quot;Task Description: Test Task Description&quot; + System.lineSeparator(), outputStreamCaptor.toString());</span>
+<span class="nc" id="L59">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

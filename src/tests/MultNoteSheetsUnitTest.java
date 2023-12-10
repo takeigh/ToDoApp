@@ -1,8 +1,8 @@
 package tests;
 
 import com.zynozin.NotesPanel;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
 
@@ -10,13 +10,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MultNoteSheetsUnitTest {
 
     private NotesPanel notesPanel;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             notesPanel = new NotesPanel();
@@ -107,4 +107,3 @@ public class MultNoteSheetsUnitTest {
         return sb.toString().trim(); // Trim to remove leading/trailing whitespaces
     }
 }
-

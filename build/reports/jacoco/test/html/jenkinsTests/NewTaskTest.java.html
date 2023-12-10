@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NewTaskTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Test Gradle</a> &gt; <a href="index.source.html" class="el_package">jenkinsTests</a> &gt; <span class="el_source">NewTaskTest.java</span></div><h1>NewTaskTest.java</h1><pre class="source lang-java linenums">package jenkinsTests;
+
+import com.zynozin.NewTask;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import javax.swing.*;
+import java.awt.event.MouseEvent;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+import static org.junit.Assert.assertEquals;
+
+<span class="nc" id="L15">public class NewTaskTest {</span>
+
+<span class="nc" id="L17">    private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();</span>
+<span class="nc" id="L18">    private final PrintStream originalOut = System.out;</span>
+
+    @Before
+    public void setUp() {
+<span class="nc" id="L22">        System.setOut(new PrintStream(outputStreamCaptor));</span>
+<span class="nc" id="L23">    }</span>
+
+    @After
+    public void tearDown() {
+<span class="nc" id="L27">        System.setOut(originalOut);</span>
+<span class="nc" id="L28">    }</span>
+
+    @Test
+    public void testMouseClickedWithValidDueDate() {
+        // Arrange
+<span class="nc" id="L33">        NewTask newTask = new NewTask(&quot;taskslist&quot;);</span>
+<span class="nc" id="L34">        JTextField taskField = new JTextField(&quot;Test Task Description&quot;);</span>
+<span class="nc" id="L35">        JTextField dueDateField = new JTextField(&quot;2025-12-31&quot;);</span>
+<span class="nc" id="L36">        newTask.setTaskField(taskField);</span>
+<span class="nc" id="L37">        newTask.setDueDateField(dueDateField);</span>
+<span class="nc" id="L38">        newTask.dueDate = dueDateField.getText();</span>
+
+        // Act
+<span class="nc bnc" id="L41" title="All 4 branches missed.">        if (newTask.isTaskDescriptionValid(taskField.getText()) &amp;&amp; newTask.isDueDateValid(dueDateField.getText())) {</span>
+<span class="nc" id="L42">            newTask.mouseClicked(new MouseEvent(newTask, 0, 0, 0, 0, 0, 0, false));</span>
+        }
+
+        // Assert: Check if the due date is printed correctly
+<span class="nc" id="L46">        assertEquals(&quot;Due Date: 2025-12-31&quot; + System.lineSeparator() + &quot;Task Description: Test Task Description&quot; + System.lineSeparator(), outputStreamCaptor.toString());</span>
+<span class="nc" id="L47">    }</span>
+
+    @Test
+    public void testEmptyTaskDescription() {
+        // Arrange
+<span class="nc" id="L52">        NewTask newTask = new NewTask(&quot;taskslist&quot;);</span>
+<span class="nc" id="L53">        JTextField taskField = new JTextField(&quot;&quot;);</span>
+<span class="nc" id="L54">        JTextField dueDateField = new JTextField(&quot;2025-12-31&quot;);</span>
+        // Empty task description
+<span class="nc" id="L56">        newTask.setTaskField(taskField);</span>
+<span class="nc" id="L57">        newTask.setDueDateField(dueDateField);</span>
+
+        // Act
+<span class="nc bnc" id="L60" title="All 4 branches missed.">        if (newTask.isTaskDescriptionValid(taskField.getText()) &amp;&amp; newTask.isDueDateValid(dueDateField.getText())) {</span>
+<span class="nc" id="L61">            newTask.mouseClicked(new MouseEvent(newTask, 0, 0, 0, 0, 0, 0, false));</span>
+        }
+        // Assert: Check if the appropriate message is printed
+<span class="nc" id="L64">        assertEquals(&quot;&quot; + &quot;&quot;, outputStreamCaptor.toString());</span>
+<span class="nc" id="L65">    }</span>
+
+    @Test
+    public void testEmptyDueDate() {
+        // Arrange
+<span class="nc" id="L70">        NewTask newTask = new NewTask(&quot;taskslist&quot;);</span>
+<span class="nc" id="L71">        JTextField taskField = new JTextField(&quot;Test Task Description&quot;);</span>
+<span class="nc" id="L72">        JTextField dueDateField = new JTextField(&quot;&quot;);  // Empty due date</span>
+<span class="nc" id="L73">        newTask.setTaskField(taskField);</span>
+<span class="nc" id="L74">        newTask.setDueDateField(dueDateField);</span>
+
+        // Act
+<span class="nc bnc" id="L77" title="All 4 branches missed.">        if (newTask.isTaskDescriptionValid(taskField.getText()) &amp;&amp; newTask.isDueDateValid(dueDateField.getText())) {</span>
+<span class="nc" id="L78">            newTask.mouseClicked(new MouseEvent(newTask, 0, 0, 0, 0, 0, 0, false));</span>
+        }
+        // Assert: Check if the due date is printed as empty
+<span class="nc" id="L81">        assertEquals(&quot;Invalid date format: &quot; + System.lineSeparator() + &quot;&quot;, outputStreamCaptor.toString());</span>
+<span class="nc" id="L82">    }</span>
+
+    @Test
+    public void testEmptyTaskDescriptionAndDueDate() {
+        // Arrange
+<span class="nc" id="L87">        NewTask newTask = new NewTask(&quot;taskslist&quot;);</span>
+<span class="nc" id="L88">        JTextField taskField = new JTextField(&quot;&quot;);  // Empty task description</span>
+<span class="nc" id="L89">        JTextField dueDateField = new JTextField(&quot;&quot;);  // Empty due date</span>
+<span class="nc" id="L90">        newTask.setTaskField(taskField);</span>
+<span class="nc" id="L91">        newTask.setDueDateField(dueDateField);</span>
+
+        // Act
+<span class="nc bnc" id="L94" title="All 4 branches missed.">        if (newTask.isTaskDescriptionValid(taskField.getText()) &amp;&amp; newTask.isDueDateValid(dueDateField.getText())) {</span>
+<span class="nc" id="L95">            newTask.mouseClicked(new MouseEvent(newTask, 0, 0, 0, 0, 0, 0, false));</span>
+        }
+        // Assert: Check if the appropriate messages are printed
+<span class="nc" id="L98">        assertEquals(&quot;&quot; + &quot;&quot;, outputStreamCaptor.toString());</span>
+
+<span class="nc" id="L100">    }</span>
+
+    @Test
+    public void testInvalidTaskDescription() {
+        // Arrange
+<span class="nc" id="L105">        NewTask newTask = new NewTask(&quot;taskslist&quot;);</span>
+<span class="nc" id="L106">        JTextField taskField = new JTextField(null);  // Invalid task description</span>
+<span class="nc" id="L107">        JTextField dueDateField = new JTextField(&quot;2023-12-31&quot;);</span>
+<span class="nc" id="L108">        newTask.setDueDateField(dueDateField);</span>
+<span class="nc" id="L109">        newTask.setTaskField(taskField);</span>
+
+        // Act
+<span class="nc bnc" id="L112" title="All 4 branches missed.">        if (newTask.isTaskDescriptionValid(taskField.getText()) &amp;&amp; newTask.isDueDateValid(dueDateField.getText())) {</span>
+<span class="nc" id="L113">            newTask.mouseClicked(new MouseEvent(newTask, 0, 0, 0, 0, 0, 0, false));</span>
+        }
+        // Assert: Check if the appropriate message is printed
+<span class="nc" id="L116">        assertEquals(&quot;&quot; + &quot;&quot;, outputStreamCaptor.toString());</span>
+<span class="nc" id="L117">    }</span>
+
+    @Test
+    public void testEmptyTaskDescriptionAndInvalidDueDate() {
+        // Arrange
+<span class="nc" id="L122">        NewTask newTask = new NewTask(&quot;taskslist&quot;);</span>
+<span class="nc" id="L123">        JTextField taskField = new JTextField(&quot;&quot;);  // Empty task description</span>
+<span class="nc" id="L124">        JTextField dueDateField = new JTextField(&quot;&quot;);</span>
+<span class="nc" id="L125">        newTask.setTaskField(taskField);</span>
+<span class="nc" id="L126">        newTask.setDueDateField(dueDateField);</span>
+
+        // Act
+<span class="nc bnc" id="L129" title="All 4 branches missed.">        if (newTask.isTaskDescriptionValid(taskField.getText()) &amp;&amp; newTask.isDueDateValid(dueDateField.getText())) {</span>
+<span class="nc" id="L130">            newTask.mouseClicked(new MouseEvent(newTask, 0, 0, 0, 0, 0, 0, false));</span>
+        }
+        // Assert: Check if the appropriate messages are printed
+<span class="nc" id="L133">        assertEquals(&quot;&quot; + &quot;&quot;, outputStreamCaptor.toString());</span>
+<span class="nc" id="L134">    }</span>
+
+    @Test
+    public void testInvalidTaskDescriptionAndDueDate() {
+        // Arrange
+<span class="nc" id="L139">        NewTask newTask = new NewTask(&quot;taskslist&quot;);</span>
+<span class="nc" id="L140">        JTextField taskField = new JTextField(null);  // Invalid task description</span>
+<span class="nc" id="L141">        JTextField dueDateField = new JTextField(&quot;invalid_date&quot;);</span>
+<span class="nc" id="L142">        newTask.setTaskField(taskField);</span>
+<span class="nc" id="L143">        newTask.setDueDateField(dueDateField);</span>
+
+        // Act
+<span class="nc bnc" id="L146" title="All 4 branches missed.">        if (newTask.isTaskDescriptionValid(taskField.getText()) &amp;&amp; newTask.isDueDateValid(dueDateField.getText())) {</span>
+<span class="nc" id="L147">            newTask.mouseClicked(new MouseEvent(newTask, 0, 0, 0, 0, 0, 0, false));</span>
+        }
+        // Assert: Check if the appropriate messages are printed
+<span class="nc" id="L150">        assertEquals(&quot;&quot; + &quot;&quot;, outputStreamCaptor.toString());</span>
+
+<span class="nc" id="L152">    }</span>
+
+    @Test
+    public void testPastDueDate() {
+        // Arrange
+<span class="nc" id="L157">        NewTask newTask = new NewTask(&quot;taskslist&quot;);</span>
+<span class="nc" id="L158">        JTextField taskField = new JTextField(&quot;Test Task Description&quot;);</span>
+<span class="nc" id="L159">        JTextField dueDateField = new JTextField(&quot;2022-01-01&quot;);  // Past due date</span>
+<span class="nc" id="L160">        newTask.setTaskField(taskField);</span>
+<span class="nc" id="L161">        newTask.setDueDateField(dueDateField);</span>
+
+        // Act
+<span class="nc bnc" id="L164" title="All 4 branches missed.">        if (newTask.isTaskDescriptionValid(taskField.getText()) &amp;&amp; newTask.isDueDateValid(dueDateField.getText())) {</span>
+<span class="nc" id="L165">            newTask.mouseClicked(new MouseEvent(newTask, 0, 0, 0, 0, 0, 0, false));</span>
+        }
+
+        // Assert: Check if the appropriate message is printed
+<span class="nc" id="L169">        assertEquals(&quot;Due Date is in the past: 2022-01-01&quot; + System.lineSeparator() + &quot;&quot;, outputStreamCaptor.toString());</span>
+<span class="nc" id="L170">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

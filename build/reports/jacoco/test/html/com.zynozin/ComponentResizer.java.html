@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ComponentResizer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Test Gradle</a> &gt; <a href="index.source.html" class="el_package">com.zynozin</a> &gt; <span class="el_source">ComponentResizer.java</span></div><h1>ComponentResizer.java</h1><pre class="source lang-java linenums">package com.zynozin;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
+import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
+
+/**
+ * The ComponentResizer allows you to resize a component by dragging a border
+ * of the component.
+ */
+public class ComponentResizer extends MouseAdapter {
+<span class="nc" id="L14">    private final static Dimension MINIMUM_SIZE = new Dimension(10, 10);</span>
+<span class="nc" id="L15">    private final static Dimension MAXIMUM_SIZE =</span>
+            new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
+
+<span class="nc" id="L18">    private static Map&lt;Integer, Integer&gt; cursors = new HashMap&lt;Integer, Integer&gt;();</span>
+
+    {
+<span class="nc" id="L21">        cursors.put(1, Cursor.N_RESIZE_CURSOR);</span>
+<span class="nc" id="L22">        cursors.put(2, Cursor.W_RESIZE_CURSOR);</span>
+<span class="nc" id="L23">        cursors.put(4, Cursor.S_RESIZE_CURSOR);</span>
+<span class="nc" id="L24">        cursors.put(8, Cursor.E_RESIZE_CURSOR);</span>
+<span class="nc" id="L25">        cursors.put(3, Cursor.NW_RESIZE_CURSOR);</span>
+<span class="nc" id="L26">        cursors.put(9, Cursor.NE_RESIZE_CURSOR);</span>
+<span class="nc" id="L27">        cursors.put(6, Cursor.SW_RESIZE_CURSOR);</span>
+<span class="nc" id="L28">        cursors.put(12, Cursor.SE_RESIZE_CURSOR);</span>
+    }
+
+    private Insets dragInsets;
+    private Dimension snapSize;
+
+    private int direction;
+    protected static final int NORTH = 1;
+    protected static final int WEST = 2;
+    protected static final int SOUTH = 4;
+    protected static final int EAST = 8;
+
+    private Cursor sourceCursor;
+    private boolean resizing;
+    private Rectangle bounds;
+    private Point pressed;
+    private boolean autoscrolls;
+
+<span class="nc" id="L46">    private Dimension minimumSize = MINIMUM_SIZE;</span>
+<span class="nc" id="L47">    private Dimension maximumSize = MAXIMUM_SIZE;</span>
+
+    /**
+     * Convenience contructor. All borders are resizable in increments of
+     * a single pixel. Components must be registered separately.
+     */
+    public ComponentResizer() {
+<span class="nc" id="L54">        this(new Insets(5, 5, 5, 5), new Dimension(1, 1));</span>
+<span class="nc" id="L55">    }</span>
+
+    /**
+     * Convenience contructor. All borders are resizable in increments of
+     * a single pixel. Components can be registered when the class is created
+     * or they can be registered separately afterwards.
+     *
+     * @param components components to be automatically registered
+     */
+    public ComponentResizer(Component... components) {
+<span class="nc" id="L65">        this(new Insets(5, 5, 5, 5), new Dimension(1, 1), components);</span>
+<span class="nc" id="L66">    }</span>
+
+    /**
+     * Convenience contructor. Eligible borders are resisable in increments of
+     * a single pixel. Components can be registered when the class is created
+     * or they can be registered separately afterwards.
+     *
+     * @param dragInsets Insets specifying which borders are eligible to be
+     *                   resized.
+     * @param components components to be automatically registered
+     */
+    public ComponentResizer(Insets dragInsets, Component... components) {
+<span class="nc" id="L78">        this(dragInsets, new Dimension(1, 1), components);</span>
+<span class="nc" id="L79">    }</span>
+
+    /**
+     * Create a ComponentResizer.
+     *
+     * @param dragInsets Insets specifying which borders are eligible to be
+     *                   resized.
+     * @param snapSize   Specify the dimension to which the border will snap to
+     *                   when being dragged. Snapping occurs at the halfway mark.
+     * @param components components to be automatically registered
+     */
+<span class="nc" id="L90">    public ComponentResizer(Insets dragInsets, Dimension snapSize, Component... components) {</span>
+<span class="nc" id="L91">        setDragInsets(dragInsets);</span>
+<span class="nc" id="L92">        setSnapSize(snapSize);</span>
+<span class="nc" id="L93">        registerComponent(components);</span>
+<span class="nc" id="L94">    }</span>
+
+    /**
+     * Get the drag insets
+     *
+     * @return the drag insets
+     */
+    public Insets getDragInsets() {
+<span class="nc" id="L102">        return dragInsets;</span>
+    }
+
+    /**
+     * Set the drag dragInsets. The insets specify an area where mouseDragged
+     * events are recognized from the edge of the border inwards. A value of
+     * 0 for any size will imply that the border is not resizable. Otherwise
+     * the appropriate drag cursor will appear when the mouse is inside the
+     * resizable border area.
+     *
+     * @param dragInsets Insets to control which borders are resizeable.
+     */
+    public void setDragInsets(Insets dragInsets) {
+<span class="nc" id="L115">        validateMinimumAndInsets(minimumSize, dragInsets);</span>
+
+<span class="nc" id="L117">        this.dragInsets = dragInsets;</span>
+<span class="nc" id="L118">    }</span>
+
+    /**
+     * Get the components maximum size.
+     *
+     * @return the maximum size
+     */
+    public Dimension getMaximumSize() {
+<span class="nc" id="L126">        return maximumSize;</span>
+    }
+
+    /**
+     * Specify the maximum size for the component. The component will still
+     * be constrained by the size of its parent.
+     *
+     * @param maximumSize the maximum size for a component.
+     */
+    public void setMaximumSize(Dimension maximumSize) {
+<span class="nc" id="L136">        this.maximumSize = maximumSize;</span>
+<span class="nc" id="L137">    }</span>
+
+    /**
+     * Get the components minimum size.
+     *
+     * @return the minimum size
+     */
+    public Dimension getMinimumSize() {
+<span class="nc" id="L145">        return minimumSize;</span>
+    }
+
+    /**
+     * Specify the minimum size for the component. The minimum size is
+     * constrained by the drag insets.
+     *
+     * @param minimumSize the minimum size for a component.
+     */
+    public void setMinimumSize(Dimension minimumSize) {
+<span class="nc" id="L155">        validateMinimumAndInsets(minimumSize, dragInsets);</span>
+
+<span class="nc" id="L157">        this.minimumSize = minimumSize;</span>
+<span class="nc" id="L158">    }</span>
+
+    /**
+     * Remove listeners from the specified component
+     * &lt;p&gt;
+     * param component  the component the listeners are removed from
+     */
+    public void deregisterComponent(Component... components) {
+<span class="nc bnc" id="L166" title="All 2 branches missed.">        for (Component component : components) {</span>
+<span class="nc" id="L167">            component.removeMouseListener(this);</span>
+<span class="nc" id="L168">            component.removeMouseMotionListener(this);</span>
+        }
+<span class="nc" id="L170">    }</span>
+
+    /**
+     * Add the required listeners to the specified component
+     * &lt;p&gt;
+     * param component  the component the listeners are added to
+     */
+    public void registerComponent(Component... components) {
+<span class="nc bnc" id="L178" title="All 2 branches missed.">        for (Component component : components) {</span>
+<span class="nc" id="L179">            component.addMouseListener(this);</span>
+<span class="nc" id="L180">            component.addMouseMotionListener(this);</span>
+        }
+<span class="nc" id="L182">    }</span>
+
+    /**
+     * Get the snap size.
+     *
+     * @return the snap size.
+     */
+    public Dimension getSnapSize() {
+<span class="nc" id="L190">        return snapSize;</span>
+    }
+
+    /**
+     * Control how many pixels a border must be dragged before the size of
+     * the component is changed. The border will snap to the size once
+     * dragging has passed the halfway mark.
+     *
+     * @param snapSize Dimension object allows you to separately spcify a
+     *                 horizontal and vertical snap size.
+     */
+    public void setSnapSize(Dimension snapSize) {
+<span class="nc" id="L202">        this.snapSize = snapSize;</span>
+<span class="nc" id="L203">    }</span>
+
+    /**
+     * When the components minimum size is less than the drag insets then
+     * we can't determine which border should be resized so we need to
+     * prevent this from happening.
+     */
+    private void validateMinimumAndInsets(Dimension minimum, Insets drag) {
+<span class="nc" id="L211">        int minimumWidth = drag.left + drag.right;</span>
+<span class="nc" id="L212">        int minimumHeight = drag.top + drag.bottom;</span>
+
+<span class="nc bnc" id="L214" title="All 4 branches missed.">        if (minimum.width &lt; minimumWidth</span>
+                || minimum.height &lt; minimumHeight) {
+<span class="nc" id="L216">            String message = &quot;Minimum size cannot be less than drag insets&quot;;</span>
+<span class="nc" id="L217">            throw new IllegalArgumentException(message);</span>
+        }
+<span class="nc" id="L219">    }</span>
+
+    /**
+     *
+     */
+    @Override
+    public void mouseMoved(MouseEvent e) {
+<span class="nc" id="L226">        Component source = e.getComponent();</span>
+<span class="nc" id="L227">        Point location = e.getPoint();</span>
+<span class="nc" id="L228">        direction = 0;</span>
+
+<span class="nc bnc" id="L230" title="All 2 branches missed.">        if (location.x &lt; dragInsets.left)</span>
+<span class="nc" id="L231">            direction += WEST;</span>
+
+<span class="nc bnc" id="L233" title="All 2 branches missed.">        if (location.x &gt; source.getWidth() - dragInsets.right - 1)</span>
+<span class="nc" id="L234">            direction += EAST;</span>
+
+<span class="nc bnc" id="L236" title="All 2 branches missed.">        if (location.y &lt; dragInsets.top)</span>
+<span class="nc" id="L237">            direction += NORTH;</span>
+
+<span class="nc bnc" id="L239" title="All 2 branches missed.">        if (location.y &gt; source.getHeight() - dragInsets.bottom - 1)</span>
+<span class="nc" id="L240">            direction += SOUTH;</span>
+
+        //  Mouse is no longer over a resizable border
+
+<span class="nc bnc" id="L244" title="All 2 branches missed.">        if (direction == 0) {</span>
+<span class="nc" id="L245">            source.setCursor(sourceCursor);</span>
+        } else  // use the appropriate resizable cursor
+        {
+<span class="nc" id="L248">            int cursorType = cursors.get(direction);</span>
+<span class="nc" id="L249">            Cursor cursor = Cursor.getPredefinedCursor(cursorType);</span>
+<span class="nc" id="L250">            source.setCursor(cursor);</span>
+        }
+<span class="nc" id="L252">    }</span>
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+<span class="nc bnc" id="L256" title="All 2 branches missed.">        if (!resizing) {</span>
+<span class="nc" id="L257">            Component source = e.getComponent();</span>
+<span class="nc" id="L258">            sourceCursor = source.getCursor();</span>
+        }
+<span class="nc" id="L260">    }</span>
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+<span class="nc bnc" id="L264" title="All 2 branches missed.">        if (!resizing) {</span>
+<span class="nc" id="L265">            Component source = e.getComponent();</span>
+<span class="nc" id="L266">            source.setCursor(sourceCursor);</span>
+        }
+<span class="nc" id="L268">    }</span>
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        //	The mouseMoved event continually updates this variable
+
+<span class="nc bnc" id="L274" title="All 2 branches missed.">        if (direction == 0) return;</span>
+
+        //  Setup for resizing. All future dragging calculations are done based
+        //  on the original bounds of the component and mouse pressed location.
+
+<span class="nc" id="L279">        resizing = true;</span>
+
+<span class="nc" id="L281">        Component source = e.getComponent();</span>
+<span class="nc" id="L282">        pressed = e.getPoint();</span>
+<span class="nc" id="L283">        SwingUtilities.convertPointToScreen(pressed, source);</span>
+<span class="nc" id="L284">        bounds = source.getBounds();</span>
+
+        //  Making sure autoscrolls is false will allow for smoother resizing
+        //  of components
+
+<span class="nc bnc" id="L289" title="All 2 branches missed.">        if (source instanceof JComponent) {</span>
+<span class="nc" id="L290">            JComponent jc = (JComponent) source;</span>
+<span class="nc" id="L291">            autoscrolls = jc.getAutoscrolls();</span>
+<span class="nc" id="L292">            jc.setAutoscrolls(false);</span>
+        }
+<span class="nc" id="L294">    }</span>
+
+    /**
+     * Restore the original state of the Component
+     */
+    @Override
+    public void mouseReleased(MouseEvent e) {
+<span class="nc" id="L301">        resizing = false;</span>
+
+<span class="nc" id="L303">        Component source = e.getComponent();</span>
+<span class="nc" id="L304">        source.setCursor(sourceCursor);</span>
+
+<span class="nc bnc" id="L306" title="All 2 branches missed.">        if (source instanceof JComponent) {</span>
+<span class="nc" id="L307">            ((JComponent) source).setAutoscrolls(autoscrolls);</span>
+        }
+<span class="nc" id="L309">    }</span>
+
+    /**
+     * Resize the component ensuring location and size is within the bounds
+     * of the parent container and that the size is within the minimum and
+     * maximum constraints.
+     * &lt;p&gt;
+     * All calculations are done using the bounds of the component when the
+     * resizing started.
+     */
+    @Override
+    public void mouseDragged(MouseEvent e) {
+<span class="nc bnc" id="L321" title="All 2 branches missed.">        if (resizing == false) return;</span>
+
+<span class="nc" id="L323">        Component source = e.getComponent();</span>
+<span class="nc" id="L324">        Point dragged = e.getPoint();</span>
+<span class="nc" id="L325">        SwingUtilities.convertPointToScreen(dragged, source);</span>
+
+<span class="nc" id="L327">        changeBounds(source, direction, bounds, pressed, dragged);</span>
+<span class="nc" id="L328">    }</span>
+
+    protected void changeBounds(Component source, int direction, Rectangle bounds, Point pressed, Point current) {
+        //  Start with original locaton and size
+
+<span class="nc" id="L333">        int x = bounds.x;</span>
+<span class="nc" id="L334">        int y = bounds.y;</span>
+<span class="nc" id="L335">        int width = bounds.width;</span>
+<span class="nc" id="L336">        int height = bounds.height;</span>
+
+        //  Resizing the West or North border affects the size and location
+
+<span class="nc bnc" id="L340" title="All 2 branches missed.">        if (WEST == (direction &amp; WEST)) {</span>
+<span class="nc" id="L341">            int drag = getDragDistance(pressed.x, current.x, snapSize.width);</span>
+<span class="nc" id="L342">            int maximum = Math.min(width + x, maximumSize.width);</span>
+<span class="nc" id="L343">            drag = getDragBounded(drag, snapSize.width, width, minimumSize.width, maximum);</span>
+
+<span class="nc" id="L345">            x -= drag;</span>
+<span class="nc" id="L346">            width += drag;</span>
+        }
+
+<span class="nc bnc" id="L349" title="All 2 branches missed.">        if (NORTH == (direction &amp; NORTH)) {</span>
+<span class="nc" id="L350">            int drag = getDragDistance(pressed.y, current.y, snapSize.height);</span>
+<span class="nc" id="L351">            int maximum = Math.min(height + y, maximumSize.height);</span>
+<span class="nc" id="L352">            drag = getDragBounded(drag, snapSize.height, height, minimumSize.height, maximum);</span>
+
+<span class="nc" id="L354">            y -= drag;</span>
+<span class="nc" id="L355">            height += drag;</span>
+        }
+
+        //  Resizing the East or South border only affects the size
+
+<span class="nc bnc" id="L360" title="All 2 branches missed.">        if (EAST == (direction &amp; EAST)) {</span>
+<span class="nc" id="L361">            int drag = getDragDistance(current.x, pressed.x, snapSize.width);</span>
+<span class="nc" id="L362">            Dimension boundingSize = getBoundingSize(source);</span>
+<span class="nc" id="L363">            int maximum = Math.min(boundingSize.width - x, maximumSize.width);</span>
+<span class="nc" id="L364">            drag = getDragBounded(drag, snapSize.width, width, minimumSize.width, maximum);</span>
+<span class="nc" id="L365">            width += drag;</span>
+        }
+
+<span class="nc bnc" id="L368" title="All 2 branches missed.">        if (SOUTH == (direction &amp; SOUTH)) {</span>
+<span class="nc" id="L369">            int drag = getDragDistance(current.y, pressed.y, snapSize.height);</span>
+<span class="nc" id="L370">            Dimension boundingSize = getBoundingSize(source);</span>
+<span class="nc" id="L371">            int maximum = Math.min(boundingSize.height - y, maximumSize.height);</span>
+<span class="nc" id="L372">            drag = getDragBounded(drag, snapSize.height, height, minimumSize.height, maximum);</span>
+<span class="nc" id="L373">            height += drag;</span>
+        }
+
+<span class="nc" id="L376">        source.setBounds(x, y, width, height);</span>
+<span class="nc" id="L377">        source.validate();</span>
+<span class="nc" id="L378">    }</span>
+
+    /*
+     *  Determine how far the mouse has moved from where dragging started
+     */
+    private int getDragDistance(int larger, int smaller, int snapSize) {
+<span class="nc" id="L384">        int halfway = snapSize / 2;</span>
+<span class="nc" id="L385">        int drag = larger - smaller;</span>
+<span class="nc bnc" id="L386" title="All 2 branches missed.">        drag += (drag &lt; 0) ? -halfway : halfway;</span>
+<span class="nc" id="L387">        drag = (drag / snapSize) * snapSize;</span>
+
+<span class="nc" id="L389">        return drag;</span>
+    }
+
+    /*
+     *  Adjust the drag value to be within the minimum and maximum range.
+     */
+    private int getDragBounded(int drag, int snapSize, int dimension, int minimum, int maximum) {
+<span class="nc bnc" id="L396" title="All 2 branches missed.">        while (dimension + drag &lt; minimum)</span>
+<span class="nc" id="L397">            drag += snapSize;</span>
+
+<span class="nc bnc" id="L399" title="All 2 branches missed.">        while (dimension + drag &gt; maximum)</span>
+<span class="nc" id="L400">            drag -= snapSize;</span>
+
+
+<span class="nc" id="L403">        return drag;</span>
+    }
+
+    /*
+     *  Keep the size of the component within the bounds of its parent.
+     */
+    private Dimension getBoundingSize(Component source) {
+<span class="nc bnc" id="L410" title="All 2 branches missed.">        if (source instanceof Window) {</span>
+<span class="nc" id="L411">            GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();</span>
+<span class="nc" id="L412">            Rectangle bounds = env.getMaximumWindowBounds();</span>
+<span class="nc" id="L413">            return new Dimension(bounds.width, bounds.height);</span>
+        } else {
+<span class="nc" id="L415">            return source.getParent().getSize();</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

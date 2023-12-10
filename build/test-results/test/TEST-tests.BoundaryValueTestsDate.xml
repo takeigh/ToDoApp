@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="tests.BoundaryValueTestsDate" tests="11" skipped="0" failures="0" errors="0" timestamp="2023-12-10T20:41:19" hostname="DESKTOP-U7HGV34" time="0.286">
+  <properties/>
+  <testcase name="testInvalidDateInput()" classname="tests.BoundaryValueTestsDate" time="0.264"/>
+  <testcase name="testLeapYear()" classname="tests.BoundaryValueTestsDate" time="0.001"/>
+  <testcase name="testInvalidDueDateFormat()" classname="tests.BoundaryValueTestsDate" time="0.001"/>
+  <testcase name="testEmptyDueDateField()" classname="tests.BoundaryValueTestsDate" time="0.001"/>
+  <testcase name="testDateBeforeCurrentDate()" classname="tests.BoundaryValueTestsDate" time="0.006"/>
+  <testcase name="testDueDateSameAsCurrentDate()" classname="tests.BoundaryValueTestsDate" time="0.002"/>
+  <testcase name="testInvalidLeapYear()" classname="tests.BoundaryValueTestsDate" time="0.001"/>
+  <testcase name="testMinimumDateValue()" classname="tests.BoundaryValueTestsDate" time="0.001"/>
+  <testcase name="testMaximumDateValue()" classname="tests.BoundaryValueTestsDate" time="0.001"/>
+  <testcase name="testValidDateInput()" classname="tests.BoundaryValueTestsDate" time="0.001"/>
+  <testcase name="testDateAfterCurrentDate()" classname="tests.BoundaryValueTestsDate" time="0.001"/>
+  <system-out><![CDATA[Invalid date format: 31-12-2023
+Invalid date format: 31-12-2023
+Invalid date format: 
+Due Date is in the past: 2023-12-09
+Due Date is in the past: 2023-12-10
+Invalid date format: 2023-02-29
+Due Date is in the past: 2023-12-10
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

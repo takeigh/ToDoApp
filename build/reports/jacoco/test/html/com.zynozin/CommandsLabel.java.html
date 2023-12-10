@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CommandsLabel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Test Gradle</a> &gt; <a href="index.source.html" class="el_package">com.zynozin</a> &gt; <span class="el_source">CommandsLabel.java</span></div><h1>CommandsLabel.java</h1><pre class="source lang-java linenums">package com.zynozin;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.*;
+
+public class CommandsLabel extends JLabel implements MouseListener {
+<span class="fc" id="L11">    private ImageIcon maximizeIcon = new ImageIcon(&quot;images/maximize.png&quot;);</span>
+<span class="fc" id="L12">    private ImageIcon minimizeIcon = new ImageIcon(&quot;images/minimize.png&quot;);</span>
+    private String title;
+<span class="fc" id="L14">    private Font menuFont = Main.getFontforApp(18f, &quot;fonts/Montserrat-Bold.ttf&quot;);</span>
+
+<span class="fc" id="L16">    public CommandsLabel(String text) {</span>
+<span class="fc" id="L17">        this.setText(text);</span>
+<span class="fc" id="L18">        this.setForeground(new Color(233, 233, 233));</span>
+<span class="fc" id="L19">        this.setOpaque(true);</span>
+<span class="fc" id="L20">        this.setPreferredSize(new Dimension(178, 46));</span>
+<span class="fc" id="L21">        this.setBackground(new Color(64, 64, 64));</span>
+<span class="fc" id="L22">        this.setFont(menuFont);</span>
+<span class="fc" id="L23">        this.setBorder(new EmptyBorder(0, 10, 0, 0));</span>
+
+<span class="fc" id="L25">    }</span>
+
+<span class="fc" id="L27">    public CommandsLabel(String title, ImageIcon icon) {</span>
+<span class="fc" id="L28">        this.title = title;</span>
+<span class="fc" id="L29">        this.setIcon(icon);</span>
+<span class="fc" id="L30">        this.addMouseListener(this);</span>
+<span class="fc" id="L31">        this.setHorizontalAlignment(SwingConstants.CENTER);</span>
+<span class="fc" id="L32">        this.setPreferredSize(new Dimension(55, 46));</span>
+
+<span class="fc" id="L34">    }</span>
+
+    public static void saveTasksElements() throws IOException {
+
+        // Write the content in file
+<span class="nc" id="L39">        BufferedWriter nextWriter = new BufferedWriter(new FileWriter(&quot;files/nextUp.txt&quot;));</span>
+<span class="nc" id="L40">        BufferedWriter inProgressWriter = new BufferedWriter(new FileWriter(&quot;files/inProgress.txt&quot;));</span>
+<span class="nc" id="L41">        BufferedWriter completedWriter = new BufferedWriter(new FileWriter(&quot;files/completed.txt&quot;));</span>
+        //BufferedWriter notesWriter = new BufferedWriter(new FileWriter(&quot;files/notes/notes1.txt&quot;));
+<span class="nc" id="L43">        BufferedWriter checkWriter = new BufferedWriter(new FileWriter(&quot;files/checklist.txt&quot;));</span>
+<span class="nc" id="L44">        BufferedWriter vegetablesWriter = new BufferedWriter(new FileWriter(&quot;files/vegetables.txt&quot;));</span>
+<span class="nc" id="L45">        BufferedWriter fruitsWriter = new BufferedWriter(new FileWriter(&quot;files/fruits.txt&quot;));</span>
+<span class="nc" id="L46">        BufferedWriter drinksWriter = new BufferedWriter(new FileWriter(&quot;files/drinks.txt&quot;));</span>
+<span class="nc" id="L47">        BufferedWriter otherWriter = new BufferedWriter(new FileWriter(&quot;files/other.txt&quot;));</span>
+<span class="nc" id="L48">        BufferedWriter checkIconWriter = new BufferedWriter(new FileWriter(&quot;files/checklistIcon.txt&quot;));</span>
+<span class="nc" id="L49">        BufferedWriter vegetablesIconWriter = new BufferedWriter(new FileWriter(&quot;files/vegetablesIcon.txt&quot;));</span>
+<span class="nc" id="L50">        BufferedWriter fruitsIconWriter = new BufferedWriter(new FileWriter(&quot;files/fruitsIcon.txt&quot;));</span>
+<span class="nc" id="L51">        BufferedWriter drinksIconWriter = new BufferedWriter(new FileWriter(&quot;files/drinksIcon.txt&quot;));</span>
+<span class="nc" id="L52">        BufferedWriter otherIconWriter = new BufferedWriter(new FileWriter(&quot;files/otherIcon.txt&quot;));</span>
+<span class="nc" id="L53">        BufferedWriter wishWriter = new BufferedWriter(new FileWriter(&quot;files/wishes.txt&quot;));</span>
+<span class="nc" id="L54">        BufferedWriter bookWriter = new BufferedWriter(new FileWriter(&quot;files/books.txt&quot;));</span>
+<span class="nc" id="L55">        BufferedWriter startedWriter = new BufferedWriter(new FileWriter(&quot;files/started.txt&quot;));</span>
+<span class="nc" id="L56">        BufferedWriter finishedWriter = new BufferedWriter(new FileWriter(&quot;files/finished.txt&quot;));</span>
+        try {
+<span class="nc bnc" id="L58" title="All 2 branches missed.">            for (ContentDataLabel tskLabel : ContentDataPanel.lastTasksSave) {</span>
+<span class="nc" id="L59">                String lineContent = tskLabel.contentDataArea.getText();</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">                if (tskLabel.currentCategory == &quot;next category&quot;) {</span>
+<span class="nc" id="L61">                    nextWriter.write(lineContent.replace(&quot;\n&quot;, &quot; &quot;).replace(&quot;\r&quot;, &quot; &quot;) + &quot;,&quot; + tskLabel.dueDateLabel.getText().substring(5));</span>
+<span class="nc" id="L62">                    nextWriter.newLine();</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">                } else if (tskLabel.currentCategory == &quot;in progress category&quot;) {</span>
+<span class="nc" id="L64">                    inProgressWriter.write(lineContent.replace(&quot;\n&quot;, &quot; &quot;).replace(&quot;\r&quot;, &quot; &quot;) + &quot;,&quot; + tskLabel.dueDateLabel.getText().substring(5));</span>
+<span class="nc" id="L65">                    inProgressWriter.newLine();</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">                } else if (tskLabel.currentCategory == &quot;completed category&quot;) {</span>
+<span class="nc" id="L67">                    completedWriter.write(lineContent.replace(&quot;\n&quot;, &quot; &quot;).replace(&quot;\r&quot;, &quot; &quot;) + &quot;,&quot; + tskLabel.dueDateLabel.getText().substring(5));</span>
+<span class="nc" id="L68">                    completedWriter.newLine();</span>
+                }
+<span class="nc" id="L70">            }</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">            for (ListOfItems listOfItems : ItemsPanel.lastChecklistSave) {</span>
+<span class="nc" id="L72">                String checkContent = listOfItems.textField.getText();</span>
+<span class="nc" id="L73">                String checkIcon = listOfItems.checklistBox.isChecked.toString();</span>
+<span class="nc" id="L74">                checkWriter.write(checkContent);</span>
+<span class="nc" id="L75">                checkIconWriter.write(checkIcon);</span>
+<span class="nc" id="L76">                checkWriter.newLine();</span>
+<span class="nc" id="L77">                checkIconWriter.newLine();</span>
+<span class="nc" id="L78">            }</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">            for (ListOfItems listOfItems : ContentDataPanel.lastVegetablesListSave) {</span>
+<span class="nc" id="L80">                String vegetablesContent = listOfItems.textField.getText();</span>
+<span class="nc" id="L81">                String vegetablesIcon = listOfItems.checklistBox.isChecked.toString();</span>
+<span class="nc" id="L82">                vegetablesWriter.write(vegetablesContent);</span>
+<span class="nc" id="L83">                vegetablesIconWriter.write(vegetablesIcon);</span>
+<span class="nc" id="L84">                vegetablesWriter.newLine();</span>
+<span class="nc" id="L85">                vegetablesIconWriter.newLine();</span>
+<span class="nc" id="L86">            }</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">            for (ListOfItems listOfItems : ContentDataPanel.lastFruitsListSave) {</span>
+<span class="nc" id="L88">                String fruitsContent = listOfItems.textField.getText();</span>
+<span class="nc" id="L89">                String fruitsIcon = listOfItems.checklistBox.isChecked.toString();</span>
+<span class="nc" id="L90">                fruitsWriter.write(fruitsContent);</span>
+<span class="nc" id="L91">                fruitsIconWriter.write(fruitsIcon);</span>
+<span class="nc" id="L92">                fruitsWriter.newLine();</span>
+<span class="nc" id="L93">                fruitsIconWriter.newLine();</span>
+<span class="nc" id="L94">            }</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">            for (ListOfItems listOfItems : ContentDataPanel.lastDrinksListSave) {</span>
+<span class="nc" id="L96">                String drinksContent = listOfItems.textField.getText();</span>
+<span class="nc" id="L97">                String drinksIcon = listOfItems.checklistBox.isChecked.toString();</span>
+<span class="nc" id="L98">                drinksWriter.write(drinksContent);</span>
+<span class="nc" id="L99">                drinksIconWriter.write(drinksIcon);</span>
+<span class="nc" id="L100">                drinksWriter.newLine();</span>
+<span class="nc" id="L101">                drinksIconWriter.newLine();</span>
+<span class="nc" id="L102">            }</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">            for (ListOfItems listOfItems : ContentDataPanel.lastOtherListSave) {</span>
+<span class="nc" id="L104">                String otherContent = listOfItems.textField.getText();</span>
+<span class="nc" id="L105">                String otherIcon = listOfItems.checklistBox.isChecked.toString();</span>
+<span class="nc" id="L106">                otherWriter.write(otherContent);</span>
+<span class="nc" id="L107">                otherIconWriter.write(otherIcon);</span>
+<span class="nc" id="L108">                otherWriter.newLine();</span>
+<span class="nc" id="L109">                otherIconWriter.newLine();</span>
+<span class="nc" id="L110">            }</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">            for (ListOfItems listOfItems : ContentDataPanel.lastBookListSave) {</span>
+<span class="nc" id="L112">                String bookContent = listOfItems.textField.getText();</span>
+<span class="nc" id="L113">                bookWriter.write(bookContent);</span>
+<span class="nc" id="L114">                bookWriter.newLine();</span>
+<span class="nc" id="L115">            }</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">            for (ListOfItems listOfItems : ContentDataPanel.lastStartedListSave) {</span>
+<span class="nc" id="L117">                String startedContent = listOfItems.textField.getText();</span>
+<span class="nc" id="L118">                startedWriter.write(startedContent);</span>
+<span class="nc" id="L119">                startedWriter.newLine();</span>
+<span class="nc" id="L120">            }</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">            for (ListOfItems listOfItems : ContentDataPanel.lastFinishedListSave) {</span>
+<span class="nc" id="L122">                String finishedContent = listOfItems.textField.getText();</span>
+<span class="nc" id="L123">                finishedWriter.write(finishedContent);</span>
+<span class="nc" id="L124">                finishedWriter.newLine();</span>
+<span class="nc" id="L125">            }</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">            for (ListOfItems wishItems : ItemsPanel.lastWishlistSave) {</span>
+<span class="nc" id="L127">                String wishContent = wishItems.textField.getText();</span>
+<span class="nc" id="L128">                wishWriter.write(wishContent);</span>
+<span class="nc" id="L129">                wishWriter.newLine();</span>
+<span class="nc" id="L130">            }</span>
+            //String notesContent = MainContent.notesPanel.noteSheets.get(&quot;Sheet 1&quot;).getText();
+            //notesWriter.write(notesContent);
+<span class="nc" id="L133">            nextWriter.close();</span>
+<span class="nc" id="L134">            inProgressWriter.close();</span>
+<span class="nc" id="L135">            completedWriter.close();</span>
+            //notesWriter.close();
+<span class="nc" id="L137">            checkWriter.close();</span>
+<span class="nc" id="L138">            checkIconWriter.close();</span>
+<span class="nc" id="L139">            wishWriter.close();</span>
+<span class="nc" id="L140">            vegetablesWriter.close();</span>
+<span class="nc" id="L141">            fruitsWriter.close();</span>
+<span class="nc" id="L142">            drinksWriter.close();</span>
+<span class="nc" id="L143">            otherWriter.close();</span>
+<span class="nc" id="L144">            vegetablesIconWriter.close();</span>
+<span class="nc" id="L145">            fruitsIconWriter.close();</span>
+<span class="nc" id="L146">            drinksIconWriter.close();</span>
+<span class="nc" id="L147">            otherIconWriter.close();</span>
+<span class="nc" id="L148">            bookWriter.close();</span>
+<span class="nc" id="L149">            startedWriter.close();</span>
+<span class="nc" id="L150">            finishedWriter.close();</span>
+<span class="nc" id="L151">        } catch (IOException e) {</span>
+            // Exception handling
+<span class="nc" id="L153">        }</span>
+<span class="nc" id="L154">    }</span>
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+<span class="nc" id="L159">    }</span>
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+<span class="nc bnc" id="L163" title="All 2 branches missed.">        if (title == &quot;close&quot;) {</span>
+            try {
+<span class="nc" id="L165">                saveTasksElements();</span>
+<span class="nc" id="L166">                MainContent.notesPanel.saveAllNoteSheets();</span>
+<span class="nc" id="L167">                ProjectPanel projects = ProjectPanel.getProjectPanel();</span>
+<span class="nc" id="L168">                projects.saveProjects();</span>
+<span class="nc" id="L169">            } catch (IOException ioException) {</span>
+<span class="nc" id="L170">                ioException.printStackTrace();</span>
+<span class="nc" id="L171">            }</span>
+<span class="nc" id="L172">            ContentDataPanel.lastTasksSave.clear();</span>
+<span class="nc" id="L173">            Main.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span>
+<span class="nc" id="L174">            Main.frame.dispose();</span>
+<span class="nc" id="L175">            System.exit(0);</span>
+        }
+<span class="nc bnc" id="L177" title="All 2 branches missed.">        if (title == &quot;hide&quot;) {</span>
+<span class="nc" id="L178">            Main.frame.setExtendedState(JFrame.ICONIFIED);</span>
+        }/* else {
+            if (title == &quot;maximize&quot;) {
+                Main.frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                this.setIcon(minimizeIcon);
+                this.title = &quot;minimize&quot;;
+            } else if (title == &quot;minimize&quot;) {
+                Main.frame.setExtendedState(JFrame.NORMAL);
+                this.setIcon(maximizeIcon);
+                this.title = &quot;maximize&quot;;
+            }
+
+        }
+        */
+<span class="nc" id="L192">    }</span>
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+<span class="nc" id="L196">    }</span>
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+<span class="nc bnc" id="L200" title="All 2 branches missed.">        if (title == &quot;close&quot;) {</span>
+<span class="nc" id="L201">            this.setOpaque(true);</span>
+<span class="nc" id="L202">            this.setBackground(Color.RED);</span>
+        } else {
+<span class="nc" id="L204">            this.setOpaque(true);</span>
+<span class="nc" id="L205">            this.setBackground(new Color(121, 121, 121));</span>
+        }
+
+<span class="nc" id="L208">    }</span>
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+<span class="nc" id="L213">        this.setBackground(new Color(37, 37, 37));</span>
+<span class="nc" id="L214">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

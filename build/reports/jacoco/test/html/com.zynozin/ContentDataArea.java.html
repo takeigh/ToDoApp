@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ContentDataArea.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Test Gradle</a> &gt; <a href="index.source.html" class="el_package">com.zynozin</a> &gt; <span class="el_source">ContentDataArea.java</span></div><h1>ContentDataArea.java</h1><pre class="source lang-java linenums">package com.zynozin;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.text.DefaultStyledDocument;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.text.*;
+
+import java.awt.event.KeyEvent;
+
+import components.DocumentSizeFilter;
+
+public class ContentDataArea extends JTextArea {
+<span class="fc" id="L16">    private Font tasksFont = Main.getFontforApp(16f, &quot;fonts/Montserrat-Medium.ttf&quot;);</span>
+<span class="fc" id="L17">    private DefaultStyledDocument doc = new DefaultStyledDocument();</span>
+
+
+<span class="fc" id="L20">    public ContentDataArea() {</span>
+<span class="fc" id="L21">        doc.setDocumentFilter(new DocumentSizeFilter(60));</span>
+<span class="fc" id="L22">        this.setBackground(new Color(250, 37, 37));</span>
+<span class="fc" id="L23">        this.setLineWrap(true);</span>
+<span class="fc" id="L24">        this.setCaretColor(Color.WHITE);</span>
+<span class="fc" id="L25">        this.setWrapStyleWord(true);</span>
+<span class="fc" id="L26">        this.setOpaque(false);</span>
+<span class="fc" id="L27">        this.setBounds(4, 4, 300, 50);</span>
+<span class="fc" id="L28">        this.setBorder(new EmptyBorder(7, 5, 0, 5));</span>
+<span class="fc" id="L29">        this.setFont(tasksFont);</span>
+<span class="fc" id="L30">        this.setForeground(Color.WHITE);</span>
+<span class="fc" id="L31">        this.setDocument(doc);</span>
+
+<span class="fc" id="L33">    }</span>
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

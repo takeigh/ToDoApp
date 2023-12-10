@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MenuOption.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Test Gradle</a> &gt; <a href="index.source.html" class="el_package">com.zynozin</a> &gt; <span class="el_source">MenuOption.java</span></div><h1>MenuOption.java</h1><pre class="source lang-java linenums">package com.zynozin;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+public class MenuOption extends JLabel implements MouseListener {
+<span class="fc" id="L9">    private Font menuOptionFont = Main.getFontforApp(14f, &quot;fonts/Montserrat-Medium.ttf&quot;);</span>
+    private String title;
+
+<span class="fc" id="L12">    public MenuOption(String text) {</span>
+<span class="fc" id="L13">        this.setPreferredSize(new Dimension(178, 37));</span>
+<span class="fc" id="L14">        this.title = text;</span>
+<span class="fc" id="L15">        this.setText(text);</span>
+<span class="fc" id="L16">        this.setForeground(Color.white);</span>
+<span class="fc" id="L17">        this.setHorizontalAlignment(SwingConstants.CENTER);</span>
+<span class="fc" id="L18">        this.setVerticalAlignment(SwingConstants.CENTER);</span>
+<span class="fc" id="L19">        this.setFont(menuOptionFont);</span>
+<span class="fc" id="L20">        this.addMouseListener(this);</span>
+
+<span class="fc" id="L22">    }</span>
+
+    public void setEverythingNotVisible() {
+<span class="fc" id="L25">        MainContent.tasksContentScrollPane.setVisible(false);</span>
+<span class="fc" id="L26">        MainContent.notesPanel.setVisible(false);</span>
+<span class="fc" id="L27">        MainContent.ideaScrollPane.setVisible(false);</span>
+<span class="fc" id="L28">        MainContent.checklistScrollPane.setVisible(false);</span>
+<span class="fc" id="L29">        MainContent.wishlistScrollPane.setVisible(false);</span>
+<span class="fc" id="L30">        MainContent.groceryScrollPane.setVisible(false);</span>
+<span class="fc" id="L31">        MainContent.bookScrollPane.setVisible(false);</span>
+<span class="fc" id="L32">        MainContent.calendarPanel.setVisible(false);</span>
+<span class="fc" id="L33">    }</span>
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+<span class="nc" id="L38">    }</span>
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        if (title.equals(&quot;Tasks List&quot;)) {</span>
+<span class="fc" id="L43">            MyFrame.mainContent.setContentHeader(MainContent.contentHeaders[0]);</span>
+<span class="fc" id="L44">            ContentFooter.quotes.setQuote(Quotes.quotesLabel[0]);</span>
+<span class="fc" id="L45">            ContentFooter.quotes.setAuthor(Quotes.authors[0]);</span>
+<span class="fc" id="L46">            setEverythingNotVisible();</span>
+<span class="fc" id="L47">            MyFrame.mainContent.add(MainContent.tasksContentScrollPane, BorderLayout.CENTER);</span>
+<span class="fc" id="L48">            MainContent.tasksContentScrollPane.setVisible(true);</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        } else if (title.equals(&quot;Project Ideas&quot;)) {</span>
+<span class="fc" id="L50">            MyFrame.mainContent.setContentHeader(MainContent.contentHeaders[1]);</span>
+<span class="fc" id="L51">            ContentFooter.quotes.setQuote(Quotes.quotesLabel[1]);</span>
+<span class="fc" id="L52">            ContentFooter.quotes.setAuthor(Quotes.authors[1]);</span>
+<span class="fc" id="L53">            setEverythingNotVisible();</span>
+<span class="fc" id="L54">            MyFrame.mainContent.add(MainContent.ideaScrollPane, BorderLayout.CENTER);</span>
+<span class="fc" id="L55">            MainContent.ideaScrollPane.setVisible(true);</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        } else if (title.equals(&quot;Grocery List&quot;)) {</span>
+<span class="fc" id="L57">            MyFrame.mainContent.setContentHeader(MainContent.contentHeaders[2]);</span>
+<span class="fc" id="L58">            ContentFooter.quotes.setQuote(Quotes.quotesLabel[2]);</span>
+<span class="fc" id="L59">            ContentFooter.quotes.setAuthor(Quotes.authors[2]);</span>
+<span class="fc" id="L60">            setEverythingNotVisible();</span>
+<span class="fc" id="L61">            MyFrame.mainContent.add(MainContent.groceryScrollPane, BorderLayout.CENTER);</span>
+<span class="fc" id="L62">            MainContent.groceryScrollPane.setVisible(true);</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">        } else if (title.equals(&quot;Checklist&quot;)) {</span>
+<span class="nc" id="L64">            MyFrame.mainContent.setContentHeader(MainContent.contentHeaders[3]);</span>
+<span class="nc" id="L65">            ContentFooter.quotes.setQuote(Quotes.quotesLabel[3]);</span>
+<span class="nc" id="L66">            ContentFooter.quotes.setAuthor(Quotes.authors[3]);</span>
+<span class="nc" id="L67">            setEverythingNotVisible();</span>
+<span class="nc" id="L68">            MyFrame.mainContent.add(MainContent.checklistScrollPane, BorderLayout.CENTER);</span>
+<span class="nc" id="L69">            MainContent.checklistScrollPane.setVisible(true);</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">        } else if (title.equals(&quot;Reading Journal&quot;)) {</span>
+<span class="fc" id="L71">            MyFrame.mainContent.setContentHeader(MainContent.contentHeaders[4]);</span>
+<span class="fc" id="L72">            ContentFooter.quotes.setQuote(Quotes.quotesLabel[4]);</span>
+<span class="fc" id="L73">            ContentFooter.quotes.setAuthor(Quotes.authors[4]);</span>
+<span class="fc" id="L74">            setEverythingNotVisible();</span>
+<span class="fc" id="L75">            MyFrame.mainContent.add(MainContent.bookScrollPane, BorderLayout.CENTER);</span>
+<span class="fc" id="L76">            MainContent.bookScrollPane.setVisible(true);</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">        } else if (title.equals(&quot;Notes&quot;)) {</span>
+<span class="fc" id="L78">            MyFrame.mainContent.setContentHeader(MainContent.contentHeaders[5]);</span>
+<span class="fc" id="L79">            ContentFooter.quotes.setQuote(Quotes.quotesLabel[5]);</span>
+<span class="fc" id="L80">            ContentFooter.quotes.setAuthor(Quotes.authors[5]);</span>
+<span class="fc" id="L81">            setEverythingNotVisible();</span>
+<span class="fc" id="L82">            MyFrame.mainContent.add(MainContent.notesPanel, BorderLayout.CENTER);</span>
+<span class="fc" id="L83">            MainContent.notesPanel.setVisible(true);</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">        } else if (title.equals(&quot;Wishlist&quot;)) {</span>
+<span class="fc" id="L85">            MyFrame.mainContent.setContentHeader(MainContent.contentHeaders[6]);</span>
+<span class="fc" id="L86">            ContentFooter.quotes.setQuote(Quotes.quotesLabel[6]);</span>
+<span class="fc" id="L87">            ContentFooter.quotes.setAuthor(Quotes.authors[6]);</span>
+<span class="fc" id="L88">            setEverythingNotVisible();</span>
+<span class="fc" id="L89">            MyFrame.mainContent.add(MainContent.wishlistScrollPane, BorderLayout.CENTER);</span>
+<span class="fc" id="L90">            MainContent.wishlistScrollPane.setVisible(true);</span>
+<span class="pc bpc" id="L91" title="1 of 2 branches missed.">        } else if (title.equals(&quot;Calendar&quot;)) {</span>
+<span class="fc" id="L92">            MainContent.calendarPanel.updateCalendar();</span>
+<span class="fc" id="L93">            MyFrame.mainContent.setContentHeader(MainContent.contentHeaders[7]);</span>
+<span class="fc" id="L94">            setEverythingNotVisible();</span>
+<span class="fc" id="L95">            MyFrame.mainContent.add(MainContent.calendarPanel, BorderLayout.CENTER);</span>
+<span class="fc" id="L96">            MainContent.calendarPanel.setVisible(true);</span>
+        }
+<span class="fc" id="L98">        this.setBackground(new Color(44, 44, 44));</span>
+<span class="fc" id="L99">    }</span>
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+<span class="nc" id="L103">    }</span>
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+<span class="nc" id="L108">        this.setOpaque(true);</span>
+<span class="nc" id="L109">        this.setBackground(new Color(121, 121, 121));</span>
+<span class="nc" id="L110">    }</span>
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+<span class="nc" id="L115">        this.setBackground(new Color(64, 64, 64));</span>
+<span class="nc" id="L116">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

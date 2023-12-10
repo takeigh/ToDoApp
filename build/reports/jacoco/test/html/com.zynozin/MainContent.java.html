@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MainContent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Test Gradle</a> &gt; <a href="index.source.html" class="el_package">com.zynozin</a> &gt; <span class="el_source">MainContent.java</span></div><h1>MainContent.java</h1><pre class="source lang-java linenums">package com.zynozin;
+
+import javax.swing.*;
+import java.awt.*;
+import java.io.IOException;
+
+public class MainContent extends JPanel {
+<span class="fc" id="L8">    private final int WIDTH = 1122;</span>
+<span class="fc" id="L9">    private final int HEIGHT = 654;</span>
+
+<span class="fc" id="L11">    public static ContentHeader[] contentHeaders = {</span>
+            new ContentHeader(&quot;images/tasks.png&quot;, &quot;A simple Tasks list template that can help you organize your daily tasks smoothly.&quot;, &quot;Tasks List.&quot;),
+            new ContentHeader(&quot;images/project.png&quot;, &quot;Have a project idea in mind? Just write it down here and come back to it later.&quot;, &quot;Project Ideas.&quot;),
+            new ContentHeader(&quot;images/groceries.png&quot;, &quot;Organize your daily life by listing all the groceries you need to get.&quot;, &quot;Grocery List.&quot;),
+            new ContentHeader(&quot;images/checklist.png&quot;, &quot;Write some actions that won't take much of your time.&quot;, &quot;Checklist.&quot;),
+            new ContentHeader(&quot;images/journal.png&quot;, &quot;Started or finished from reading a book? State it here so you can keep track of it.&quot;, &quot;Reading Journal.&quot;),
+            new ContentHeader(&quot;images/notes.png&quot;, &quot;If you have anything you would like to write and save, just write it here!&quot;, &quot;Notes.&quot;),
+            new ContentHeader(&quot;images/wishlist.png&quot;, &quot;You want to get something but you can't at the moment? Write it here so you remember it later.&quot;, &quot;Wishlist.&quot;),
+            new ContentHeader(&quot;images/calendar.png&quot;, &quot;A calendar to view how many tasks are due each day&quot;, &quot;Calendar&quot;)
+
+    };
+<span class="fc" id="L22">    public ContentHeader contentHeader = contentHeaders[0];</span>
+    public ContentFooter contentFooter;
+    public ContentDataPanel tasksData;
+    public ContentDataPanel groceryData;
+    public ContentDataPanel bookData;
+    public static NotesPanel notesPanel;
+    public static ItemsPanel checklistPanel;
+    public static ProjectPanel ideaPanel;
+    public static ItemsPanel wishlistPanel;
+    public static ModernScrollPane tasksContentScrollPane;
+    public static ModernScrollPane checklistScrollPane;
+    public static ModernScrollPane ideaScrollPane;
+    public static ModernScrollPane wishlistScrollPane;
+    public static ModernScrollPane groceryScrollPane;
+    public static ModernScrollPane bookScrollPane;
+    public static MainContent mainContent;
+
+    public static CalendarPanel calendarPanel;
+
+<span class="fc" id="L41">    public MainContent() throws IOException {</span>
+<span class="fc" id="L42">        notesPanel = new NotesPanel();</span>
+<span class="fc" id="L43">        notesPanel.loadAllNoteSheets();</span>
+
+<span class="fc" id="L45">        calendarPanel = new CalendarPanel();</span>
+
+<span class="fc" id="L47">        mainContent = this;</span>
+<span class="fc" id="L48">        contentFooter = new ContentFooter();</span>
+<span class="fc" id="L49">        tasksData = new ContentDataPanel(&quot;taskslist&quot;);</span>
+<span class="fc" id="L50">        groceryData = new ContentDataPanel(&quot;grocery list&quot;);</span>
+<span class="fc" id="L51">        bookData = new ContentDataPanel(&quot;reading journal&quot;);</span>
+<span class="fc" id="L52">        notesPanel = new NotesPanel();</span>
+<span class="fc" id="L53">        checklistPanel = new ItemsPanel(&quot;checklist&quot;);</span>
+<span class="fc" id="L54">        ideaPanel = ProjectPanel.getProjectPanel();</span>
+<span class="fc" id="L55">        wishlistPanel = new ItemsPanel(&quot;wishlist&quot;);</span>
+<span class="fc" id="L56">        tasksContentScrollPane = new ModernScrollPane(tasksData);</span>
+<span class="fc" id="L57">        checklistScrollPane = new ModernScrollPane(checklistPanel);</span>
+<span class="fc" id="L58">        ideaScrollPane = new ModernScrollPane(ideaPanel);</span>
+<span class="fc" id="L59">        wishlistScrollPane = new ModernScrollPane(wishlistPanel);</span>
+<span class="fc" id="L60">        groceryScrollPane = new ModernScrollPane(groceryData);</span>
+<span class="fc" id="L61">        bookScrollPane = new ModernScrollPane(bookData);</span>
+<span class="fc" id="L62">        this.setLayout(new BorderLayout());</span>
+<span class="fc" id="L63">        this.add(contentHeader, BorderLayout.NORTH);</span>
+<span class="fc" id="L64">        this.add(tasksContentScrollPane, BorderLayout.CENTER);</span>
+<span class="fc" id="L65">        notesPanel.writeSavedElements();</span>
+<span class="fc" id="L66">        this.add(contentFooter, BorderLayout.SOUTH);</span>
+<span class="fc" id="L67">        this.setOpaque(true);</span>
+<span class="fc" id="L68">        this.setPreferredSize(new Dimension(WIDTH, HEIGHT));</span>
+<span class="fc" id="L69">        this.setBackground(new Color(37, 37, 37));</span>
+<span class="fc" id="L70">    }</span>
+
+    public void setContentHeader(ContentHeader contentHeader) {
+<span class="fc" id="L73">        this.contentHeader.setVisible(false);</span>
+<span class="fc" id="L74">        this.contentHeader = contentHeader;</span>
+<span class="fc" id="L75">        this.add(this.contentHeader, BorderLayout.NORTH);</span>
+<span class="fc" id="L76">        this.contentHeader.setVisible(true);</span>
+<span class="fc" id="L77">    }</span>
+
+    public ContentHeader getContentHeader() {
+<span class="fc" id="L80">        return contentHeader;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

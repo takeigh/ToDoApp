@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IntegrationTests.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Test Gradle</a> &gt; <a href="index.source.html" class="el_package">tests</a> &gt; <span class="el_source">IntegrationTests.java</span></div><h1>IntegrationTests.java</h1><pre class="source lang-java linenums">package tests;
+
+import com.zynozin.NewTask;
+import com.zynozin.NotesPanel;
+import org.junit.jupiter.api.*;
+
+import javax.swing.*;
+import java.awt.event.MouseEvent;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+<span class="fc" id="L14">public class IntegrationTests {</span>
+<span class="fc" id="L15">    private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();</span>
+<span class="fc" id="L16">    private final PrintStream originalOut = System.out;</span>
+    private NewTask newTask;
+    private NotesPanel notesPanel;
+
+    @BeforeEach
+    public void setUp() {
+<span class="fc" id="L22">        newTask = new NewTask(&quot;taskslist&quot;);</span>
+<span class="fc" id="L23">        notesPanel = new NotesPanel();</span>
+<span class="fc" id="L24">        System.setOut(new PrintStream(outputStreamCaptor));</span>
+<span class="fc" id="L25">    }</span>
+
+    @AfterEach
+    public void tearDown() {
+<span class="fc" id="L29">        System.setOut(originalOut);</span>
+<span class="fc" id="L30">    }</span>
+
+    @Test
+    public void testTaskCreationAndNoteSheetUpdate() throws NoSuchFieldException, IllegalAccessException {
+        // Verify that a new task has been added to the notes panel
+<span class="fc" id="L35">        assertEquals(7, notesPanel.getNoteSheetsSize());</span>
+
+<span class="fc" id="L37">        notesPanel.createNoteSheet(&quot;taskslist&quot;);</span>
+
+        // Verify that the note sheet associated with the new task is selected
+<span class="fc" id="L40">        assertEquals(&quot;taskslist&quot;, notesPanel.getSelectedNoteSheet(&quot;taskslist&quot;));</span>
+        //Verify add number of NoteSheets
+<span class="fc" id="L42">        assertEquals(8, notesPanel.getNoteSheetsSize());</span>
+
+        // Arrange
+<span class="fc" id="L45">        NewTask newTask = new NewTask(&quot;taskslist&quot;);</span>
+<span class="fc" id="L46">        JTextField taskField = new JTextField(&quot;Test Task Description&quot;);</span>
+<span class="fc" id="L47">        JTextField dueDateField = new JTextField(&quot;2025-12-31&quot;);</span>
+<span class="fc" id="L48">        newTask.setTaskField(taskField);</span>
+<span class="fc" id="L49">        newTask.setDueDateField(dueDateField);</span>
+<span class="fc" id="L50">        newTask.dueDate = dueDateField.getText();</span>
+        // Act
+<span class="pc bpc" id="L52" title="2 of 4 branches missed.">        if (newTask.isTaskDescriptionValid(taskField.getText()) &amp;&amp; newTask.isDueDateValid(dueDateField.getText())) {</span>
+<span class="fc" id="L53">            newTask.mouseClicked(new MouseEvent(newTask, 0, 0, 0, 0, 0, 0, false));</span>
+        }
+        // Assert: Check if the due date is printed correctly
+<span class="fc" id="L56">        assertEquals(&quot;Due Date: 2025-12-31&quot; + System.lineSeparator() + &quot;Task Description: Test Task Description&quot; + System.lineSeparator(), outputStreamCaptor.toString());</span>
+<span class="fc" id="L57">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

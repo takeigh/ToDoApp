@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="tests.CalendarUnitTests" tests="7" skipped="0" failures="0" errors="0" timestamp="2023-12-10T20:41:19" hostname="DESKTOP-U7HGV34" time="0.111">
+  <properties/>
+  <testcase name="checkInitialHeaderTest()" classname="tests.CalendarUnitTests" time="0.022"/>
+  <testcase name="checkNextHeaderTest()" classname="tests.CalendarUnitTests" time="0.023"/>
+  <testcase name="checkCorrectStartDayTest()" classname="tests.CalendarUnitTests" time="0.011"/>
+  <testcase name="checkCorrectTaskCountTest()" classname="tests.CalendarUnitTests" time="0.01"/>
+  <testcase name="checkCorrectNumberDaysTest()" classname="tests.CalendarUnitTests" time="0.011"/>
+  <testcase name="checkPrevHeaderTest()" classname="tests.CalendarUnitTests" time="0.02"/>
+  <testcase name="checkWeekDaysTest()" classname="tests.CalendarUnitTests" time="0.01"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

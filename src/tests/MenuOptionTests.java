@@ -1,25 +1,27 @@
 package tests;
 
-import com.zynozin.*;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import com.zynozin.ContentDataPanel;
+import com.zynozin.MenuOption;
+import com.zynozin.MyFrame;
+import com.zynozin.MainContent;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
-import static org.junit.Assert.*;
-
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MenuOptionTests {
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
         // Initialize necessary components before each test
         MyFrame mainFrame = new MyFrame();
     }
 
-    @After
+    @AfterEach
     public void cleanUp() {
         ContentDataPanel.lastTasksSave.clear();
     }
@@ -44,6 +46,7 @@ public class MenuOptionTests {
                 return false;
         }
     }
+
     @Test
     public void testTaskListClick() {
         // Create a MenuOption instance
@@ -67,6 +70,7 @@ public class MenuOptionTests {
         assertFalse(isOnlyPanelVisible("Grocery List"));
         assertFalse(isOnlyPanelVisible("wishlist"));
     }
+
     @Test
     public void testNotesPanelClick() {
         MenuOption menuOption = new MenuOption("Notes");
@@ -86,6 +90,7 @@ public class MenuOptionTests {
         assertFalse(isOnlyPanelVisible("Grocery List"));
         assertFalse(isOnlyPanelVisible("wishlist"));
     }
+
     @Test
     public void testProjectIdeasClick() {
         MenuOption menuOption = new MenuOption("Project Ideas");
@@ -106,6 +111,7 @@ public class MenuOptionTests {
         assertFalse(isOnlyPanelVisible("Grocery List"));
         assertFalse(isOnlyPanelVisible("wishlist"));
     }
+
     @Test
     public void testReadingJournalClick() {
         MenuOption menuOption = new MenuOption("Reading Journal");
@@ -125,6 +131,7 @@ public class MenuOptionTests {
         assertFalse(isOnlyPanelVisible("Grocery List"));
         assertFalse(isOnlyPanelVisible("wishlist"));
     }
+
     @Test
     public void testCalendarClick() {
         MenuOption menuOption = new MenuOption("Calendar");
@@ -144,6 +151,7 @@ public class MenuOptionTests {
         assertFalse(isOnlyPanelVisible("Grocery List"));
         assertFalse(isOnlyPanelVisible("wishlist"));
     }
+
     @Test
     public void testGroceryListClick() {
         MenuOption menuOption = new MenuOption("Grocery List");
@@ -163,6 +171,7 @@ public class MenuOptionTests {
         assertTrue(isOnlyPanelVisible("Grocery List"));
         assertFalse(isOnlyPanelVisible("wishlist"));
     }
+
     @Test
     public void testWishlistClick() {
         MenuOption menuOption = new MenuOption("Wishlist");

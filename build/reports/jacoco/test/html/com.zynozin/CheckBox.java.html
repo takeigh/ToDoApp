@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CheckBox.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Test Gradle</a> &gt; <a href="index.source.html" class="el_package">com.zynozin</a> &gt; <span class="el_source">CheckBox.java</span></div><h1>CheckBox.java</h1><pre class="source lang-java linenums">package com.zynozin;
+
+import javax.swing.*;
+import javax.swing.border.MatteBorder;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+public class CheckBox extends JLabel implements MouseListener {
+<span class="fc" id="L10">    private ImageIcon checkedIcon = new ImageIcon(&quot;images/checked.png&quot;);</span>
+    public Boolean isChecked;
+    ListOfItems listOfItems;
+
+<span class="fc" id="L14">    public CheckBox(ImageIcon imageIcon) {</span>
+<span class="fc" id="L15">        setPreferredSize(new Dimension(30, 20));</span>
+<span class="fc" id="L16">        setOpaque(true);</span>
+<span class="fc" id="L17">        setIcon(imageIcon);</span>
+<span class="fc" id="L18">        setBackground(new Color(37, 37, 37));</span>
+
+<span class="fc" id="L20">    }</span>
+
+<span class="fc" id="L22">    public CheckBox(ListOfItems listOfItems) {</span>
+<span class="fc" id="L23">        setPreferredSize(new Dimension(20, 5));</span>
+<span class="fc" id="L24">        setBorder(new MatteBorder(2, 2, 2, 2, Color.LIGHT_GRAY));</span>
+<span class="fc" id="L25">        setOpaque(true);</span>
+<span class="fc" id="L26">        this.listOfItems = listOfItems;</span>
+<span class="fc" id="L27">        setBackground(new Color(37, 37, 37));</span>
+<span class="fc" id="L28">        addMouseListener(this);</span>
+<span class="fc" id="L29">    }</span>
+
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+<span class="nc" id="L35">    }</span>
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+<span class="nc bnc" id="L39" title="All 2 branches missed.">        if (isChecked == false) {</span>
+<span class="nc" id="L40">            setIcon(checkedIcon);</span>
+<span class="nc" id="L41">            listOfItems.textField.setForeground(Color.DARK_GRAY);</span>
+<span class="nc" id="L42">            listOfItems.textField.setEditable(false);</span>
+<span class="nc" id="L43">            isChecked = true;</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        } else if (isChecked == true) {</span>
+<span class="nc" id="L45">            setIcon(null);</span>
+<span class="nc" id="L46">            isChecked = false;</span>
+<span class="nc" id="L47">            listOfItems.textField.setForeground(Color.WHITE);</span>
+<span class="nc" id="L48">            listOfItems.textField.setEditable(true);</span>
+        }
+
+
+<span class="nc" id="L52">    }</span>
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+<span class="nc" id="L57">    }</span>
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+<span class="nc" id="L62">    }</span>
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+<span class="nc" id="L67">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

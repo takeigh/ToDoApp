@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NotesPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Test Gradle</a> &gt; <a href="index.source.html" class="el_package">com.zynozin</a> &gt; <span class="el_source">NotesPanel.java</span></div><h1>NotesPanel.java</h1><pre class="source lang-java linenums">package com.zynozin;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
+import java.awt.*;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class NotesPanel extends JPanel {
+<span class="fc" id="L14">    private final int WIDTH = 1120;</span>
+<span class="fc" id="L15">    private final int HEIGHT = 425;</span>
+    private ModernScrollPane modernScrollPane;
+    public JComboBox&lt;String&gt; noteSheetSelector;
+    public Map&lt;String, NotesArea&gt; noteSheets;  // Use NotesArea instead of JTextArea
+<span class="fc" id="L19">    public static List&lt;ListOfItems&gt; lastNotesSave = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L21">    public NotesPanel() {</span>
+<span class="fc" id="L22">        noteSheets = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L23">        noteSheetSelector = new JComboBox&lt;&gt;();</span>
+<span class="fc" id="L24">        modernScrollPane = new ModernScrollPane(new NotesArea());</span>
+<span class="fc" id="L25">        modernScrollPane.setBorder(new MatteBorder(3, 3, 3, 3, Color.darkGray));</span>
+
+<span class="fc" id="L27">        setBackground(new Color(37, 37, 37));</span>
+<span class="fc" id="L28">        setOpaque(true);</span>
+<span class="fc" id="L29">        setPreferredSize(new Dimension(WIDTH, HEIGHT));</span>
+<span class="fc" id="L30">        setLayout(new FlowLayout());</span>
+
+        // Add a JComboBox to select note sheets
+<span class="fc" id="L33">        noteSheetSelector.addActionListener(e -&gt; updateNoteSheet());</span>
+<span class="fc" id="L34">        add(noteSheetSelector, BorderLayout.NORTH);</span>
+<span class="fc" id="L35">        add(modernScrollPane, BorderLayout.CENTER);</span>
+
+        // Create the default note sheet
+<span class="fc" id="L38">        createNoteSheet(&quot;Sheet 1&quot;);</span>
+<span class="fc" id="L39">        createNoteSheet(&quot;Sheet 2&quot;);</span>
+<span class="fc" id="L40">        createNoteSheet(&quot;Sheet 3&quot;);</span>
+<span class="fc" id="L41">        createNoteSheet(&quot;Sheet 4&quot;);</span>
+<span class="fc" id="L42">        createNoteSheet(&quot;Sheet 5&quot;);</span>
+<span class="fc" id="L43">        createNoteSheet(&quot;Sheet 6&quot;);</span>
+<span class="fc" id="L44">        createNoteSheet(&quot;Sheet 7&quot;);</span>
+
+<span class="fc" id="L46">        loadAllNoteSheets();</span>
+<span class="fc" id="L47">    }</span>
+
+    // Method to create a new note sheet
+    public void createNoteSheet(String sheetName) {
+<span class="fc" id="L51">        NotesArea newNotesArea = new NotesArea();</span>
+<span class="fc" id="L52">        noteSheets.put(sheetName, newNotesArea);</span>
+<span class="fc" id="L53">        noteSheetSelector.addItem(sheetName);</span>
+
+        // Set the first created note sheet as the current one
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        if (noteSheets.size() == 1) {</span>
+<span class="fc" id="L57">            selectNoteSheet(sheetName);</span>
+        }
+<span class="fc" id="L59">    }</span>
+
+    // New method to save a specific note sheet to a file
+    public void saveNoteSheet(String sheetName) throws IOException {
+<span class="fc" id="L63">        PrintWriter writer = new PrintWriter(&quot;files/notes/&quot; + sheetName + &quot;.txt&quot;);</span>
+        try {
+<span class="fc" id="L65">            writer.write(noteSheets.get(sheetName).getText());</span>
+        } finally {
+<span class="fc" id="L67">            writer.close();</span>
+        }
+<span class="fc" id="L69">    }</span>
+    // New method to load a specific note sheet from a file
+    public void loadNoteSheet(String sheetName) throws IOException {
+<span class="fc" id="L72">        BufferedReader notes = new BufferedReader(new FileReader(&quot;files/notes/&quot; + sheetName + &quot;.txt&quot;));</span>
+<span class="fc" id="L73">        StringBuilder sb = new StringBuilder();</span>
+        try {
+<span class="fc" id="L75">            String notesLine = notes.readLine();</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">            while (notesLine != null) {</span>
+<span class="fc" id="L77">                sb.append(notesLine);</span>
+<span class="fc" id="L78">                sb.append(System.lineSeparator());</span>
+<span class="fc" id="L79">                notesLine = notes.readLine();</span>
+            }
+        } finally {
+<span class="fc" id="L82">            notes.close();</span>
+        }
+<span class="fc" id="L84">        noteSheets.get(sheetName).setText(sb.toString());</span>
+<span class="fc" id="L85">    }</span>
+
+    // New method to save all note sheets
+    public void saveAllNoteSheets() {
+<span class="fc bfc" id="L89" title="All 2 branches covered.">        for (String sheetName : noteSheets.keySet()) {</span>
+            try {
+<span class="fc" id="L91">                saveNoteSheet(sheetName);</span>
+<span class="nc" id="L92">            } catch (IOException e) {</span>
+<span class="nc" id="L93">                e.printStackTrace();</span>
+<span class="fc" id="L94">            }</span>
+<span class="fc" id="L95">        }</span>
+<span class="fc" id="L96">    }</span>
+
+    // New method to load all note sheets
+    public void loadAllNoteSheets() {
+<span class="fc bfc" id="L100" title="All 2 branches covered.">        for (String sheetName : noteSheets.keySet()) {</span>
+            try {
+<span class="fc" id="L102">                loadNoteSheet(sheetName);</span>
+<span class="nc" id="L103">            } catch (IOException e) {</span>
+<span class="nc" id="L104">                e.printStackTrace();</span>
+<span class="fc" id="L105">            }</span>
+<span class="fc" id="L106">        }</span>
+<span class="fc" id="L107">    }</span>
+    // Method to switch between note sheets
+    public void updateNoteSheet() {
+<span class="fc" id="L110">        String selectedSheet = (String) noteSheetSelector.getSelectedItem();</span>
+<span class="fc" id="L111">        selectNoteSheet(selectedSheet);</span>
+<span class="fc" id="L112">    }</span>
+
+    // Method to select a specific note sheet
+    public String selectNoteSheet(String sheetName) {
+<span class="fc" id="L116">        NotesArea selectedNotes = noteSheets.get(sheetName);</span>
+<span class="fc" id="L117">        modernScrollPane.setViewportView(selectedNotes);</span>
+<span class="fc" id="L118">        return sheetName;</span>
+    }
+    // New method to get the size of note sheets
+    public int getNoteSheetsSize() {
+<span class="fc" id="L122">        return noteSheets.size();</span>
+    }
+
+    // New method to check if a note sheet exists
+    public boolean doesNoteSheetExist(String sheetName) {
+<span class="fc" id="L127">        return noteSheets.containsKey(sheetName);</span>
+    }
+
+    // New method to get the currently selected note sheet
+    public String getSelectedNoteSheet(String sheetName) {
+<span class="fc" id="L132">        return selectNoteSheet(sheetName);</span>
+    }
+
+    public void writeSavedElements() throws IOException {
+        // Save all note sheets before reading from the file
+<span class="fc" id="L137">        saveAllNoteSheets();</span>
+
+        // Load the content of all note sheets from the file
+<span class="fc" id="L140">        loadAllNoteSheets();</span>
+<span class="fc" id="L141">    }</span>
+    public class NotesArea extends JTextArea {
+<span class="fc" id="L143">        private Font notesFont = Main.getFontforApp(18f, &quot;fonts/Montserrat-Light.ttf&quot;);</span>
+
+<span class="fc" id="L145">        public NotesArea() {</span>
+<span class="fc" id="L146">            this.setBackground(new Color(20, 20, 20));</span>
+<span class="fc" id="L147">            this.setLineWrap(true);</span>
+<span class="fc" id="L148">            this.setCaretColor(Color.WHITE);</span>
+<span class="fc" id="L149">            this.setWrapStyleWord(true);</span>
+<span class="fc" id="L150">            this.setOpaque(true);</span>
+<span class="fc" id="L151">            this.setBounds(20, 20, 1000, 1000);</span>
+<span class="fc" id="L152">            this.setPreferredSize(new Dimension(1000, 455));</span>
+<span class="fc" id="L153">            this.setBorder(new EmptyBorder(7, 5, 0, 5));</span>
+<span class="fc" id="L154">            this.setFont(notesFont);</span>
+<span class="fc" id="L155">            this.setForeground(Color.WHITE);</span>
+<span class="fc" id="L156">        }</span>
+    }
+
+}
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

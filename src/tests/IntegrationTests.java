@@ -2,14 +2,14 @@ package tests;
 
 import com.zynozin.NewTask;
 import com.zynozin.NotesPanel;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class IntegrationTests {
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
@@ -17,14 +17,14 @@ public class IntegrationTests {
     private NewTask newTask;
     private NotesPanel notesPanel;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         newTask = new NewTask("taskslist");
         notesPanel = new NotesPanel();
         System.setOut(new PrintStream(outputStreamCaptor));
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         System.setOut(originalOut);
     }

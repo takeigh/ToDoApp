@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProjectPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Test Gradle</a> &gt; <a href="index.source.html" class="el_package">com.zynozin</a> &gt; <span class="el_source">ProjectPanel.java</span></div><h1>ProjectPanel.java</h1><pre class="source lang-java linenums">package com.zynozin;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ProjectPanel extends JPanel {
+<span class="fc" id="L11">    private final int WIDTH = 1120;</span>
+<span class="fc" id="L12">    private final int HEIGHT = 10000;</span>
+    private NewProject newProject;
+<span class="fc" id="L14">    public static List&lt;ProjectEntry&gt; lastIdeaListSave = new ArrayList&lt;&gt;();</span>
+    static ProjectPanel panel;
+
+<span class="fc" id="L17">    public ProjectPanel() throws IOException {</span>
+<span class="fc" id="L18">        newProject = new NewProject();</span>
+<span class="fc" id="L19">        setBackground(new Color(37, 37, 37));</span>
+<span class="fc" id="L20">        setOpaque(true);</span>
+<span class="fc" id="L21">        setPreferredSize(new Dimension(WIDTH, HEIGHT));</span>
+<span class="fc" id="L22">        writeSavedElements();</span>
+<span class="fc" id="L23">        setLayout(new FlowLayout(FlowLayout.CENTER, 100, 20));</span>
+<span class="fc" id="L24">        add(newProject);</span>
+<span class="fc" id="L25">        setBorder(new EmptyBorder(50, 35, 0, 0));</span>
+<span class="fc" id="L26">    }</span>
+
+    public static ProjectPanel getProjectPanel() throws IOException {
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        if (panel == null) {</span>
+<span class="fc" id="L30">            panel = new ProjectPanel();</span>
+        }
+
+<span class="fc" id="L33">        return panel;</span>
+    }
+
+    public void writeSavedElements() throws IOException {
+<span class="fc" id="L37">        BufferedReader idea = new BufferedReader(new FileReader(&quot;files/ideas.txt&quot;));</span>
+<span class="fc" id="L38">        String ideaLine = idea.readLine();</span>
+        String[] entryString;
+
+        try {
+<span class="fc bfc" id="L42" title="All 2 branches covered.">            while (ideaLine != null) {</span>
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">                if (ideaLine.contains(&quot;,&quot;)) {</span>
+<span class="fc" id="L44">                    entryString = ideaLine.split(&quot;,&quot;, 2);</span>
+                } else {
+<span class="nc" id="L46">                    entryString = new String[2];</span>
+<span class="nc" id="L47">                    entryString[0] = ideaLine;</span>
+<span class="nc" id="L48">                    entryString[1] = &quot;&quot;;</span>
+                }
+
+<span class="fc" id="L51">                ProjectEntry entry = new ProjectEntry();</span>
+<span class="fc" id="L52">                entry.textFields[0].setText(entryString[0]);</span>
+<span class="fc" id="L53">                entry.textFields[1].setText((entryString[1]));</span>
+
+<span class="fc" id="L55">                entry.setPreferredSize(new Dimension(900, 100));</span>
+<span class="fc" id="L56">                entry.setBorder(new EmptyBorder(1, 1, 1, 1));</span>
+<span class="fc" id="L57">                entry.titleField.setPreferredSize(new Dimension(900, 30));</span>
+<span class="fc" id="L58">                entry.titleField.setBorder(new EmptyBorder(5, 5, 5, 5));</span>
+<span class="fc" id="L59">                entry.descriptionField.setPreferredSize((new Dimension(900, 500)));</span>
+<span class="fc" id="L60">                entry.descriptionField.setBorder(new EmptyBorder(5, 5, 10, 5));</span>
+
+<span class="fc" id="L62">                this.add(entry);</span>
+<span class="fc" id="L63">                lastIdeaListSave.add(entry);</span>
+<span class="fc" id="L64">                ideaLine = idea.readLine();</span>
+<span class="fc" id="L65">            }</span>
+<span class="nc" id="L66">        } catch (IOException e) {</span>
+<span class="nc" id="L67">            e.printStackTrace();</span>
+        } finally {
+<span class="fc" id="L69">            idea.close();</span>
+        }
+<span class="fc" id="L71">    }</span>
+
+    public void saveProjects() throws IOException {
+<span class="fc" id="L74">        BufferedWriter ideaWriter = new BufferedWriter(new FileWriter(&quot;files/ideas.txt&quot;,false));</span>
+        try {
+<span class="fc bfc" id="L76" title="All 2 branches covered.">            for (ProjectEntry entry : ProjectPanel.lastIdeaListSave) {</span>
+<span class="fc" id="L77">                String projectTitle = entry.textFields[0].getText();</span>
+<span class="fc" id="L78">                String projectDescription = entry.textFields[1].getText();</span>
+<span class="pc bpc" id="L79" title="1 of 2 branches missed.">                if (!projectTitle.isEmpty()) {</span>
+<span class="fc" id="L80">                    ideaWriter.write(projectTitle + &quot;,&quot; + projectDescription);</span>
+                }
+<span class="fc" id="L82">                ideaWriter.newLine();</span>
+<span class="fc" id="L83">            }</span>
+<span class="nc" id="L84">        } catch (Exception e) {</span>
+        } finally {
+<span class="fc" id="L86">            ideaWriter.close();</span>
+        }
+<span class="fc" id="L88">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
