@@ -5,6 +5,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.awt.event.MouseEvent;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import static org.junit.Assert.*;
@@ -26,13 +28,15 @@ public class MenuOptionTests {
             case "Notes":
                 return MainContent.notesPanel.isVisible();
             case "Project Ideas":
-                return MainContent.ideaScrollPane.isVisible();
+                return MainContent.ideaScrollPane.isVisible() && MainContent.ideaPanel.isVisible();
             case "Reading Journal":
                 return MainContent.bookScrollPane.isVisible();
             case "Calendar":
                 return MainContent.calendarPanel.isVisible();
             case "Grocery List":
                 return MainContent.groceryScrollPane.isVisible();
+            case "Wishlist":
+                return MainContent.wishlistScrollPane.isVisible() && MainContent.wishlistPanel.isVisible();
             default:
                 return false;
         }
@@ -58,10 +62,15 @@ public class MenuOptionTests {
         assertFalse(isOnlyPanelVisible("Reading Journal"));
         assertFalse(isOnlyPanelVisible("Calendar"));
         assertFalse(isOnlyPanelVisible("Grocery List"));
+        assertFalse(isOnlyPanelVisible("wishlist"));
+
     }
     @Test
     public void testNotesPanelClick() {
         MenuOption menuOption = new MenuOption("Notes");
+
+        // Verify the initial state
+        assertTrue(MainContent.notesPanel.isVisible());
 
         MouseEvent clickEvent = new MouseEvent(menuOption, MouseEvent.MOUSE_PRESSED, System.currentTimeMillis(),
                 0, 0, 0, 0, false);
@@ -73,10 +82,16 @@ public class MenuOptionTests {
         assertFalse(isOnlyPanelVisible("Reading Journal"));
         assertFalse(isOnlyPanelVisible("Calendar"));
         assertFalse(isOnlyPanelVisible("Grocery List"));
+        assertFalse(isOnlyPanelVisible("wishlist"));
+
     }
     @Test
     public void testProjectIdeasClick() {
         MenuOption menuOption = new MenuOption("Project Ideas");
+
+        // Verify the initial state
+        assertTrue(MainContent.ideaPanel.isVisible());
+        assertTrue(MainContent.ideaScrollPane.isVisible());
 
         MouseEvent clickEvent = new MouseEvent(menuOption, MouseEvent.MOUSE_PRESSED, System.currentTimeMillis(),
                 0, 0, 0, 0, false);
@@ -88,10 +103,15 @@ public class MenuOptionTests {
         assertFalse(isOnlyPanelVisible("Reading Journal"));
         assertFalse(isOnlyPanelVisible("Calendar"));
         assertFalse(isOnlyPanelVisible("Grocery List"));
+        assertFalse(isOnlyPanelVisible("wishlist"));
+
     }
     @Test
     public void testReadingJournalClick() {
         MenuOption menuOption = new MenuOption("Reading Journal");
+
+        // Verify the initial state
+        assertTrue(MainContent.bookScrollPane.isVisible());
 
         MouseEvent clickEvent = new MouseEvent(menuOption, MouseEvent.MOUSE_PRESSED, System.currentTimeMillis(),
                 0, 0, 0, 0, false);
@@ -103,10 +123,15 @@ public class MenuOptionTests {
         assertTrue(isOnlyPanelVisible("Reading Journal"));
         assertFalse(isOnlyPanelVisible("Calendar"));
         assertFalse(isOnlyPanelVisible("Grocery List"));
+        assertFalse(isOnlyPanelVisible("wishlist"));
+
     }
     @Test
     public void testCalendarClick() {
         MenuOption menuOption = new MenuOption("Calendar");
+
+        // Verify the initial state
+        assertTrue(MainContent.calendarPanel.isVisible());
 
         MouseEvent clickEvent = new MouseEvent(menuOption, MouseEvent.MOUSE_PRESSED, System.currentTimeMillis(),
                 0, 0, 0, 0, false);
@@ -118,10 +143,15 @@ public class MenuOptionTests {
         assertFalse(isOnlyPanelVisible("Reading Journal"));
         assertTrue(isOnlyPanelVisible("Calendar"));
         assertFalse(isOnlyPanelVisible("Grocery List"));
+        assertFalse(isOnlyPanelVisible("wishlist"));
+        clearFiles();
     }
     @Test
     public void testGroceryListClick() {
         MenuOption menuOption = new MenuOption("Grocery List");
+
+        // Verify the initial state
+        assertTrue(MainContent.groceryScrollPane.isVisible());
 
         MouseEvent clickEvent = new MouseEvent(menuOption, MouseEvent.MOUSE_PRESSED, System.currentTimeMillis(),
                 0, 0, 0, 0, false);
@@ -133,6 +163,41 @@ public class MenuOptionTests {
         assertFalse(isOnlyPanelVisible("Reading Journal"));
         assertFalse(isOnlyPanelVisible("Calendar"));
         assertTrue(isOnlyPanelVisible("Grocery List"));
+        assertFalse(isOnlyPanelVisible("wishlist"));
+
+    }
+    @Test
+    public void testWishlistClick() {
+        MenuOption menuOption = new MenuOption("Wishlist");
+
+        // Verify the initial state
+        assertTrue(MainContent.wishlistScrollPane.isVisible());
+        assertTrue(MainContent.wishlistPanel.isVisible());
+
+        MouseEvent clickEvent = new MouseEvent(menuOption, MouseEvent.MOUSE_PRESSED, System.currentTimeMillis(),
+                0, 0, 0, 0, false);
+        menuOption.mousePressed(clickEvent);
+
+        assertFalse(isOnlyPanelVisible("Tasks List"));
+        assertFalse(isOnlyPanelVisible("Notes"));
+        assertFalse(isOnlyPanelVisible("Project Ideas"));
+        assertFalse(isOnlyPanelVisible("Reading Journal"));
+        assertFalse(isOnlyPanelVisible("Calendar"));
+        assertFalse(isOnlyPanelVisible("Grocery List"));
+        assertTrue(isOnlyPanelVisible("Wishlist"));
+    }
+    private void clearFiles() {
+        try {
+            BufferedWriter nextWriter = new BufferedWriter(new FileWriter("files/nextUp.txt"));
+            BufferedWriter inProgressWriter = new BufferedWriter(new FileWriter("files/inProgress.txt"));
+            BufferedWriter completedWriter = new BufferedWriter(new FileWriter("files/completed.txt"));
+
+            nextWriter.close();
+            inProgressWriter.close();
+            completedWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
