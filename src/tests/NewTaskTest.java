@@ -48,7 +48,7 @@ public class NewTaskTest {
         // Arrange
         NewTask newTask = new NewTask("taskslist");
         JTextField taskField = new JTextField("");
-        JTextField dueDateField = new JTextField("");
+        JTextField dueDateField = new JTextField("2025-12-31");
         // Empty task description
         newTask.setTaskField(taskField);
         newTask.setDueDateField(dueDateField);
