@@ -33,7 +33,7 @@ public class CommandsLabel extends JLabel implements MouseListener {
 
     }
 
-    private void saveTasksElements() throws IOException {
+    public static void saveTasksElements() throws IOException {
 
         // Write the content in file
         BufferedWriter nextWriter = new BufferedWriter(new FileWriter("files/nextUp.txt"));

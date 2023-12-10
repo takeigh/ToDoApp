@@ -2,8 +2,6 @@ package com.zynozin;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 
 public class MainContent extends JPanel {
@@ -18,7 +16,7 @@ public class MainContent extends JPanel {
             new ContentHeader("images/journal.png", "Started or finished from reading a book? State it here so you can keep track of it.", "Reading Journal."),
             new ContentHeader("images/notes.png", "If you have anything you would like to write and save, just write it here!", "Notes."),
             new ContentHeader("images/wishlist.png", "You want to get something but you can't at the moment? Write it here so you remember it later.", "Wishlist."),
-            new ContentHeader("images/calendar.png", "A calendar to view your task due dates", "Calendar")
+            new ContentHeader("images/calendar.png", "A calendar to view how many tasks are due each day", "Calendar")
 
     };
     private ContentHeader contentHeader = contentHeaders[0];
