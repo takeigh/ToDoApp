@@ -153,5 +153,8 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="byte-buddy-1.14.10" level="project" />
+    <orderEntry type="library" name="byte-buddy-agent-1.14.10" level="project" />
+    <orderEntry type="library" name="mockito-core-5.8.0" level="project" />
   </component>
 </module>

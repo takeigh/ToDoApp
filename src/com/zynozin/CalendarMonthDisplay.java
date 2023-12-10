@@ -19,7 +19,6 @@ public class CalendarMonthDisplay extends JPanel {
         setLayout(new FlowLayout());
         setOpaque(false);
         setPreferredSize(new Dimension(1120, 500));
-        System.out.println(this.getSize());
 
         displayedMonth = CalendarPanel.displayedMonth;
         displayedYear = CalendarPanel.displayedYear;
