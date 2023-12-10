@@ -7,10 +7,10 @@ import java.awt.event.MouseListener;
 import java.time.Month;
 
 public class CalendarMonthSwapper extends JLabel implements MouseListener {
-    private final String functionality;
+    public final String functionality;
     private Month newDisplayedMonth;
     private int newDisplayedYear;
-    private CalendarPanel panel;
+    private final CalendarPanel panel;
 
     public CalendarMonthSwapper(String functionality, CalendarPanel panel) {
         setBackground(new Color(206,206,206));

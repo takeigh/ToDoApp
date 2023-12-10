@@ -10,16 +10,16 @@ import java.time.LocalDate;
 import java.time.Month;
 
 public class CalendarPanel extends JPanel {
-    CalendarMonthDisplay calendarDisplay = new CalendarMonthDisplay();
+    public CalendarMonthDisplay calendarDisplay = new CalendarMonthDisplay();
 
-    CalendarMonthSwapper prevMonthButton = new CalendarMonthSwapper("Previous", this);
-    CalendarMonthSwapper nextMonthButton = new CalendarMonthSwapper("Next", this);
+    public CalendarMonthSwapper prevMonthButton = new CalendarMonthSwapper("Previous", this);
+    public CalendarMonthSwapper nextMonthButton = new CalendarMonthSwapper("Next", this);
 
-    static Month displayedMonth = LocalDate.now().getMonth();
-    static int displayedYear = LocalDate.now().getYear();
+    public static Month displayedMonth = LocalDate.now().getMonth();
+    public static int displayedYear = LocalDate.now().getYear();
     JLabel monthLabel = new JLabel(displayedMonth.name() + " " + displayedYear);
 
-    JPanel headerPanel = new JPanel();
+    public JPanel headerPanel = new JPanel();
 
     public CalendarPanel() {
         panelLayout();
@@ -29,7 +29,7 @@ public class CalendarPanel extends JPanel {
         // Set the Calendar Layout
         setBackground(new Color(37, 37, 37));
         setOpaque(true);
-        setPreferredSize(new Dimension(1120, 10000));
+        setPreferredSize(new Dimension(1120, 1000));
         setLayout(new FlowLayout(FlowLayout.CENTER, 100, 20));
         setBorder(new EmptyBorder(0, 35, 0, 0));
 
