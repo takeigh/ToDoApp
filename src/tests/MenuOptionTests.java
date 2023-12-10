@@ -1,6 +1,7 @@
 package tests;
 
 import com.zynozin.*;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,6 +17,11 @@ public class MenuOptionTests {
     public void setUp() throws IOException {
         // Initialize necessary components before each test
         MyFrame mainFrame = new MyFrame();
+    }
+
+    @After
+    public void cleanUp() {
+        ContentDataPanel.lastTasksSave.clear();
     }
 
     private boolean isOnlyPanelVisible(String panelName) {
@@ -60,8 +66,6 @@ public class MenuOptionTests {
         assertFalse(isOnlyPanelVisible("Calendar"));
         assertFalse(isOnlyPanelVisible("Grocery List"));
         assertFalse(isOnlyPanelVisible("wishlist"));
-
-        ContentDataPanel.lastTasksSave.clear();
     }
     @Test
     public void testNotesPanelClick() {
@@ -81,8 +85,6 @@ public class MenuOptionTests {
         assertFalse(isOnlyPanelVisible("Calendar"));
         assertFalse(isOnlyPanelVisible("Grocery List"));
         assertFalse(isOnlyPanelVisible("wishlist"));
-
-        ContentDataPanel.lastTasksSave.clear();
     }
     @Test
     public void testProjectIdeasClick() {
@@ -103,8 +105,6 @@ public class MenuOptionTests {
         assertFalse(isOnlyPanelVisible("Calendar"));
         assertFalse(isOnlyPanelVisible("Grocery List"));
         assertFalse(isOnlyPanelVisible("wishlist"));
-
-        ContentDataPanel.lastTasksSave.clear();
     }
     @Test
     public void testReadingJournalClick() {
@@ -124,8 +124,6 @@ public class MenuOptionTests {
         assertFalse(isOnlyPanelVisible("Calendar"));
         assertFalse(isOnlyPanelVisible("Grocery List"));
         assertFalse(isOnlyPanelVisible("wishlist"));
-
-        ContentDataPanel.lastTasksSave.clear();
     }
     @Test
     public void testCalendarClick() {
@@ -145,8 +143,6 @@ public class MenuOptionTests {
         assertTrue(isOnlyPanelVisible("Calendar"));
         assertFalse(isOnlyPanelVisible("Grocery List"));
         assertFalse(isOnlyPanelVisible("wishlist"));
-
-        ContentDataPanel.lastTasksSave.clear();
     }
     @Test
     public void testGroceryListClick() {
@@ -166,8 +162,6 @@ public class MenuOptionTests {
         assertFalse(isOnlyPanelVisible("Calendar"));
         assertTrue(isOnlyPanelVisible("Grocery List"));
         assertFalse(isOnlyPanelVisible("wishlist"));
-
-        ContentDataPanel.lastTasksSave.clear();
     }
     @Test
     public void testWishlistClick() {

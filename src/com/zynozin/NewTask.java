@@ -7,12 +7,7 @@ import java.awt.event.MouseListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Date;
-
-import static com.zynozin.DueDateManager.saveDueDate;
 
 public class NewTask extends JLabel implements MouseListener {
     private JTextField taskField; // Added for testing

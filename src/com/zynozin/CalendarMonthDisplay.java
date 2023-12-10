@@ -18,6 +18,7 @@ public class CalendarMonthDisplay extends JPanel {
         setBackground(new Color(37, 37, 37));
         setLayout(new FlowLayout());
         setOpaque(false);
+
         setPreferredSize(new Dimension(1120, 500));
 
         displayedMonth = CalendarPanel.displayedMonth;
