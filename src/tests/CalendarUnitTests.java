@@ -143,4 +143,40 @@ public class CalendarUnitTests {
 
         assertEquals(actualNumDays, numDays);
     }
+
+    @Test
+    public void CheckCorrectTaskCountTest() {
+        CalendarPanel calendarPanel = new CalendarPanel();
+
+        JPanel dayEntries = (JPanel)calendarPanel.calendarDisplay.getComponent(1);
+        Component[] weeks = dayEntries.getComponents();
+
+        int taskPerDay = 0;
+        int actualTaskPerDay = 0;
+
+        for (Component co : weeks) {
+            JPanel week = (JPanel)co;
+            Component[] days = week.getComponents();
+
+            for (Component c : days) {
+                if (c instanceof JPanel) {
+                    JPanel dayEntry = (JPanel)c;
+
+                    Component[] dayParts = dayEntry.getComponents();
+
+                    if (dayParts.length == 2) {
+                        JLabel dayNum = (JLabel)dayParts[0];
+                        JLabel taskCount = (JLabel)dayParts[1];
+
+                        taskPerDay = Integer.parseInt(taskCount.getText());
+                        actualTaskPerDay = calendarPanel.calendarDisplay.countTasks(Integer.parseInt(dayNum.getText()));
+                    }
+                }
+
+                assertEquals(actualTaskPerDay, taskPerDay);
+            }
+        }
+
+        assertEquals(actualTaskPerDay, taskPerDay);
+    }
 }
