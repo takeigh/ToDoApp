@@ -18,4 +18,7 @@ public class HeaderTitle extends JLabel {
         this.setBackground(new Color(37, 37, 37));
         this.setFont(headerFont);
     }
+    public String getTitleText() {
+        return getText();
+    }
 }
