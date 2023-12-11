@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ToDo.iml" filepath="$PROJECT_DIR$/ToDo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ToDoApp.iml" filepath="$PROJECT_DIR$/.idea/modules/ToDoApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ToDoApp.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ToDoApp.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ToDoApp.test.iml" filepath="$PROJECT_DIR$/.idea/modules/ToDoApp.test.iml" />
     </modules>
   </component>
 </project>
